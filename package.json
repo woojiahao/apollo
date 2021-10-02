@@ -19,5 +19,8 @@
   "bugs": {
     "url": "https://github.com/woojiahao/apollo/issues"
   },
-  "homepage": "https://github.com/woojiahao/apollo#readme"
+  "homepage": "https://github.com/woojiahao/apollo#readme",
+  "devDependencies": {
+    "electron": "^15.1.0"
+  }
 }
