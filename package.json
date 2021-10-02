@@ -1,0 +1,23 @@
+{
+  "name": "apollo",
+  "version": "1.0.0",
+  "description": "RSS made easy",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/woojiahao/apollo.git"
+  },
+  "keywords": [
+    "rss",
+    "electron"
+  ],
+  "author": "Woo Jia Hao",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/woojiahao/apollo/issues"
+  },
+  "homepage": "https://github.com/woojiahao/apollo#readme"
+}
