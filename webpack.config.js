@@ -20,7 +20,7 @@ module.exports = [{
   },
   {
     mode: 'development',
-    entry: './src/react.tsx',
+    entry: './src/frontend/react.tsx',
     target: 'electron-renderer',
     devtool: 'source-map',
     module: {
@@ -38,7 +38,7 @@ module.exports = [{
     },
     plugins: [
       new HtmlWebpackConfigPlugin({
-        template: './src/index.html'
+        template: './src/frontend/index.html'
       })
     ]
   }
