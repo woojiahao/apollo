@@ -5,16 +5,50 @@
   <title>W3Schools Home Page</title>
   <link>https://www.w3schools.com</link>
   <description>Free web building tutorials</description>
+
+  <language>en-US</language>
+  <copyright>John Doe @ 2021</copyright>
+  <managingEditor>maryanne@gmail.com (Mary Anne)</managingEditor>
+  <webMaster>bartbaker1@hotmail.com (Bart Baker)</webMaster>
+  <pubDate>Sun, 19 May 2002 15:21:36 GMT</pubDate>
+  <lastBuildDate>Fri, 8 Oct 2021 20:35:35 GMT</lastBuildDate>
+
+  <category domain="https://google.com">Cats</category>
+  <category>Dogs</category>
+
+  <docs>https://google.com</docs>
+  <cloud domain="rpc.sys.com" port="80" path="/RPC2" registerProcedure="pingMe" protocol="soap"/>
+  <image>
+    <url>https://google.com</url>
+    <title>Google</title>
+    <link>https://woojiahao.github.io</link>
+  </image>
+  <textInput>
+    <title>Text input</title>
+    <description>Enter something here</description>
+    <name>input</name>
+    <link>https://woojiahao.github.io/blog</link>
+  </textInput>
+
+  <ttl>67</ttl>
+  <skipHours>6</skipHours>
+  <skipDays>2</skipDays>
+
   <item>
     <title>RSS Tutorial</title>
     <link>https://www.w3schools.com/xml/xml_rss.asp</link>
     <description>New RSS tutorial on W3Schools</description>
-  </item>
-  <item>
-    <title>XML Tutorial</title>
-    <link>https://www.w3schools.com/xml</link>
-    <description>New XML tutorial on W3Schools</description>
+    <author>woojiahao1234@gmail.com</author>
+    <category>Web development</category>
+    <category>Tutorial</category>
+    <comments>https://woojiahao.github.io/comments</comments>
+    <enclosure url="http://live.curry.com/mp3/celebritySCms.mp3" length="1069871" type="audio/mpeg"/>
+    <guid isPermaLink="true">http://inessential.com/2002/09/01.php#a2</guid>
+    <pubDate>Sun, 19 May 2002 15:21:36 GMT</pubDate>
+    <content:encoded>
+      <![CDATA[<h1>Hello world</h1>]]>
+    </content:encoded>
+    <source url="http://www.quotationspage.com/data/qotd.rss">Quotes of the Day</source>
   </item>
 </channel>
-
 </rss>

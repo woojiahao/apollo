@@ -17,6 +17,7 @@ describe('pullChanges', () => {
       .reply(200, mockRSS)
   })
   it('should retrieve RSS feed from a given URL', async () => {
-    await pullChanges('https://woojiahao.github.io/rss.xml')
+    const results = await pullChanges('https://woojiahao.github.io/rss.xml')
+    console.log(results)
   })
 })
