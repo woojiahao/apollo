@@ -14,6 +14,6 @@ export const pullChanges = async (url: string) => {
     feed.items.forEach(item => {
       console.log(JSON.stringify(item))
     })
-  })
+  })()
 }
 
