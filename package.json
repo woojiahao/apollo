@@ -2,7 +2,7 @@
   "name": "apollo",
   "version": "1.0.0",
   "description": "RSS made easy",
-  "main": "src/main.js",
+  "main": "src/main/main.ts",
   "scripts": {
     "test": "env TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\" }' mocha -r ts-node/register 'test/**/*.ts'",
     "start": "npm run build && electron ./dist/main.js",

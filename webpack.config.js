@@ -2,12 +2,12 @@ const HtmlWebpackConfigPlugin = require('html-webpack-plugin')
 
 module.exports = [{
     mode: 'development',
-    entry: './src/main.ts',
+    entry: './src/main/main.ts',
     target: 'electron-main',
     module: {
       rules: [{
         test: /\.ts$/,
-        include: /src/,
+        include: /src\/main/,
         use: [{
           loader: 'ts-loader'
         }]
@@ -20,13 +20,13 @@ module.exports = [{
   },
   {
     mode: 'development',
-    entry: './src/frontend/react.tsx',
+    entry: './src/renderer/renderer.tsx',
     target: 'electron-renderer',
     devtool: 'source-map',
     module: {
       rules: [{
         test: /\.ts(x?)$/,
-        include: /src/,
+        include: /src\/renderer/,
         use: [{
           loader: 'ts-loader'
         }]
@@ -34,11 +34,11 @@ module.exports = [{
     },
     output: {
       path: __dirname + '/dist',
-      filename: 'react.js'
+      filename: 'renderer.js'
     },
     plugins: [
       new HtmlWebpackConfigPlugin({
-        template: './src/frontend/index.html'
+        template: './src/renderer/index.html'
       })
     ]
   }
