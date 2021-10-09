@@ -1,8 +1,15 @@
+import { RSS } from "../src/backend/data"
+
 const expect = require('chai').expect
 const nock = require('nock')
-const axios = require('axios')
 const pullChanges = require('../src/backend/rss').pullChanges
 const fs = require('fs')
+
+const expectDate = (date: Date, expectedDate: number, expectedMonth: number, expectedYear: number) => {
+  expect(date.getUTCDate()).to.equal(expectedDate, 'date is wrong')
+  expect(date.getUTCMonth()).to.equal(expectedMonth, 'month is wrong')
+  expect(date.getUTCFullYear()).to.equal(expectedYear, 'year is wrong')
+}
 
 describe('pullChanges', () => {
   beforeEach(() => {
@@ -16,8 +23,35 @@ describe('pullChanges', () => {
       .get('/rss.xml')
       .reply(200, mockRSS)
   })
-  it('should retrieve RSS feed from a given URL', async () => {
-    const results = await pullChanges('https://woojiahao.github.io/rss.xml')
-    console.log(results)
+
+  it('parses feed pubDate as a Date object', async () => {
+    const results: RSS.Feed = await pullChanges('https://woojiahao.github.io/rss.xml')
+    expectDate(results.pubDate, 19, 4, 2002)
+  })
+
+
+  it('parses feed lastBuildDate as a Date object', async () => {
+    const results: RSS.Feed = await pullChanges('https://woojiahao.github.io/rss.xml')
+    expectDate(results.lastBuildDate, 8, 9, 2021)
+  })
+
+  it('parses item pubDate as a Date object', async () => {
+    const results: RSS.Feed = await pullChanges('https://woojiahao.github.io/rss.xml')
+    expectDate(results.items[0].pubDate, 19, 4, 2002)
+  })
+
+  it('parses ttl as an integer', async () => {
+    const results: RSS.Feed = await pullChanges('https://woojiahao.github.io/rss.xml')
+    expect(results.ttl).to.equal(67)
+  })
+
+  it('parses skipHours as an integer', async () => {
+    const results: RSS.Feed = await pullChanges('https://woojiahao.github.io/rss.xml')
+    expect(results.skipHours, 6)
+  })
+
+  it('parses skipDays as an integer', async () => {
+    const results: RSS.Feed = await pullChanges('https://woojiahao.github.io/rss.xml')
+    expect(results.skipDays, 2)
   })
 })

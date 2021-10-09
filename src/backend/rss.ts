@@ -8,9 +8,8 @@ import { RSS } from './data'
 
 const parser = new Parser()
 
-export const pullChanges = async (url: string) => {
+export const pullChanges = async (url: string): Promise<RSS.Feed> => {
   return (async () => {
-    // TODO: Parse into custom objects to restrict content to display
     const feed = await parser.parseURL(url)
     const parsedFeed = parseFeed(feed)
     return parsedFeed
