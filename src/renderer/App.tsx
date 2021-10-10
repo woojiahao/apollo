@@ -1,5 +1,5 @@
-import React from "react"
+import React, { Children } from "react"
 
-export const App = (props: any) => {
-  return <div id="app">Hello React!</div>
+export const App = (props) => {
+  return <div id="app">{props.children}</div>
 }

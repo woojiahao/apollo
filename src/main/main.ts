@@ -1,14 +1,16 @@
-import { app, BrowserWindow } from 'electron'
-
+const electron = require('electron')
+const { app, BrowserWindow } = electron
 
 app.on('ready', () => {
-  let win = new BrowserWindow({
-    width: 800,
+  const mainWindow = new BrowserWindow({
+    width: 1000,
     height: 600,
     webPreferences: {
-      nodeIntegration: true
+      nodeIntegration: true,
+      contextIsolation: false,
+      enableRemoteModule: true
     }
   })
 
-  win.loadFile('index.html')
+  mainWindow.loadFile('index.html')
 })

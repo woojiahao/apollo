@@ -1,0 +1,13 @@
+#app {
+  font-family: 'Roboto', 'Open Sans', sans-serif;
+  font-size: 16px;
+}
+
+.heading {
+  text-align: center;
+}
+
+.item {
+  width: 70%;
+  margin: 0 auto;
+}
