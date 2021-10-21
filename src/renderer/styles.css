@@ -11,3 +11,9 @@
   width: 70%;
   margin: 0 auto;
 }
+
+#feed-name {
+  width: 70%;
+  margin: 0 auto;
+  font-size: 22px;
+}

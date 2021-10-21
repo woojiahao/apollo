@@ -12,6 +12,8 @@ type IndexStruct = {
 }
 
 export default class Index extends React.Component<{}, IndexStruct> {
+  private feedURL = React.createRef<HTMLInputElement>()
+
   constructor(props) {
     super(props)
     this.state = {
@@ -30,9 +32,25 @@ export default class Index extends React.Component<{}, IndexStruct> {
     })
   }
 
+  async loadFeed() {
+    const feedURL = this.feedURL.current.value
+    const feed = await pullChanges(feedURL)
+    console.log(feed)
+    this.setState({
+      title: feed.title,
+      description: feed.description,
+      feed: feed.items.slice()
+    })
+  }
+
   render() {
     return (
       <App>
+        <div>
+          <input type="text" name="feed-name" id="feed-name" ref={this.feedURL} />
+          <input type="button" value="Search" onClick={() => this.loadFeed()} />
+        </div>
+
         <div className="heading">
           <h1>{this.state.title}</h1>
           <p>{this.state.description}</p>
@@ -40,9 +58,10 @@ export default class Index extends React.Component<{}, IndexStruct> {
         {this.state.feed.map(item => (
           <div className="item">
             <h3>{item.title}</h3>
-            <em>{item.description}</em>
+            <div dangerouslySetInnerHTML={{ __html: item.description }} />
             <br />
-            <p>Published on: <em>{item.pubDate.toUTCString()}</em></p>
+            {item.pubDate &&
+              <p>Published on: <em>{item.pubDate.toUTCString()}</em></p>}
             <div dangerouslySetInnerHTML={{ __html: item.content }} />
           </div>
         ))}
