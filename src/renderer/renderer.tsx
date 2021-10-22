@@ -5,58 +5,33 @@ import { pullChanges } from './../main/rss'
 import { App } from './components/App'
 import Navigation from './components/Navigation'
 import Sidebar from './components/Sidebar'
+import Feed from './components/Feed'
 import './styles.css'
 
-type IndexStruct = {
-  title: string,
-  description: string,
-  feed: Array<RSS.Item>
+type IndexState = {
+  feedURL: string
 }
 
-export default class Index extends React.Component<{}, IndexStruct> {
-  private feedURL = React.createRef<HTMLInputElement>()
-
+export default class Index extends React.Component<{}, IndexState> {
   constructor(props) {
     super(props)
     this.state = {
-      title: '',
-      description: '',
-      feed: []
+      feedURL: ''
     }
   }
 
-  async loadFeed(url: string) {
-    const feed = await pullChanges(url)
-    console.log(feed)
+  setFeedURL(url: string) {
     this.setState({
-      title: feed.title,
-      description: feed.description,
-      feed: feed.items.slice()
+      feedURL: url
     })
   }
 
   render() {
     return (
       <App>
-        <Sidebar />
-        <Navigation loadFeed={this.loadFeed.bind(this)} />
-
-        <div className="feed">
-          <div className="heading">
-            <h1>{this.state.title}</h1>
-            <p>{this.state.description}</p>
-          </div>
-          {this.state.feed.map(item => (
-            <div className="item">
-              <h3>{item.title}</h3>
-              <div dangerouslySetInnerHTML={{ __html: item.description }} />
-              <br />
-              {item.pubDate &&
-                <p>Published on: <em>{item.pubDate.toUTCString()}</em></p>}
-              <div dangerouslySetInnerHTML={{ __html: item.content }} />
-            </div>
-          ))}
-        </div>
+        <Navigation />
+        <Sidebar loadFeed={this.setFeedURL.bind(this)} />
+        <Feed feedURL={this.state.feedURL} />
       </App >
     )
   }

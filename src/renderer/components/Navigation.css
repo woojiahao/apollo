@@ -1,51 +1,34 @@
-/* TODO: Rename this to sidebar instead? */
-.nav {
+nav {
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+  align-items: center;
+  /* padding: 2rem 0; */
+
+  background-color: var(--dark);
+  color: var(--light);
   height: 100vh;
   width: auto;
-  background-color: var(--grey);
-  padding: 2rem;
-  font-size: 14px;
+  padding: 1rem;
 }
 
-.nav h4 {
-  color: var(--subtext);
+nav svg {
+  fill: var(--light);
+}
+
+nav svg:not(:last-child) {
+  margin-bottom: 2rem;
+}
+
+nav svg:last-child {
   margin-bottom: 1rem;
 }
 
-.nav svg {
-  fill: var(--dark);
-  margin-right: 0.5rem;
+nav svg path {
+  stroke: var(--light);
 }
 
-.nav svg path {
-  stroke: var(--dark);
-}
-
-.nav ul {
-  list-style-position: inside;
-  list-style-type: none;
-}
-
-.nav>ul {
-  margin-left: 0;
-  margin-bottom: 1rem;
-}
-
-.nav>ul ul {
-  margin-left: 1rem;
-}
-
-.nav ul li>span {
+nav div {
   display: flex;
-  align-items: center;
-  flex-direction: row;
-}
-
-.nav ul li,
-.nav ul li>ul {
-  margin-bottom: 0.5rem;
-}
-
-.nav .nav-expanded {
-  cursor: pointer;
+  flex-direction: column;
 }

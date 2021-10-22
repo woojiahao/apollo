@@ -1,34 +1,50 @@
-nav {
-  display: flex;
-  flex-direction: column;
-  justify-content: end;
-  align-items: center;
-  /* padding: 2rem 0; */
-
-  background-color: var(--dark);
-  color: var(--light);
+.nav {
   height: 100vh;
   width: auto;
-  padding: 1rem;
+  background-color: var(--grey);
+  padding: 2rem;
+  font-size: 14px;
 }
 
-nav svg {
-  fill: var(--light);
-}
-
-nav svg:not(:last-child) {
-  margin-bottom: 2rem;
-}
-
-nav svg:last-child {
+.nav h4 {
+  color: var(--subtext);
   margin-bottom: 1rem;
 }
 
-nav svg path {
-  stroke: var(--light);
+.nav svg {
+  fill: var(--dark);
+  margin-right: 0.5rem;
 }
 
-nav div {
+.nav svg path {
+  stroke: var(--dark);
+}
+
+.nav ul {
+  list-style-position: inside;
+  list-style-type: none;
+}
+
+.nav>ul {
+  margin-left: 0;
+  margin-bottom: 1rem;
+}
+
+.nav>ul ul {
+  margin-left: 1rem;
+}
+
+.nav ul li>span {
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  flex-direction: row;
+}
+
+.nav ul li,
+.nav ul li>ul {
+  margin-bottom: 0.5rem;
+}
+
+.nav .nav-expanded {
+  cursor: pointer;
 }
