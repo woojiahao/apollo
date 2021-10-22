@@ -1,7 +1,26 @@
-#app {
-  font-family: 'Roboto', 'Open Sans', sans-serif;
-  font-size: 16px;
+* {
+  margin: 0;
+  padding: 0;
 }
+
+body {
+  --dark: #14213D;
+  --light: #FFFFFF;
+  --font: 'Open Sans', 'Lato', 'Roboto', sans-serif;
+  --font-size: 18px;
+  --icon-size: 24px;
+
+  font-family: var(--font);
+  font-size: var(--font-size);
+}
+
+body svg {
+  width: var(--icon-size);
+  height: var(--icon-size);
+  color: var(--light);
+}
+
+
 
 .heading {
   text-align: center;

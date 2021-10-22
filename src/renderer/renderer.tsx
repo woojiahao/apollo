@@ -2,7 +2,8 @@ import * as React from 'react'
 import * as ReactDOM from 'react-dom'
 import { RSS } from '../main/data'
 import { pullChanges } from './../main/rss'
-import { App } from './App'
+import { App } from './components/App'
+import Navigation from './components/Navigation'
 import './styles.css'
 
 type IndexStruct = {
@@ -46,6 +47,8 @@ export default class Index extends React.Component<{}, IndexStruct> {
   render() {
     return (
       <App>
+        <Navigation />
+
         <div>
           <input type="text" name="feed-name" id="feed-name" ref={this.feedURL} />
           <input type="button" value="Search" onClick={() => this.loadFeed()} />

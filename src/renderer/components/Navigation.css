@@ -1,0 +1,29 @@
+nav {
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+  align-items: center;
+  padding: 2rem 0;
+
+  background-color: var(--dark);
+  color: var(--light);
+  height: 100%;
+  min-width: 4rem;
+}
+
+nav svg {
+  fill: var(--light);
+}
+
+nav svg:not(:last-child) {
+  margin-bottom: 2rem;
+}
+
+nav svg path {
+  stroke: var(--light);
+}
+
+nav div {
+  display: flex;
+  flex-direction: column;
+}
