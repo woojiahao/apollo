@@ -1,9 +1,10 @@
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'
+import { GrSidebar } from 'react-icons/gr'
 import { RSS } from '../main/data'
 import { pullChanges } from './../main/rss'
 import { App } from './components/App'
-import Navigation from './components/Navigation'
+import Sidebar from './components/Sidebar'
 import './styles.css'
 
 type IndexStruct = {
@@ -33,26 +34,11 @@ export default class Index extends React.Component<{}, IndexStruct> {
     })
   }
 
-  async loadFeed() {
-    const feedURL = this.feedURL.current.value
-    const feed = await pullChanges(feedURL)
-    console.log(feed)
-    this.setState({
-      title: feed.title,
-      description: feed.description,
-      feed: feed.items.slice()
-    })
-  }
-
   render() {
     return (
       <App>
-        <Navigation />
-
-        <div>
-          <input type="text" name="feed-name" id="feed-name" ref={this.feedURL} />
-          <input type="button" value="Search" onClick={() => this.loadFeed()} />
-        </div>
+        <Sidebar />
+        Navigation
 
         <div className="heading">
           <h1>{this.state.title}</h1>

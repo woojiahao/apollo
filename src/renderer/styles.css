@@ -12,6 +12,7 @@ body {
 
   font-family: var(--font);
   font-size: var(--font-size);
+  overflow: hidden;
 }
 
 body svg {
@@ -19,8 +20,6 @@ body svg {
   height: var(--icon-size);
   color: var(--light);
 }
-
-
 
 .heading {
   text-align: center;
