@@ -3,7 +3,7 @@ import { AiOutlineCheck } from 'react-icons/ai';
 import { GrAdd, GrRefresh } from 'react-icons/gr';
 import './Sidebar.css';
 
-export default class Navigation extends React.Component {
+export default class Sidebar extends React.Component {
   render() {
     return (
       <nav>

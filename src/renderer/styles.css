@@ -6,6 +6,8 @@
 body {
   --dark: #14213D;
   --light: #FFFFFF;
+  --grey: #FBFBFB;
+  --subtext: #A4A4A4;
   --font: 'Open Sans', 'Lato', 'Roboto', sans-serif;
   --font-size: 18px;
   --icon-size: 24px;
@@ -18,20 +20,15 @@ body {
 body svg {
   width: var(--icon-size);
   height: var(--icon-size);
-  color: var(--light);
 }
 
 .heading {
   text-align: center;
 }
 
-.item {
-  width: 70%;
+.feed {
+  max-height: 100vh;
+  max-width: 90%;
+  overflow-y: auto;
   margin: 0 auto;
-}
-
-#feed-name {
-  width: 70%;
-  margin: 0 auto;
-  font-size: 22px;
 }

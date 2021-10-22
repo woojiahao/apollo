@@ -1,9 +1,9 @@
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'
-import { GrSidebar } from 'react-icons/gr'
 import { RSS } from '../main/data'
 import { pullChanges } from './../main/rss'
 import { App } from './components/App'
+import Navigation from './components/Navigation'
 import Sidebar from './components/Sidebar'
 import './styles.css'
 
@@ -25,8 +25,9 @@ export default class Index extends React.Component<{}, IndexStruct> {
     }
   }
 
-  async componentDidMount() {
-    const feed = await pullChanges('https://woojiahao.github.io/rss.xml')
+  async loadFeed(url: string) {
+    const feed = await pullChanges(url)
+    console.log(feed)
     this.setState({
       title: feed.title,
       description: feed.description,
@@ -38,22 +39,24 @@ export default class Index extends React.Component<{}, IndexStruct> {
     return (
       <App>
         <Sidebar />
-        Navigation
+        <Navigation loadFeed={this.loadFeed.bind(this)} />
 
-        <div className="heading">
-          <h1>{this.state.title}</h1>
-          <p>{this.state.description}</p>
-        </div>
-        {this.state.feed.map(item => (
-          <div className="item">
-            <h3>{item.title}</h3>
-            <div dangerouslySetInnerHTML={{ __html: item.description }} />
-            <br />
-            {item.pubDate &&
-              <p>Published on: <em>{item.pubDate.toUTCString()}</em></p>}
-            <div dangerouslySetInnerHTML={{ __html: item.content }} />
+        <div className="feed">
+          <div className="heading">
+            <h1>{this.state.title}</h1>
+            <p>{this.state.description}</p>
           </div>
-        ))}
+          {this.state.feed.map(item => (
+            <div className="item">
+              <h3>{item.title}</h3>
+              <div dangerouslySetInnerHTML={{ __html: item.description }} />
+              <br />
+              {item.pubDate &&
+                <p>Published on: <em>{item.pubDate.toUTCString()}</em></p>}
+              <div dangerouslySetInnerHTML={{ __html: item.content }} />
+            </div>
+          ))}
+        </div>
       </App >
     )
   }
