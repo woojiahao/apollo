@@ -3,8 +3,8 @@ const { app, BrowserWindow } = electron
 
 app.on('ready', () => {
   const mainWindow = new BrowserWindow({
-    width: 1200,
-    height: 800,
+    minWidth: 1200,
+    minHeight: 800,
     autoHideMenuBar: true,
     webPreferences: {
       nodeIntegration: true,
@@ -14,4 +14,7 @@ app.on('ready', () => {
   })
 
   mainWindow.loadFile('index.html')
+
+  mainWindow.maximize()
+  mainWindow.webContents.openDevTools()
 })

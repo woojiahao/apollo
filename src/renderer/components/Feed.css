@@ -1,0 +1,10 @@
+.heading {
+  text-align: center;
+}
+
+.feed {
+  /* max-height: 100vh; */
+  /* max-width: 90%; */
+  overflow-y: auto;
+  /* margin: 0 auto; */
+}

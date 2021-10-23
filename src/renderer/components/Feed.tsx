@@ -1,6 +1,7 @@
 import React from "react";
 import { RSS } from "../../main/data";
 import { pullChanges } from "../../main/rss";
+// import './Feed.css'
 
 type FeedState = {
   title: string,

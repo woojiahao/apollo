@@ -1,11 +1,9 @@
+import { Box, Grid } from '@mui/material'
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'
-import { RSS } from '../main/data'
-import { pullChanges } from './../main/rss'
-import { App } from './components/App'
+import Feed from './components/Feed'
 import Navigation from './components/Navigation'
 import Sidebar from './components/Sidebar'
-import Feed from './components/Feed'
 import './styles.css'
 
 type IndexState = {
@@ -28,11 +26,25 @@ export default class Index extends React.Component<{}, IndexState> {
 
   render() {
     return (
-      <App>
-        <Navigation />
-        <Sidebar loadFeed={this.setFeedURL.bind(this)} />
-        <Feed feedURL={this.state.feedURL} />
-      </App >
+      <Box sx={{ height: `100%` }}>
+        <Grid
+          container
+          sx={{ height: `100%` }}>
+          <Grid
+            item
+            direction="column"
+            xs="auto"
+            alignItems="flex-end">
+            <Navigation />
+          </Grid>
+          <Grid item xs={3}>
+            <Sidebar loadFeed={this.setFeedURL.bind(this)} />
+          </Grid>
+          <Grid item xs>
+            <Feed feedURL={this.state.feedURL} />
+          </Grid>
+        </Grid>
+      </Box>
     )
   }
 }

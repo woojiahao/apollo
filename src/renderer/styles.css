@@ -1,34 +1,9 @@
-* {
+html,
+body,
+#app {
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
   margin: 0;
   padding: 0;
-}
-
-body {
-  --dark: #14213D;
-  --light: #FFFFFF;
-  --grey: #FBFBFB;
-  --subtext: #A4A4A4;
-  --font: 'Open Sans', 'Lato', 'Roboto', sans-serif;
-  --font-size: 18px;
-  --icon-size: 24px;
-
-  font-family: var(--font);
-  font-size: var(--font-size);
-  overflow: hidden;
-}
-
-body svg {
-  width: var(--icon-size);
-  height: var(--icon-size);
-}
-
-.heading {
-  text-align: center;
-}
-
-.feed {
-  max-height: 100vh;
-  max-width: 90%;
-  overflow-y: auto;
-  margin: 0 auto;
 }
