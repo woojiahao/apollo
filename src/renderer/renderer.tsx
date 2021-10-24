@@ -32,7 +32,6 @@ export default class Index extends React.Component<{}, IndexState> {
           sx={{ height: `100%` }}>
           <Grid
             item
-            direction="column"
             xs="auto"
             alignItems="flex-end">
             <Navigation />
