@@ -18,3 +18,8 @@ app.on('ready', () => {
   mainWindow.maximize()
   mainWindow.webContents.openDevTools()
 })
+
+app.on('window-all-closed', () => {
+  // TODO: Elegant closing
+  app.quit()
+})
