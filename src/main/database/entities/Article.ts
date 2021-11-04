@@ -10,16 +10,16 @@ export class Article {
   @Column({ nullable: false })
   public articleTitle: string
 
-  @Column()
+  @Column({ nullable: true })
   public articleDescription: string | null
 
-  @Column()
+  @Column({ nullable: true })
   public articleContent: string | null
 
-  @Column()
+  @Column({ nullable: true })
   public articleLink: string | null
 
-  @Column()
+  @Column({ nullable: true })
   public publishedDate: Date | null
 
   @CreateDateColumn()
