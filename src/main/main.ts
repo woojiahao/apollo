@@ -1,7 +1,7 @@
 import { app, BrowserWindow } from 'electron'
 import 'reflect-metadata'
 import { setupDatabase } from './database/database'
-import setupHandlers from './ipcHandlers/handlers'
+import setupHandlers from './ipcHandler'
 
 require('dotenv').config()
 

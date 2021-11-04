@@ -2,6 +2,7 @@ import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import RefreshOutlinedIcon from '@mui/icons-material/RefreshOutlined';
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
+import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
@@ -13,11 +14,13 @@ import IconButton from '@mui/material/IconButton';
 import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
 import React from "react";
-import { addFeed } from './../ipcInvoker'
+import { addFeed, getTags } from './../ipcInvoker';
 
 type NavigationState = {
   openAddFeed: boolean,
   addFeedUrl: string,
+  availableTags: string[],
+  tag: string,
   openRefreshFeed: boolean,
   openEditFeed: boolean,
   openSettings: boolean
@@ -26,13 +29,23 @@ type NavigationState = {
 export default class Navigation extends React.Component<{}, NavigationState> {
   constructor(props) {
     super(props)
+
     this.state = {
       openAddFeed: false,
       addFeedUrl: '',
+      availableTags: [],
+      tag: 'Uncategorized',
       openRefreshFeed: false,
       openEditFeed: false,
       openSettings: false
     }
+  }
+
+  async componentDidMount() {
+    const tags = await getTags()
+    this.setState({
+      availableTags: ['Uncategorized'].concat(tags)
+    })
   }
 
   openAddFeedDialog() {
@@ -42,13 +55,17 @@ export default class Navigation extends React.Component<{}, NavigationState> {
     this.setState({ openAddFeed: false, addFeedUrl: '' })
   }
 
-  addFeed() {
+  async addFeed() {
     const feedUrl = this.state.addFeedUrl
-    addFeed(feedUrl, 'foo')
+    const tag = this.state.tag
+    const updatedTags = await addFeed(feedUrl, tag === 'Uncategorized' ? null : tag)
+    this.setState({ availableTags: updatedTags })
     this.closeAddFeedDialog()
   }
 
   render() {
+    const filter = createFilterOptions<string>()
+
     return (
       <Box
         sx={{
@@ -81,6 +98,41 @@ export default class Navigation extends React.Component<{}, NavigationState> {
                 margin="normal"
                 variant="outlined"
                 onChange={e => { this.setState({ addFeedUrl: e.target.value }) }}
+              />
+
+              <Autocomplete
+                value={this.state.tag}
+                onChange={(_e, newValue) => {
+                  this.setState({
+                    tag: newValue,
+                  });
+                }}
+                filterOptions={(options, params) => {
+                  const filtered = filter(options, params);
+
+                  const { inputValue } = params;
+                  // Suggest the creation of a new value
+                  const isExisting = options.some((option) => inputValue === option);
+                  if (inputValue !== '' && !isExisting) {
+                    filtered.push(inputValue)
+                  }
+
+                  return filtered;
+                }}
+                selectOnFocus
+                clearOnBlur
+                handleHomeEndKeys
+                id="tag-select"
+                options={this.state.availableTags}
+                getOptionLabel={(option) => {
+                  return option
+                }}
+                renderOption={(props, option) => <li {...props}>{option}</li>}
+                sx={{ width: 300 }}
+                freeSolo
+                renderInput={(params) => (
+                  <TextField {...params} label="Tag Select" />
+                )}
               />
             </DialogContent>
             <DialogActions>

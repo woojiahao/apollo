@@ -5,10 +5,12 @@
 import { ipcRenderer } from "electron";
 import { Feed } from "../main/database/entities/Feed";
 
-export function addFeed(feedUrl: string, tagName: string | null) {
-  ipcRenderer
-    .invoke('add-feed', feedUrl, tagName)
-    .then((result: Feed) => {
-      console.log(result.feedId)
-    })
+export async function getTags(): Promise<string[]> {
+  const results: string[] = await ipcRenderer.invoke('get-tags')
+  return results
+}
+
+export async function addFeed(feedUrl: string, tagName: string | null): Promise<string[]> {
+  const results: { savedFeed: Feed, updatedTags: string[] } = await ipcRenderer.invoke('add-feed', feedUrl, tagName)
+  return results.updatedTags
 }

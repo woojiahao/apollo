@@ -2,6 +2,7 @@ import { Column, CreateDateColumn, Entity, ManyToOne, OneToMany, PrimaryGenerate
 import { Article } from "./Article";
 import { Tag } from "./Tag";
 
+// TODO: Maybe keep track of the base URL given? To prevent adding the same feed again and again
 @Entity()
 export class Feed {
   @PrimaryGeneratedColumn()
@@ -13,6 +14,7 @@ export class Feed {
   @Column({ nullable: false })
   public feedDescription: string
 
+  /// Link provided by the server
   @Column({ nullable: false })
   public feedUrl: string
 
