@@ -1,6 +1,12 @@
 const electron = require('electron')
 const { app, BrowserWindow } = electron
 
+require('dotenv').config()
+import 'reflect-metadata'
+import setupDatabase from './database/database'
+
+setupDatabase()
+
 app.on('ready', () => {
   const mainWindow = new BrowserWindow({
     minWidth: 1200,

@@ -1,4 +1,7 @@
 const HtmlWebpackConfigPlugin = require('html-webpack-plugin')
+const {
+  IgnorePlugin
+} = require('webpack')
 
 module.exports = [{
     mode: 'development',
@@ -19,7 +22,12 @@ module.exports = [{
     output: {
       path: __dirname + '/dist',
       filename: 'main.js'
-    }
+    },
+    plugins: [
+      new IgnorePlugin({
+        resourceRegExp: /^pg-native$/
+      })
+    ]
   },
   {
     mode: 'development',
