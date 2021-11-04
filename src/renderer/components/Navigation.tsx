@@ -13,10 +13,11 @@ import IconButton from '@mui/material/IconButton';
 import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
 import React from "react";
+import { addFeed } from './../ipcInvoker'
 
 type NavigationState = {
   openAddFeed: boolean,
-  addFeedURL: string,
+  addFeedUrl: string,
   openRefreshFeed: boolean,
   openEditFeed: boolean,
   openSettings: boolean
@@ -27,7 +28,7 @@ export default class Navigation extends React.Component<{}, NavigationState> {
     super(props)
     this.state = {
       openAddFeed: false,
-      addFeedURL: '',
+      addFeedUrl: '',
       openRefreshFeed: false,
       openEditFeed: false,
       openSettings: false
@@ -35,15 +36,15 @@ export default class Navigation extends React.Component<{}, NavigationState> {
   }
 
   openAddFeedDialog() {
-    this.setState({ openAddFeed: true, addFeedURL: '' })
+    this.setState({ openAddFeed: true, addFeedUrl: '' })
   }
   closeAddFeedDialog() {
-    this.setState({ openAddFeed: false, addFeedURL: '' })
+    this.setState({ openAddFeed: false, addFeedUrl: '' })
   }
 
   addFeed() {
-    const feedURL = this.state.addFeedURL
-    console.log(feedURL)
+    const feedUrl = this.state.addFeedUrl
+    addFeed(feedUrl, 'foo')
     this.closeAddFeedDialog()
   }
 
@@ -79,7 +80,7 @@ export default class Navigation extends React.Component<{}, NavigationState> {
                 fullWidth
                 margin="normal"
                 variant="outlined"
-                onChange={e => { this.setState({ addFeedURL: e.target.value }) }}
+                onChange={e => { this.setState({ addFeedUrl: e.target.value }) }}
               />
             </DialogContent>
             <DialogActions>

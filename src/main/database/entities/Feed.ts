@@ -16,7 +16,7 @@ export class Feed {
   @Column({ nullable: false })
   public feedUrl: string
 
-  @Column()
+  @Column({ nullable: true })
   public lastUpdate: Date | null
 
   @CreateDateColumn({ update: false })

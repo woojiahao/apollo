@@ -1,11 +1,12 @@
-const electron = require('electron')
-const { app, BrowserWindow } = electron
+import { app, BrowserWindow } from 'electron'
+import 'reflect-metadata'
+import { setupDatabase } from './database/database'
+import setupHandlers from './ipcHandlers/handlers'
 
 require('dotenv').config()
-import 'reflect-metadata'
-import setupDatabase from './database/database'
 
 setupDatabase()
+setupHandlers()
 
 app.on('ready', () => {
   const mainWindow = new BrowserWindow({
@@ -14,8 +15,7 @@ app.on('ready', () => {
     autoHideMenuBar: true,
     webPreferences: {
       nodeIntegration: true,
-      contextIsolation: false,
-      enableRemoteModule: true
+      contextIsolation: false
     }
   })
 
@@ -29,3 +29,4 @@ app.on('window-all-closed', () => {
   // TODO: Elegant closing
   app.quit()
 })
+

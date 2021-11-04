@@ -8,7 +8,7 @@ import { RSS } from './data'
 
 const parser = new Parser()
 
-export const pullChanges = async (url: string): Promise<RSS.Feed> => {
+export const loadFeed = async (url: string): Promise<RSS.Feed> => {
   return (async () => {
     const feed = await parser.parseURL(url)
     const parsedFeed = parseFeed(feed)

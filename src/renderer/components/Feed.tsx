@@ -1,7 +1,7 @@
 import Container from "@mui/material/Container";
 import React from "react";
-import { RSS } from "../../main/data";
-import { pullChanges } from "../../main/rss";
+import { RSS } from "../../main/rss/data";
+import { loadFeed } from "../../main/rss/rss";
 
 type FeedState = {
   title: string,
@@ -30,7 +30,7 @@ export default class Feed extends React.Component<FeedProps, FeedState> {
   }
 
   async loadFeed(url: string) {
-    const feed = await pullChanges(url)
+    const feed = await loadFeed(url)
     this.setState({
       title: feed.title,
       description: feed.description,

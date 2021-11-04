@@ -1,8 +1,8 @@
 import { createConnection } from "typeorm";
-import { Article } from "./entity/Article";
-import { Bookmark } from "./entity/Bookmark";
-import { Feed } from "./entity/Feed";
-import { Tag } from "./entity/Tag";
+import { Article } from "./entities/Article";
+import { Bookmark } from "./entities/Bookmark";
+import { Feed } from "./entities/Feed";
+import { Tag } from "./entities/Tag";
 
 interface DatabaseInformation {
   host: string,
@@ -22,7 +22,7 @@ function getDatabaseInformation(): DatabaseInformation {
   }
 }
 
-export default function setupDatabase() {
+export function setupDatabase() {
   const { host, port, username, password, database } = getDatabaseInformation();
 
   (async () => {
@@ -49,4 +49,3 @@ export default function setupDatabase() {
     }
   })()
 }
-

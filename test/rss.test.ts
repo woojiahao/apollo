@@ -1,4 +1,4 @@
-import { RSS } from "../src/main/data"
+import { RSS } from "../src/main/rss/data"
 
 const expect = require('chai').expect
 const nock = require('nock')
