@@ -14,38 +14,34 @@ import IconButton from '@mui/material/IconButton';
 import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
 import React from "react";
-import { addFeed, getTags } from './../ipcInvoker';
+import { addFeed } from './../ipcInvoker';
 
 type NavigationState = {
   openAddFeed: boolean,
   addFeedUrl: string,
-  availableTags: string[],
   tag: string,
   openRefreshFeed: boolean,
   openEditFeed: boolean,
   openSettings: boolean
 }
 
-export default class Navigation extends React.Component<{}, NavigationState> {
-  constructor(props) {
+type NavigationProps = {
+  availableTags: string[],
+  onTagsUpdate: (updatedTags: string[]) => void
+}
+
+export default class Navigation extends React.Component<NavigationProps, NavigationState> {
+  constructor(props: NavigationProps) {
     super(props)
 
     this.state = {
       openAddFeed: false,
       addFeedUrl: '',
-      availableTags: [],
       tag: 'Uncategorized',
       openRefreshFeed: false,
       openEditFeed: false,
       openSettings: false
     }
-  }
-
-  async componentDidMount() {
-    const tags = await getTags()
-    this.setState({
-      availableTags: ['Uncategorized'].concat(tags)
-    })
   }
 
   openAddFeedDialog() {
@@ -58,8 +54,9 @@ export default class Navigation extends React.Component<{}, NavigationState> {
   async addFeed() {
     const feedUrl = this.state.addFeedUrl
     const tag = this.state.tag
+    // TODO: Figure out more elegant way of handling Uncategorized tag
     const updatedTags = await addFeed(feedUrl, tag === 'Uncategorized' ? null : tag)
-    this.setState({ availableTags: updatedTags })
+    this.props.onTagsUpdate(updatedTags)
     this.closeAddFeedDialog()
   }
 
@@ -123,10 +120,8 @@ export default class Navigation extends React.Component<{}, NavigationState> {
                 clearOnBlur
                 handleHomeEndKeys
                 id="tag-select"
-                options={this.state.availableTags}
-                getOptionLabel={(option) => {
-                  return option
-                }}
+                options={this.props.availableTags}
+                getOptionLabel={option => option}
                 renderOption={(props, option) => <li {...props}>{option}</li>}
                 sx={{ width: 300 }}
                 freeSolo

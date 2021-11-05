@@ -4,18 +4,28 @@ import * as ReactDOM from 'react-dom'
 import Feed from './components/Feed'
 import Navigation from './components/Navigation'
 import Sidebar from './components/Sidebar'
+import { getTags } from './ipcInvoker'
 import './styles.css'
 
 type IndexState = {
-  feedURL: string
+  feedURL: string,
+  availableTags: string[]
 }
 
 export default class Index extends React.Component<{}, IndexState> {
   constructor(props) {
     super(props)
     this.state = {
-      feedURL: ''
+      feedURL: '',
+      availableTags: []
     }
+  }
+
+  async componentDidMount() {
+    const tags = await getTags()
+    this.setState({
+      availableTags: ['Uncategorized'].concat(tags)
+    })
   }
 
   setFeedURL(url: string) {
@@ -30,11 +40,13 @@ export default class Index extends React.Component<{}, IndexState> {
         <Grid
           container
           sx={{ height: `100%` }}>
-          <Grid
-            item
-            xs="auto"
-            alignItems="flex-end">
-            <Navigation />
+          <Grid item xs="auto" alignItems="flex-end">
+            <Navigation
+              availableTags={this.state.availableTags}
+              onTagsUpdate={(updatedTags) => {
+                const withUncategorized = ['Uncategorized'].concat(updatedTags)
+                this.setState({ availableTags: withUncategorized })
+              }} />
           </Grid>
 
           <Grid
