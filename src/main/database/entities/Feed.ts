@@ -1,4 +1,4 @@
-import { Column, CreateDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { Article } from "./Article";
 import { Tag } from "./Tag";
 
@@ -23,6 +23,10 @@ export class Feed {
 
   @CreateDateColumn({ update: false })
   public readonly addedOn: Date
+
+  @DeleteDateColumn()
+  public deletedOn: Date | null
+
 
   @ManyToOne(() => Tag, tag => tag.feeds)
   public tag: Tag
