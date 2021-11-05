@@ -14,6 +14,7 @@ import IconButton from '@mui/material/IconButton';
 import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
 import React from "react";
+import { RSS } from '../../main/rss/data';
 import { addFeed } from './../ipcInvoker';
 
 type NavigationState = {
@@ -26,8 +27,8 @@ type NavigationState = {
 }
 
 type NavigationProps = {
-  availableTags: string[],
-  onTagsUpdate: (updatedTags: string[]) => void
+  tagFeeds: RSS.TagFeeds,
+  onTagFeedsUpdate: (updatedTagFeeds: RSS.TagFeeds) => void
 }
 
 export default class Navigation extends React.Component<NavigationProps, NavigationState> {
@@ -56,7 +57,7 @@ export default class Navigation extends React.Component<NavigationProps, Navigat
     const tag = this.state.tag
     // TODO: Figure out more elegant way of handling Uncategorized tag
     const updatedTags = await addFeed(feedUrl, tag === 'Uncategorized' ? null : tag)
-    this.props.onTagsUpdate(updatedTags)
+    this.props.onTagFeedsUpdate(updatedTags)
     this.closeAddFeedDialog()
   }
 
@@ -86,6 +87,7 @@ export default class Navigation extends React.Component<NavigationProps, Navigat
               <DialogContentText>
                 Enter feed URL to subscribe to:
               </DialogContentText>
+              {/* TODO: Support custom names for RSS Feeds */}
               <TextField
                 autoFocus
                 id="feedURL"
@@ -120,7 +122,7 @@ export default class Navigation extends React.Component<NavigationProps, Navigat
                 clearOnBlur
                 handleHomeEndKeys
                 id="tag-select"
-                options={this.props.availableTags}
+                options={Object.keys(this.props.tagFeeds)}
                 getOptionLabel={option => option}
                 renderOption={(props, option) => <li {...props}>{option}</li>}
                 sx={{ width: 300 }}

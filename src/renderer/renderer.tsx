@@ -1,15 +1,17 @@
 import { Box, Grid } from '@mui/material'
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'
+import { RSS } from '../main/rss/data'
 import Feed from './components/Feed'
 import Navigation from './components/Navigation'
 import Sidebar from './components/Sidebar'
-import { getTags } from './ipcInvoker'
+import { getTagFeeds } from './ipcInvoker'
 import './styles.css'
+
 
 type IndexState = {
   feedURL: string,
-  availableTags: string[]
+  tagFeeds: RSS.TagFeeds
 }
 
 export default class Index extends React.Component<{}, IndexState> {
@@ -17,14 +19,15 @@ export default class Index extends React.Component<{}, IndexState> {
     super(props)
     this.state = {
       feedURL: '',
-      availableTags: []
+      tagFeeds: {}
     }
   }
 
   async componentDidMount() {
-    const tags = await getTags()
+    const tagFeeds = await getTagFeeds()
+    console.log(tagFeeds)
     this.setState({
-      availableTags: ['Uncategorized'].concat(tags)
+      tagFeeds: tagFeeds
     })
   }
 
@@ -42,10 +45,9 @@ export default class Index extends React.Component<{}, IndexState> {
           sx={{ height: `100%` }}>
           <Grid item xs="auto" alignItems="flex-end">
             <Navigation
-              availableTags={this.state.availableTags}
-              onTagsUpdate={(updatedTags) => {
-                const withUncategorized = ['Uncategorized'].concat(updatedTags)
-                this.setState({ availableTags: withUncategorized })
+              tagFeeds={this.state.tagFeeds}
+              onTagFeedsUpdate={(updatedTagFeeds) => {
+                this.setState({ tagFeeds: updatedTagFeeds })
               }} />
           </Grid>
 
@@ -58,7 +60,7 @@ export default class Index extends React.Component<{}, IndexState> {
               boxSizing: `border-box`,
               backgroundColor: `#FBFBFB`
             }}>
-            <Sidebar loadFeed={this.setFeedURL.bind(this)} />
+            <Sidebar loadFeed={this.setFeedURL.bind(this)} tagFeeds={this.state.tagFeeds} />
           </Grid>
 
           <Grid

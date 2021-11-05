@@ -2,12 +2,14 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import TreeItem from "@mui/lab/TreeItem";
 import TreeView from '@mui/lab/TreeView';
+import { Typography } from '@mui/material';
 import Box from '@mui/material/Box';
 import React from "react";
-// import "./Sidebar.css";
+import { RSS } from '../../main/rss/data';
 
 type SidebarProps = {
-  loadFeed: (url: string) => void
+  loadFeed: (url: string) => void,
+  tagFeeds: RSS.TagFeeds
 }
 
 export default class Sidebar extends React.Component<SidebarProps> {
@@ -16,23 +18,47 @@ export default class Sidebar extends React.Component<SidebarProps> {
   }
 
   render() {
+    let counter = 4
     return (
       <Box>
         <TreeView aria-label="navigation"
           defaultCollapseIcon={<ExpandMoreIcon />}
           defaultExpandIcon={<ChevronRightIcon />}
           sx={{ height: `100%` }}>
-          <TreeItem nodeId="1" label="Today" />
-          <TreeItem nodeId="2" label="Bookmarks" />
+          <TreeItem nodeId="1" key="Today" label="Today" />
+          <TreeItem nodeId="2" key="Bookmarks" label="Bookmarks" />
 
-          <p>Feed</p>
+          <Typography>Feed</Typography>
 
-          <TreeItem nodeId="3" label="All" />
-          <TreeItem nodeId="4" label="Programming">
-            <TreeItem nodeId="5" label="A Programmer's Perspective" onClick={() => this.props.loadFeed('https://woojiahao.github.io/rss.xml')} />
-            <TreeItem nodeId="6" label="SlashDot" onClick={() => this.props.loadFeed('http://rss.slashdot.org/Slashdot/slashdotMain')} />
+          <TreeItem nodeId="3" key="All" label="All">
+            {Object.values(this.props.tagFeeds).reduce((acc, cur) => acc.concat(cur), []).map(({ feedTitle, rssUrl }) => {
+              return (
+                <TreeItem
+                  nodeId={`${counter++}`}
+                  key={feedTitle + counter.toString()}
+                  label={feedTitle}
+                  onClick={() => this.props.loadFeed(rssUrl)} />
+              )
+            })}
           </TreeItem>
-          <TreeItem nodeId="7" label="Uncategorized" />
+
+          {Object.entries(this.props.tagFeeds).map(([tag, feeds]) => {
+            return (
+              <div>
+                <TreeItem key={tag} nodeId={`${counter++}`} label={tag}>
+                  {feeds.map(({ feedTitle, rssUrl }) => {
+                    return (
+                      <TreeItem
+                        nodeId={`${counter++}`}
+                        key={feedTitle + counter.toString()}
+                        label={feedTitle}
+                        onClick={() => this.props.loadFeed(rssUrl)} />
+                    )
+                  })}
+                </TreeItem>
+              </div>
+            )
+          })}
         </TreeView>
       </Box>
     )

@@ -53,4 +53,11 @@ export namespace RSS {
     readonly length: number
     readonly type: string
   }
+
+  export type TagFeeds = {
+    [tag: string]: {
+      feedTitle: string
+      rssUrl: string
+    }[]
+  }
 }

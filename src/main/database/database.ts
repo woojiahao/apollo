@@ -41,7 +41,8 @@ export function setupDatabase() {
           Article,
           Bookmark
         ],
-        synchronize: true
+        synchronize: true,
+        logging: true
       })
       console.log('Database connection created')
     } catch (e) {
