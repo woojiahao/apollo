@@ -1,5 +1,6 @@
 import { ipcMain } from "electron"
 import { getConnection } from "typeorm"
+import { Article } from "./database/entities/Article"
 import { Feed } from "./database/entities/Feed"
 import { Tag } from "./database/entities/Tag"
 import { loadFeed } from "./rss/rss"
@@ -22,6 +23,16 @@ async function handleAddFeed(feedUrl: string, tagName: string | null) {
   feed.feedDescription = rawFeed.description
   feed.feedUrl = rawFeed.link
   feed.lastUpdate = rawFeed.lastBuildDate
+  feed.articles = rawFeed.items.map(item => {
+    const article = new Article()
+    article.articleTitle = item.title
+    article.articleDescription = item.description
+    article.articleContent = item.content
+    article.articleLink = item.link
+    article.publishedDate = item.pubDate
+
+    return article
+  })
 
   if (tagName) {
     let tag = await tagRepository.findOne({ where: { tagName: tagName } })
