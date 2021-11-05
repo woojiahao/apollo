@@ -18,6 +18,10 @@ export class Feed {
   @Column({ nullable: false })
   public feedUrl: string
 
+  /// Original RSS link provided by user
+  @Column({ nullable: false })
+  public rssUrl: string
+
   @Column({ nullable: true })
   public lastUpdate: Date | null
 
