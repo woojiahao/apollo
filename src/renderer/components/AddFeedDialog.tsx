@@ -1,4 +1,4 @@
-import { Autocomplete, Box, Button, createFilterOptions, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField } from "@mui/material";
+import { Autocomplete, Box, Button, createFilterOptions, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, LinearProgress, TextField, Typography } from "@mui/material";
 import React from "react";
 import { RSS } from "../../main/rss/data";
 import { addFeed, getFeed } from "../ipcInvoker";
@@ -11,6 +11,7 @@ type AddFeedDialogProps = {
 
 type AddFeedDialogState = {
   isFinalStep: boolean
+  isLoading: boolean
   feedUrl: string
   feedName: string
   feedTag: string
@@ -23,6 +24,7 @@ export default class AddFeedDialog extends React.Component<AddFeedDialogProps, A
 
     this.state = {
       isFinalStep: false,
+      isLoading: false,
       feedUrl: '',
       feedName: '',
       feedTag: '',
@@ -31,28 +33,38 @@ export default class AddFeedDialog extends React.Component<AddFeedDialogProps, A
   }
 
   async downloadFeed() {
-    const feedUrl = this.state.feedUrl
-    const feed = await getFeed(feedUrl)
     this.setState({
-      feed: feed,
-      feedName: feed.title,
-      isFinalStep: true
+      isLoading: true
+    })
+    const feedUrl = this.state.feedUrl
+    getFeed(feedUrl).then(feed => {
+      this.setState({
+        isLoading: false,
+        feed: feed,
+        feedName: feed.title,
+        isFinalStep: true
+      })
     })
   }
 
   async addFeed() {
+    this.setState({
+      isLoading: true,
+    })
     const updatedFeedWithName: RSS.Feed = Object.assign({}, this.state.feed)
     updatedFeedWithName.title = this.state.feedName
     const tag = this.state.feedTag === 'Uncategorized' ? null : this.state.feedTag
-    const newFeed = await addFeed(updatedFeedWithName, this.state.feedUrl, tag)
-    console.log('Newly added feed: ', newFeed)
-    this.closeDialog()
+    addFeed(updatedFeedWithName, this.state.feedUrl, tag).then(newFeed => {
+      console.log('Newly added feed: ', newFeed)
+      this.closeDialog()
+    })
   }
 
   closeDialog() {
     /// Clean up the internal state for next use
     this.setState({
       isFinalStep: false,
+      isLoading: false,
       feedUrl: '',
       feedName: '',
       feedTag: '',
@@ -134,13 +146,22 @@ export default class AddFeedDialog extends React.Component<AddFeedDialogProps, A
             />
           </Box>
 
+          <Box style={{ display: this.state.isLoading ? `block` : `none` }} >
+            {this.state.isFinalStep ?
+              <Typography>Adding Feed...</Typography> :
+              <Typography>Downloading Feed...</Typography>}
+
+            <LinearProgress />
+          </Box>
+
         </DialogContent>
 
         <DialogActions>
-          <Button onClick={() => this.closeDialog()}>Cancel</Button>
+          {/* TODO: Handle last minute cancellations */}
+          <Button disabled={this.state.isLoading} onClick={() => this.closeDialog()}>Cancel</Button>
           {this.state.isFinalStep ?
-            <Button onClick={() => this.addFeed()}>Done</Button> :
-            <Button onClick={() => this.downloadFeed()}>Add</Button>}
+            <Button disabled={this.state.isLoading} onClick={() => this.addFeed()}>Done</Button> :
+            <Button disabled={this.state.isLoading} onClick={() => this.downloadFeed()}>Add</Button>}
         </DialogActions>
       </Dialog >
     )
