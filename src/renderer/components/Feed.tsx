@@ -1,61 +1,54 @@
 import Container from "@mui/material/Container";
 import React from "react";
 import { RSS } from "../../main/rss/data";
-import { loadFeed } from "../../main/rss/rss";
+import { getArticle } from "../ipcInvoker";
 
 type FeedState = {
-  title: string,
-  description: string,
-  feed: Array<RSS.Item>
+  article: RSS.Item
 }
 
 type FeedProps = {
-  feedURL: string
+  articleId: number
 }
 
 export default class Feed extends React.Component<FeedProps, FeedState> {
   constructor(props: FeedProps) {
     super(props)
     this.state = {
-      title: '',
-      description: '',
-      feed: []
+      article: undefined
     }
   }
 
   async componentDidUpdate(prevProps: FeedProps) {
-    if (prevProps.feedURL !== this.props.feedURL) {
-      await this.loadFeed(this.props.feedURL)
+    if (prevProps.articleId !== this.props.articleId) {
+      await this.loadArticle(this.props.articleId)
     }
   }
 
-  async loadFeed(url: string) {
-    const feed = await loadFeed(url)
-    this.setState({
-      title: feed.title,
-      description: feed.description,
-      feed: feed.items.slice()
-    })
+  // TODO: Add loader
+  async loadArticle(articleId: number) {
+    const article = await getArticle(articleId)
+    this.setState({ article: article })
   }
 
   render() {
     return (
       <Container maxWidth="lg">
-        <div className="heading">
-          <h1>{this.state.title}</h1>
-          <p>{this.state.description}</p>
-        </div>
-        {
-          this.state.feed.map(item => (
-            <div className="item">
-              <h3>{item.title}</h3>
-              <div dangerouslySetInnerHTML={{ __html: item.description }} />
-              <br />
-              {item.pubDate &&
-                <p>Published on: <em>{item.pubDate.toUTCString()}</em></p>}
-              <div dangerouslySetInnerHTML={{ __html: item.content }} />
+        {this.state.article &&
+          (<div>
+            <div className="heading">
+              <h1>{this.state.article.title}</h1>
+              <p>{this.state.article.description}</p>
             </div>
-          ))
+            <div className="item">
+              <div dangerouslySetInnerHTML={{ __html: this.state.article.description }} />
+              <br />
+              {this.state.article.pubDate &&
+                <p>Published on: <em>{this.state.article.pubDate.toUTCString()}</em></p>}
+              {this.state.article.content &&
+                <div dangerouslySetInnerHTML={{ __html: this.state.article.content }} />}
+            </div>
+          </div>)
         }
       </Container >
     )

@@ -11,6 +11,11 @@ export async function getFeed(feedUrl: string): Promise<RSS.Feed> {
   return feed
 }
 
+export async function getArticle(articleId: number): Promise<RSS.Item> {
+  const article: RSS.Item = await ipcRenderer.invoke('get-article', articleId)
+  return article
+}
+
 export async function getTags(): Promise<string[]> {
   const results: string[] = await ipcRenderer.invoke('get-tags')
   return results

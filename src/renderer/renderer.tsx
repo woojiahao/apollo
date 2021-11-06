@@ -11,7 +11,7 @@ import './styles.css'
 
 
 type IndexState = {
-  feedURL: string,
+  articleId: number,
   tagFeeds: RSS.TagFeeds,
   isAddFeedDialogOpen: boolean
 }
@@ -20,7 +20,7 @@ export default class Index extends React.Component<{}, IndexState> {
   constructor(props) {
     super(props)
     this.state = {
-      feedURL: '',
+      articleId: undefined,
       tagFeeds: {},
       isAddFeedDialogOpen: false
     }
@@ -35,8 +35,8 @@ export default class Index extends React.Component<{}, IndexState> {
     await this.refreshTagFeeds()
   }
 
-  setFeedURL(url: string) {
-    this.setState({ feedURL: url })
+  setArticleId(articleId: number) {
+    this.setState({ articleId: articleId })
   }
 
   openAddFeedDialog() {
@@ -73,7 +73,7 @@ export default class Index extends React.Component<{}, IndexState> {
               boxSizing: `border-box`,
               backgroundColor: `#FBFBFB`
             }}>
-            <Sidebar loadFeed={this.setFeedURL.bind(this)} tagFeeds={this.state.tagFeeds} />
+            <Sidebar loadArticle={this.setArticleId.bind(this)} tagFeeds={this.state.tagFeeds} />
           </Grid>
 
           <Grid
@@ -83,7 +83,7 @@ export default class Index extends React.Component<{}, IndexState> {
               height: `100%`,
               overflowY: `auto`
             }}>
-            <Feed feedURL={this.state.feedURL} />
+            <Feed articleId={this.state.articleId} />
           </Grid>
         </Grid>
       </Box>

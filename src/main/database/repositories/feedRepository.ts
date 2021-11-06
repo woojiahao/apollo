@@ -8,7 +8,7 @@ export async function getAvailableFeedsToTagFeeds(): Promise<RSS.TagFeeds> {
     where: {
       tag: { deletedOn: IsNull() }
     },
-    relations: ["tag"]
+    relations: ["tag", "articles"]
   })
 
   const tagFeeds: RSS.TagFeeds = {}
@@ -20,11 +20,12 @@ export async function getAvailableFeedsToTagFeeds(): Promise<RSS.TagFeeds> {
     if (!(tag in tagFeeds)) {
       tagFeeds[tag] = []
     }
-    tagFeeds[tag].push({
-      feedTitle,
-      rssUrl,
-      articles: f.articles.map(a => { return { articleTitle: a.articleTitle, index: a.articleId } })
+
+    const articles = !f.articles ? [] : f.articles.map(a => {
+      return { articleTitle: a.articleTitle, articleId: a.articleId }
     })
+
+    tagFeeds[tag].push({ feedTitle, rssUrl, articles })
   }
 
   if (!('Uncategorized' in tagFeeds)) {

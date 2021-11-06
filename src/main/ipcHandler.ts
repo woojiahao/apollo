@@ -1,3 +1,4 @@
+import { RssFeed } from "@mui/icons-material"
 import { ipcMain } from "electron"
 import { getConnection, IsNull } from "typeorm"
 import { Article } from "./database/entities/Article"
@@ -9,6 +10,7 @@ import { loadFeed } from "./rss/rss"
 
 export default function setupHandlers() {
   ipcMain.handle('get-feed', async (_e, feedUrl) => handleGetFeed(feedUrl))
+  ipcMain.handle('get-article', async (_e, articleId) => handleGetArticle(articleId))
   ipcMain.handle('add-feed', async (_e, rawFeed, feedUrl, tagName) => handleAddFeed(rawFeed, feedUrl, tagName))
   ipcMain.handle('get-tags', async (_e) => handleGetTags())
   ipcMain.handle('get-tag-feeds', async (_e) => handleGetTagFeeds())
@@ -18,6 +20,24 @@ export default function setupHandlers() {
 async function handleGetFeed(feedUrl: string): Promise<RSS.Feed> {
   const feed = await loadFeed(feedUrl)
   return feed
+}
+
+async function handleGetArticle(articleId: number): Promise<RSS.Item> {
+  const articleRepository = getConnection().getRepository(Article)
+  const article = await articleRepository.findOne({ where: { articleId: articleId } })
+  const item: RSS.Item = {
+    title: article.articleTitle,
+    link: article.articleLink,
+    description: article.articleDescription,
+    content: article.articleContent,
+    pubDate: article.publishedDate,
+    author: null,
+    categories: [],
+    comments: null,
+    enclosure: null,
+    guid: null
+  }
+  return item
 }
 
 

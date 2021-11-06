@@ -60,7 +60,7 @@ export namespace RSS {
       rssUrl: string
       articles: {
         articleTitle: string
-        index: number
+        articleId: number
       }[]
     }[]
   }

@@ -8,7 +8,7 @@ import React from "react";
 import { RSS } from '../../main/rss/data';
 
 type SidebarProps = {
-  loadFeed: (url: string) => void,
+  loadArticle: (articleId: number) => void,
   tagFeeds: RSS.TagFeeds
 }
 
@@ -31,13 +31,21 @@ export default class Sidebar extends React.Component<SidebarProps> {
           <Typography>Feed</Typography>
 
           <TreeItem nodeId="3" key="All" label="All">
-            {Object.values(this.props.tagFeeds).reduce((acc, cur) => acc.concat(cur), []).map(({ feedTitle, rssUrl }) => {
+            {Object.values(this.props.tagFeeds).reduce((acc, cur) => acc.concat(cur), []).map(({ feedTitle, rssUrl, articles }) => {
               return (
                 <TreeItem
                   nodeId={`${counter++}`}
                   key={feedTitle + counter.toString()}
-                  label={feedTitle}
-                  onClick={() => this.props.loadFeed(rssUrl)} />
+                  label={feedTitle} >
+                  {articles.map(({ articleTitle, articleId }) => {
+                    return (
+                      <TreeItem nodeId={`${counter++}`}
+                        key={feedTitle + articleTitle + counter.toString()}
+                        label={articleTitle}
+                        onClick={() => this.props.loadArticle(articleId)} />
+                    )
+                  })}
+                </TreeItem>
               )
             })}
           </TreeItem>
@@ -46,13 +54,21 @@ export default class Sidebar extends React.Component<SidebarProps> {
             return (
               <div>
                 <TreeItem key={tag} nodeId={`${counter++}`} label={tag}>
-                  {feeds.map(({ feedTitle, rssUrl }) => {
+                  {feeds.map(({ feedTitle, rssUrl, articles }) => {
                     return (
                       <TreeItem
                         nodeId={`${counter++}`}
                         key={feedTitle + counter.toString()}
-                        label={feedTitle}
-                        onClick={() => this.props.loadFeed(rssUrl)} />
+                        label={feedTitle}>
+                        {articles.map(({ articleTitle, articleId }) => {
+                          return (
+                            <TreeItem nodeId={`${counter++}`}
+                              key={feedTitle + articleTitle + counter.toString()}
+                              label={articleTitle}
+                              onClick={() => this.props.loadArticle(articleId)} />
+                          )
+                        })}
+                      </TreeItem>
                     )
                   })}
                 </TreeItem>
