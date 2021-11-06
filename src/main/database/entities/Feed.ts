@@ -35,6 +35,6 @@ export class Feed {
   @ManyToOne(() => Tag, tag => tag.feeds)
   public tag: Tag
 
-  @OneToMany(() => Article, article => article.feed)
+  @OneToMany(() => Article, article => article.feed, { cascade: true })
   public articles: Article[]
 }
