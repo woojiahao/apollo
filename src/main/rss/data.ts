@@ -1,6 +1,6 @@
 export namespace RSS {
   export type Feed = {
-    readonly title: string
+    title: string
     readonly description: string
     readonly link: string
     readonly items: Array<Item>

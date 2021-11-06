@@ -2,6 +2,7 @@ import { Box, Grid } from '@mui/material'
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'
 import { RSS } from '../main/rss/data'
+import AddFeedDialog from './components/AddFeedDialog'
 import Feed from './components/Feed'
 import Navigation from './components/Navigation'
 import Sidebar from './components/Sidebar'
@@ -11,7 +12,8 @@ import './styles.css'
 
 type IndexState = {
   feedURL: string,
-  tagFeeds: RSS.TagFeeds
+  tagFeeds: RSS.TagFeeds,
+  isAddFeedDialogOpen: boolean
 }
 
 export default class Index extends React.Component<{}, IndexState> {
@@ -19,22 +21,31 @@ export default class Index extends React.Component<{}, IndexState> {
     super(props)
     this.state = {
       feedURL: '',
-      tagFeeds: {}
+      tagFeeds: {},
+      isAddFeedDialogOpen: false
     }
   }
 
-  async componentDidMount() {
+  async refreshTagFeeds() {
     const tagFeeds = await getTagFeeds()
-    console.log(tagFeeds)
-    this.setState({
-      tagFeeds: tagFeeds
-    })
+    this.setState({ tagFeeds: tagFeeds })
+  }
+
+  async componentDidMount() {
+    await this.refreshTagFeeds()
   }
 
   setFeedURL(url: string) {
-    this.setState({
-      feedURL: url
-    })
+    this.setState({ feedURL: url })
+  }
+
+  openAddFeedDialog() {
+    this.setState({ isAddFeedDialogOpen: true })
+  }
+
+  async closeAddFeedDialog() {
+    await this.refreshTagFeeds()
+    this.setState({ isAddFeedDialogOpen: false })
   }
 
   render() {
@@ -45,11 +56,13 @@ export default class Index extends React.Component<{}, IndexState> {
           sx={{ height: `100%` }}>
           <Grid item xs="auto" alignItems="flex-end">
             <Navigation
-              tagFeeds={this.state.tagFeeds}
-              onTagFeedsUpdate={(updatedTagFeeds) => {
-                this.setState({ tagFeeds: updatedTagFeeds })
-              }} />
+              onOpenAddFeedDialog={() => this.openAddFeedDialog()} />
           </Grid>
+
+          <AddFeedDialog
+            open={this.state.isAddFeedDialogOpen}
+            tagFeeds={this.state.tagFeeds}
+            onClose={() => this.closeAddFeedDialog()} />
 
           <Grid
             item

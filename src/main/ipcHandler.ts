@@ -1,5 +1,5 @@
 import { ipcMain } from "electron"
-import { getConnection } from "typeorm"
+import { getConnection, IsNull } from "typeorm"
 import { Article } from "./database/entities/Article"
 import { Feed } from "./database/entities/Feed"
 import { Tag } from "./database/entities/Tag"
@@ -8,21 +8,27 @@ import { RSS } from "./rss/data"
 import { loadFeed } from "./rss/rss"
 
 export default function setupHandlers() {
-  ipcMain.handle('add-feed', async (_e, feedUrl, tagName) => handleAddFeed(feedUrl, tagName))
+  ipcMain.handle('get-feed', async (_e, feedUrl) => handleGetFeed(feedUrl))
+  ipcMain.handle('add-feed', async (_e, rawFeed, feedUrl, tagName) => handleAddFeed(rawFeed, feedUrl, tagName))
   ipcMain.handle('get-tags', async (_e) => handleGetTags())
   ipcMain.handle('get-tag-feeds', async (_e) => handleGetTagFeeds())
+}
+
+// TODO: Experiement with sending this to separate thread
+async function handleGetFeed(feedUrl: string): Promise<RSS.Feed> {
+  const feed = await loadFeed(feedUrl)
+  return feed
 }
 
 
 // TODO: Handle concurrent updates to the tag list
 // TODO: Abstract any database operations to a dedicated file, so this can act as a controller
 async function handleAddFeed(
+  rawFeed: RSS.Feed,
   feedUrl: string,
   tagName: string | null): Promise<Feed> {
   const feedRepository = getConnection().getRepository(Feed)
   const tagRepository = getConnection().getRepository(Tag)
-
-  const rawFeed = await loadFeed(feedUrl)
 
   const feed = new Feed()
   feed.rssUrl = feedUrl
@@ -59,7 +65,10 @@ async function handleAddFeed(
 }
 
 async function handleGetTags(): Promise<string[]> {
-  return (await getConnection().getRepository(Tag).find()).map(tag => tag.tagName)
+  return (await getConnection()
+    .getRepository(Tag)
+    .find({ where: { deletedOn: IsNull() } }))
+    .map(tag => tag.tagName)
 }
 
 async function handleGetTagFeeds(): Promise<RSS.TagFeeds> {
