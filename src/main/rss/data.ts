@@ -58,6 +58,10 @@ export namespace RSS {
     [tag: string]: {
       feedTitle: string
       rssUrl: string
+      articles: {
+        articleTitle: string
+        index: number
+      }[]
     }[]
   }
 }

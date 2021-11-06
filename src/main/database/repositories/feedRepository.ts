@@ -1,4 +1,4 @@
-import { getConnection, IsNull, Not } from "typeorm";
+import { getConnection, IsNull } from "typeorm";
 import { RSS } from "../../rss/data";
 import { Feed } from "../entities/Feed";
 
@@ -20,7 +20,11 @@ export async function getAvailableFeedsToTagFeeds(): Promise<RSS.TagFeeds> {
     if (!(tag in tagFeeds)) {
       tagFeeds[tag] = []
     }
-    tagFeeds[tag].push({ feedTitle, rssUrl })
+    tagFeeds[tag].push({
+      feedTitle,
+      rssUrl,
+      articles: f.articles.map(a => { return { articleTitle: a.articleTitle, index: a.articleId } })
+    })
   }
 
   if (!('Uncategorized' in tagFeeds)) {
