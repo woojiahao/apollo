@@ -32,10 +32,6 @@ function injectBase(rootPath: string, item: RSS.Item): RSS.Item {
   return newItem
 }
 
-function isAbsoluteURL(url: string): boolean {
-  return url && (url.startsWith('http://') || url.startsWith('https://'))
-}
-
 function parseFeed(feed: any): RSS.Feed {
   const f: RSS.Feed = {
     title: feed.title,
