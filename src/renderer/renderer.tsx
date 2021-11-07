@@ -77,7 +77,7 @@ export default class Index extends React.Component<{}, IndexState> {
             onClose={() => this.closeAddFeedDialog()} />
 
           <Modal open={this.state.isLoading} onBackdropClick={() => null}>
-            <Box>
+            <Box sx={{ display: 'flex', justifyContent: 'center', height: `100%`, alignItems: 'center' }}>
               <CircularProgress />
             </Box>
           </Modal>
