@@ -1,9 +1,9 @@
-import { createTheme, ThemeProvider } from "@mui/material";
+import { createTheme, CssBaseline, ThemeProvider } from "@mui/material";
 import Container from "@mui/material/Container";
 import React from "react";
+import '../../../public/prism.css';
 import { RSS } from "../../main/rss/data";
 import { getArticle } from "../ipcInvoker";
-import '../../../public/prism.css'
 
 type FeedState = {
   article: RSS.Item
@@ -16,6 +16,7 @@ type FeedProps = {
 const theme = createTheme({
   typography: {
     fontFamily: [
+      'Noto Sans',
       'Noto Serif',
       'Roboto',
       'Open Sans',
@@ -47,6 +48,7 @@ export default class Feed extends React.Component<FeedProps, FeedState> {
   render() {
     return (
       <ThemeProvider theme={theme}>
+        <CssBaseline />
         <Container maxWidth="lg">
           {this.state.article &&
             (<div>
@@ -60,9 +62,9 @@ export default class Feed extends React.Component<FeedProps, FeedState> {
                 {this.state.article.pubDate &&
                   <p>Published on: <em>{this.state.article.pubDate.toUTCString()}</em></p>}
                 {this.state.article.content ?
-                  <div style={{ fontFamily: 'Noto Serif' }} dangerouslySetInnerHTML={{ __html: this.state.article.content }}></div> :
+                  <div dangerouslySetInnerHTML={{ __html: this.state.article.content }}></div> :
                   this.state.article.description ?
-                    <div style={{ fontFamily: 'Noto Serif' }} dangerouslySetInnerHTML={{ __html: this.state.article.description }}></div> :
+                    <div dangerouslySetInnerHTML={{ __html: this.state.article.description }}></div> :
                     <div> Read more <a href={this.state.article.link}>here</a> </div>}
               </div>
             </div>)
