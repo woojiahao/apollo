@@ -3,6 +3,7 @@ import Container from "@mui/material/Container";
 import React from "react";
 import { RSS } from "../../main/rss/data";
 import { getArticle } from "../ipcInvoker";
+import '../../../public/prism.css'
 
 type FeedState = {
   article: RSS.Item
