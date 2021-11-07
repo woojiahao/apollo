@@ -16,43 +16,16 @@ export async function loadFeed(url: string): Promise<RSS.Feed> {
 
   /// Parse each article to resolve any relative image paths
   const rootPath = parsedFeed.link
-  parsedFeed.items = parsedFeed.items.map(item => resolveContentImagePaths(rootPath, item))
+  parsedFeed.items = parsedFeed.items.map(item => injectBase(rootPath, item))
 
   return parsedFeed
 }
 
-function resolveContentImagePaths(rootPath: string, item: RSS.Item): RSS.Item {
+function injectBase(rootPath: string, item: RSS.Item): RSS.Item {
   if (!item.content) return item
   const parsedDOM = parse(item.content)
 
-  parsedDOM.getElementsByTagName('img')
-    .filter(img => !isAbsoluteURL(img.getAttribute('src')))
-    .forEach(img => {
-      const originalAssetPath = img.getAttribute('src')
-      const absolutePath = new URL(originalAssetPath, rootPath).href
-      img.setAttribute('src', absolutePath)
-
-      if (img.hasAttribute('srcset')) {
-        const srcSet = img.getAttribute('srcset')
-        const updatedSrcSet = srcSet
-          .split(',\n')
-          .map(s => {
-            const [assetPath, width] = s.split(' ')
-            return [new URL(assetPath, rootPath).href, width].join(' ')
-          })
-          .join(',')
-        img.setAttribute('srcset', updatedSrcSet)
-      }
-    })
-
-  parsedDOM.getElementsByTagName('a')
-    .filter(a => !isAbsoluteURL(a.getAttribute('href')))
-    .forEach(a => {
-      const originalAssetPath = a.getAttribute('href')
-      const absolutePath = new URL(originalAssetPath, rootPath).href
-      a.setAttribute('href', absolutePath)
-    })
-
+  parsedDOM.appendChild(parse(`<base href="${rootPath}"></base>`))
   const newItem = Object.assign({}, item)
   newItem.content = parsedDOM.toString()
 
