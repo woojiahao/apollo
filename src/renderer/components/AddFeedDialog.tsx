@@ -55,7 +55,6 @@ export default class AddFeedDialog extends React.Component<AddFeedDialogProps, A
     updatedFeedWithName.title = this.state.feedName
     const tag = this.state.feedTag === 'Uncategorized' ? null : this.state.feedTag
     addFeed(updatedFeedWithName, this.state.feedUrl, tag).then(newFeed => {
-      console.log('Newly added feed: ', newFeed)
       this.closeDialog()
     })
   }
@@ -79,6 +78,7 @@ export default class AddFeedDialog extends React.Component<AddFeedDialogProps, A
     const filter = createFilterOptions<string>()
 
     return (
+      // TODO: Add error handling to reset the state of the dialog
       <Dialog open={this.props.open} onClose={() => this.props.onClose()}>
         <DialogTitle>Add Feed</DialogTitle>
 

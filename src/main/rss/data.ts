@@ -3,7 +3,7 @@ export namespace RSS {
     title: string
     readonly description: string
     readonly link: string
-    readonly items: Array<Item>
+    items: Array<Item>
 
     readonly language: string | null
     readonly copyright: string | null
@@ -22,7 +22,7 @@ export namespace RSS {
     readonly link: string
     readonly description: string
 
-    readonly content: string | null
+    content: string | null
     readonly author: string | null
     readonly categories: Array<string>
     readonly comments: string | null

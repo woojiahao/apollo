@@ -1,3 +1,4 @@
+import { createTheme, ThemeProvider } from "@mui/material";
 import Container from "@mui/material/Container";
 import React from "react";
 import { RSS } from "../../main/rss/data";
@@ -10,6 +11,17 @@ type FeedState = {
 type FeedProps = {
   articleId: number
 }
+
+const theme = createTheme({
+  typography: {
+    fontFamily: [
+      'Noto Serif',
+      'Roboto',
+      'Open Sans',
+      'serif'
+    ].join(',')
+  }
+})
 
 export default class Feed extends React.Component<FeedProps, FeedState> {
   constructor(props: FeedProps) {
@@ -33,24 +45,29 @@ export default class Feed extends React.Component<FeedProps, FeedState> {
 
   render() {
     return (
-      <Container maxWidth="lg">
-        {this.state.article &&
-          (<div>
-            <div className="heading">
-              <h1>{this.state.article.title}</h1>
-              <p>{this.state.article.description}</p>
-            </div>
-            <div className="item">
-              <div dangerouslySetInnerHTML={{ __html: this.state.article.description }} />
-              <br />
-              {this.state.article.pubDate &&
-                <p>Published on: <em>{this.state.article.pubDate.toUTCString()}</em></p>}
-              {this.state.article.content &&
-                <div dangerouslySetInnerHTML={{ __html: this.state.article.content }} />}
-            </div>
-          </div>)
-        }
-      </Container >
+      <ThemeProvider theme={theme}>
+        <Container maxWidth="lg">
+          {this.state.article &&
+            (<div>
+              <div className="heading">
+                <h1>{this.state.article.title}</h1>
+              </div>
+              <div className="item">
+                <br />
+                {/* TODO: When redirected to a different page, show a top bar to navigate back */}
+                {/* TODO: Load iFrame */}
+                {this.state.article.pubDate &&
+                  <p>Published on: <em>{this.state.article.pubDate.toUTCString()}</em></p>}
+                {this.state.article.content ?
+                  <div style={{ fontFamily: 'Noto Serif' }} dangerouslySetInnerHTML={{ __html: this.state.article.content }}></div> :
+                  this.state.article.description ?
+                    <div style={{ fontFamily: 'Noto Serif' }} dangerouslySetInnerHTML={{ __html: this.state.article.description }}></div> :
+                    <div> Read more <a href={this.state.article.link}>here</a> </div>}
+              </div>
+            </div>)
+          }
+        </Container >
+      </ThemeProvider>
     )
   }
 }

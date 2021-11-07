@@ -25,6 +25,7 @@ async function handleGetFeed(feedUrl: string): Promise<RSS.Feed> {
 async function handleGetArticle(articleId: number): Promise<RSS.Item> {
   const articleRepository = getConnection().getRepository(Article)
   const article = await articleRepository.findOne({ where: { articleId: articleId } })
+  console.log(article.articleContent)
   const item: RSS.Item = {
     title: article.articleTitle,
     link: article.articleLink,
