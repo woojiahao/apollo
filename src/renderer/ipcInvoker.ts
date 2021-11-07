@@ -34,3 +34,8 @@ export async function addFeed(
   const newFeed: Feed = await ipcRenderer.invoke('add-feed', rawFeed, feedUrl, tagName)
   return newFeed
 }
+
+export async function refreshFeeds(): Promise<RSS.TagFeeds> {
+  const tagFeeds: RSS.TagFeeds = await ipcRenderer.invoke('refresh-feeds')
+  return tagFeeds
+}

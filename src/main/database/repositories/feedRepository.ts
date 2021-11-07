@@ -34,3 +34,12 @@ export async function getAvailableFeedsToTagFeeds(): Promise<RSS.TagFeeds> {
 
   return tagFeeds
 }
+
+export async function getAvailableFeeds(): Promise<Feed[]> {
+  const feedRepository = getConnection().getRepository(Feed)
+  const availableFeeds = await feedRepository.find({
+    where: { deletedOn: IsNull() },
+    relations: ['articles']
+  })
+  return availableFeeds
+}

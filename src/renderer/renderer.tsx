@@ -1,4 +1,4 @@
-import { Box, Grid } from '@mui/material'
+import { Box, CircularProgress, Grid, Modal } from '@mui/material'
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'
 import { RSS } from '../main/rss/data'
@@ -6,14 +6,14 @@ import AddFeedDialog from './components/AddFeedDialog'
 import Feed from './components/Feed'
 import Navigation from './components/Navigation'
 import Sidebar from './components/Sidebar'
-import { getTagFeeds } from './ipcInvoker'
+import { getTagFeeds, refreshFeeds as ipcRefreshFeeds } from './ipcInvoker'
 import './styles.css'
-
 
 type IndexState = {
   articleId: number,
   tagFeeds: RSS.TagFeeds,
-  isAddFeedDialogOpen: boolean
+  isAddFeedDialogOpen: boolean,
+  isLoading: boolean
 }
 
 export default class Index extends React.Component<{}, IndexState> {
@@ -22,7 +22,8 @@ export default class Index extends React.Component<{}, IndexState> {
     this.state = {
       articleId: undefined,
       tagFeeds: {},
-      isAddFeedDialogOpen: false
+      isAddFeedDialogOpen: false,
+      isLoading: false
     }
   }
 
@@ -48,6 +49,16 @@ export default class Index extends React.Component<{}, IndexState> {
     this.setState({ isAddFeedDialogOpen: false })
   }
 
+  async refreshFeeds() {
+    this.setState({ isLoading: true })
+    ipcRefreshFeeds().then(updatedTagFeeds => {
+      this.setState({
+        isLoading: false,
+        tagFeeds: updatedTagFeeds
+      })
+    })
+  }
+
   render() {
     return (
       <Box sx={{ height: `100%`, overflow: `hidden` }}>
@@ -56,13 +67,20 @@ export default class Index extends React.Component<{}, IndexState> {
           sx={{ height: `100%` }}>
           <Grid item xs="auto" alignItems="flex-end">
             <Navigation
-              onOpenAddFeedDialog={() => this.openAddFeedDialog()} />
+              onOpenAddFeedDialog={() => this.openAddFeedDialog()}
+              onRefreshFeeds={() => this.refreshFeeds()} />
           </Grid>
 
           <AddFeedDialog
             open={this.state.isAddFeedDialogOpen}
             tagFeeds={this.state.tagFeeds}
             onClose={() => this.closeAddFeedDialog()} />
+
+          <Modal open={this.state.isLoading} onBackdropClick={() => null}>
+            <Box>
+              <CircularProgress />
+            </Box>
+          </Modal>
 
           <Grid
             item
@@ -86,7 +104,7 @@ export default class Index extends React.Component<{}, IndexState> {
             <Feed articleId={this.state.articleId} />
           </Grid>
         </Grid>
-      </Box>
+      </Box >
     )
   }
 }

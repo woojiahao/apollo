@@ -15,7 +15,8 @@ type NavigationState = {
 }
 
 type NavigationProps = {
-  onOpenAddFeedDialog: () => void,
+  onOpenAddFeedDialog: () => void
+  onRefreshFeeds: () => void
 }
 
 export default class Navigation extends React.Component<NavigationProps, NavigationState> {
@@ -47,7 +48,7 @@ export default class Navigation extends React.Component<NavigationProps, Navigat
             <AddOutlinedIcon sx={{ fontSize: 30, fill: `#fff` }} />
           </IconButton>
 
-          <IconButton aria-label="refresh-feed">
+          <IconButton aria-label="refresh-feed" onClick={() => { this.props.onRefreshFeeds() }}>
             <RefreshOutlinedIcon sx={{ fontSize: 30, fill: `#fff` }} />
           </IconButton>
 
