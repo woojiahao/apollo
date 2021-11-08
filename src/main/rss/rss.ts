@@ -12,6 +12,7 @@ const rssParser = new Parser()
 
 export async function loadFeed(url: string): Promise<RSS.Feed> {
   const feed = await rssParser.parseURL(url)
+  console.log(feed)
   const parsedFeed = parseFeed(feed)
 
   /// Parse each article to resolve any relative image paths
@@ -80,7 +81,7 @@ function parseItem(item: any): RSS.Item {
     comments: getValue<string, string | null>(item, 'comments', nothing, null),
     enclosure: getValue<any, RSS.Enclosure | null>(item, 'enclosure', (v) => parseEnclosure(v), null),
     guid: getValue<string, string | null>(item, 'guid', nothing, null),
-    pubDate: getValue<string, Date | null>(item, 'pubDate', v => new Date(v), null)
+    pubDate: getValue<string, Date | null>(item, ['pubDate', 'date'], v => new Date(v), null)
   }
 
   return i
@@ -96,8 +97,15 @@ function parseEnclosure(enclosure: any): RSS.Enclosure {
   return e
 }
 
-function getValue<T extends any, R extends any>(obj: any, key: string, parse: (v: T) => R, otherwise: R): R {
-  return obj[key] ? parse(obj[key]) : otherwise
+function getValue<T extends any, R extends any>(obj: any, key: string | string[], parse: (v: T) => R, otherwise: R): R {
+  if (Array.isArray(key)) {
+    for (const k of key) {
+      if (k in obj) return parse(obj[k])
+    }
+    return otherwise
+  } else {
+    return obj[key] ? parse(obj[key]) : otherwise
+  }
 }
 
 function nothing(i: any) {
