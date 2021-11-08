@@ -12,7 +12,6 @@ const rssParser = new Parser()
 
 export async function loadFeed(url: string): Promise<RSS.Feed> {
   const feed = await rssParser.parseURL(url)
-  console.log(feed)
   const parsedFeed = parseFeed(feed)
 
   /// Parse each article to resolve any relative image paths
