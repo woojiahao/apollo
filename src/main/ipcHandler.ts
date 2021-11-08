@@ -25,7 +25,6 @@ async function handleGetFeed(feedUrl: string): Promise<RSS.Feed> {
 async function handleGetArticle(articleId: number): Promise<RSS.Item> {
   const articleRepository = getConnection().getRepository(Article)
   const article = await articleRepository.findOne({ where: { articleId: articleId } })
-  console.log(article.articleContent)
   const item: RSS.Item = {
     title: article.articleTitle,
     link: article.articleLink,
@@ -143,8 +142,6 @@ async function handleRefreshFeeds(): Promise<RSS.TagFeeds> {
 
     const updatedFeed = Object.assign({}, original)
     updatedFeed.articles = updatedArticles
-
-    // console.log(updatedFeed.articles.map(a => a.articleTitle))
 
     updatedFeeds.push(updatedFeed)
   }
