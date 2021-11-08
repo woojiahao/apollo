@@ -89,7 +89,8 @@ export default class Index extends React.Component<{}, IndexState> {
               height: `100vh`,
               padding: `16px`,
               boxSizing: `border-box`,
-              backgroundColor: `#FBFBFB`
+              backgroundColor: `#FBFBFB`,
+              overflowY: 'auto'
             }}>
             <Sidebar loadArticle={this.setArticleId.bind(this)} tagFeeds={this.state.tagFeeds} />
           </Grid>
