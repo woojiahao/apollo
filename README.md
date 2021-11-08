@@ -30,4 +30,12 @@ To determine if an article is newly added to the feed, we employ the follow algo
 
 ## TODO
 
-- [ ] Cache articles
+- [X] Cache articles
+- [ ] Schedule refreshes for specific feeds
+- [ ] Feed-specific actions like editing tag/name
+- [ ] Deleting feeds
+- [ ] Auto refresh all feeds when first launching app
+- [ ] Dark theme
+- [ ] Today feature
+- [ ] Bookmarks feature
+- [ ] Handle the other types of RSS feed formats like [Dublin Core](https://www.rssboard.org/rss-profile#namespace-elements-dublin)
