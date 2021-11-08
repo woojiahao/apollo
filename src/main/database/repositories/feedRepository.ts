@@ -21,11 +21,15 @@ export async function getAvailableFeedsToTagFeeds(): Promise<RSS.TagFeeds> {
       tagFeeds[tag] = []
     }
 
-    const articles = !f.articles ? [] : f.articles.map(a => {
+    const articles = !f.articles ? [] : f.articles
+      .sort((a, b) => b.publishedDate.getTime() - a.publishedDate.getTime())
+    const simplifiedArticles = articles.map(a => {
       return { articleTitle: a.articleTitle, articleId: a.articleId }
     })
 
-    tagFeeds[tag].push({ feedTitle, rssUrl, articles })
+    tagFeeds[tag].push({ feedTitle, rssUrl, articles: simplifiedArticles })
+
+    console.log(simplifiedArticles)
   }
 
   if (!('Uncategorized' in tagFeeds)) {
