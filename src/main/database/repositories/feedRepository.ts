@@ -28,8 +28,6 @@ export async function getAvailableFeedsToTagFeeds(): Promise<RSS.TagFeeds> {
     })
 
     tagFeeds[tag].push({ feedTitle, rssUrl, articles: simplifiedArticles })
-
-    console.log(simplifiedArticles)
   }
 
   if (!('Uncategorized' in tagFeeds)) {
