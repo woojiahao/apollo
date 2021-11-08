@@ -106,6 +106,9 @@ async function handleRefreshFeeds(): Promise<RSS.TagFeeds> {
 
     /// Fetch feed again
     const latest: RSS.Feed = await loadFeed(original.rssUrl)
+    if ((latest.lastBuildDate && original.lastUpdate) && !(latest.lastBuildDate.getTime() > original.lastUpdate.getTime())) continue
+
+    console.log(`updating ${original.feedTitle}`)
 
     /// Update existing articles
     const latestIdentifiers = latest.items.map(item => generateArticleIdentifier(item))
@@ -142,6 +145,7 @@ async function handleRefreshFeeds(): Promise<RSS.TagFeeds> {
 
     const updatedFeed = Object.assign({}, original)
     updatedFeed.articles = updatedArticles
+    updatedFeed.lastUpdate = latest.lastBuildDate
 
     updatedFeeds.push(updatedFeed)
   }

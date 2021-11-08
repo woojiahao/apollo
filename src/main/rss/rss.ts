@@ -8,7 +8,11 @@ import parse from 'node-html-parser'
 import Parser from "rss-parser"
 import { RSS } from './data'
 
-const rssParser = new Parser()
+const rssParser = new Parser({
+  customFields: {
+    feed: ['date', 'dc:date']
+  }
+})
 
 export async function loadFeed(url: string): Promise<RSS.Feed> {
   const feed = await rssParser.parseURL(url)
@@ -41,7 +45,7 @@ function parseFeed(feed: any): RSS.Feed {
     language: getValue<string, string | null>(feed, 'language', nothing, null),
     copyright: getValue<string, string | null>(feed, 'copyright', nothing, null),
     pubDate: getValue<string, Date | null>(feed, 'pubDate', (v) => new Date(v), null),
-    lastBuildDate: getValue<string, Date | null>(feed, 'lastBuildDate', (v) => new Date(v), null),
+    lastBuildDate: getValue<string, Date | null>(feed, ['lastBuildDate', 'date', 'dc:date'], (v) => new Date(v), null),
     categories: getValue<Array<string>, Array<string>>(feed, 'categories', nothing, []),
     ttl: getValue<string, number | null>(feed, 'ttl', (v) => parseInt(v), null),
     image: getValue<any, RSS.Image | null>(feed, 'image', (v) => parseImage(v), null),
