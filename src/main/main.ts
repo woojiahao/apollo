@@ -22,7 +22,6 @@ app.on('ready', () => {
   mainWindow.loadFile('index.html')
 
   mainWindow.maximize()
-  mainWindow.webContents.openDevTools()
 })
 
 app.on('window-all-closed', () => {

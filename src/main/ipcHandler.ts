@@ -1,11 +1,17 @@
 import { ipcMain } from "electron"
-import { getConnection, IsNull } from "typeorm"
+import { getConnection, getCustomRepository } from "typeorm"
 import { Article } from "./database/entities/Article"
 import { Feed } from "./database/entities/Feed"
 import { Tag } from "./database/entities/Tag"
 import { getAvailableFeeds, getAvailableFeedsToTagFeeds } from "./database/repositories/feedRepository"
+import TagRepository from "./database/repositories/TagRepository"
 import { RSS } from "./rss/data"
 import { loadFeed } from "./rss/rss"
+
+/**
+ * The handler behaves as the data communication layer. It should not be communicating with the database directly, not
+ * without direct access to the database
+ */
 
 export default function setupHandlers() {
   ipcMain.handle('get-feed', async (_e, feedUrl) => handleGetFeed(feedUrl))
@@ -85,10 +91,8 @@ async function handleAddFeed(
 }
 
 async function handleGetTags(): Promise<string[]> {
-  return (await getConnection()
-    .getRepository(Tag)
-    .find({ where: { deletedOn: IsNull() } }))
-    .map(tag => tag.tagName)
+  const tags = await getCustomRepository(TagRepository).getAvailableTags()
+  return tags.map(tag => tag.tagName)
 }
 
 async function handleGetTagFeeds(): Promise<RSS.TagFeeds> {
