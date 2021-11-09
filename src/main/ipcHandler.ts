@@ -1,5 +1,5 @@
 import { ipcMain } from "electron"
-import { getConnection, getCustomRepository } from "typeorm"
+import { getCustomRepository } from "typeorm"
 import { Article } from "./database/entities/Article"
 import { Feed } from "./database/entities/Feed"
 import ArticleMapper from "./database/mappers/ArticleMapper"
@@ -16,26 +16,19 @@ import { loadFeed } from "./rss/rss"
  */
 
 export default function setupHandlers() {
-  ipcMain.handle('get-feed', async (_e, feedUrl) => handleGetFeed(feedUrl))
-  ipcMain.handle('get-article', async (_e, articleId) => handleGetArticle(articleId))
+  const feedRepository = getCustomRepository(FeedRepository)
+  const articleRepository = getCustomRepository(ArticleRepository)
+  const tagRepository = getCustomRepository(TagRepository)
+
+  ipcMain.handle('get-feed', async (_e, feedUrl: string) => await loadFeed(feedUrl))
+  ipcMain.handle('get-article', async (_e, articleId: number) => ArticleMapper.toRSSItem(await articleRepository.getArticle(articleId)))
   ipcMain.handle('add-feed', async (_e, rawFeed, feedUrl, tagName) => handleAddFeed(rawFeed, feedUrl, tagName))
-  ipcMain.handle('get-tags', async (_e) => handleGetTags())
-  ipcMain.handle('get-tag-feeds', async (_e) => handleGetTagFeeds())
+  ipcMain.handle('get-tags', async (_e) => (await tagRepository.getAvailable()).map(t => t.tagName))
+  ipcMain.handle('get-tag-feeds', async (_e) => FeedMapper.toTagFeeds(await feedRepository.getAvailable()))
   ipcMain.handle('refresh-feeds', async (_e) => handleRefreshFeeds())
 }
 
 // TODO: Experiement with sending this to separate thread
-async function handleGetFeed(feedUrl: string): Promise<RSS.Feed> {
-  const feed = await loadFeed(feedUrl)
-  return feed
-}
-
-async function handleGetArticle(articleId: number): Promise<RSS.Item> {
-  const article = await getCustomRepository(ArticleRepository).getArticle(articleId)
-  return ArticleMapper.toRSSItem(article)
-}
-
-
 // TODO: Handle concurrent updates to the tag list
 async function handleAddFeed(rawFeed: RSS.Feed, feedUrl: string, tagName: string | null): Promise<Feed> {
   const feed = FeedMapper.fromRSSFeed(rawFeed, feedUrl)
@@ -50,92 +43,71 @@ async function handleAddFeed(rawFeed: RSS.Feed, feedUrl: string, tagName: string
   return newFeed
 }
 
-async function handleGetTags(): Promise<string[]> {
-  const tags = await getCustomRepository(TagRepository).getAvailable()
-  return tags.map(tag => tag.tagName)
-}
-
-async function handleGetTagFeeds(): Promise<RSS.TagFeeds> {
+async function handleRefreshFeeds() {
+  const feedRepository = getCustomRepository(FeedRepository)
   const availableFeeds = await getCustomRepository(FeedRepository).getAvailable()
-  const tagFeeds = FeedMapper.toTagFeeds(availableFeeds)
-  return tagFeeds
+
+  const updatedFeeds = await Promise.all(availableFeeds.map(refreshFeed))
+  feedRepository.save(updatedFeeds)
 }
 
-async function handleRefreshFeeds(): Promise<RSS.TagFeeds> {
-  /// Get all non-deleted feeds 
-  const availableFeeds = await getCustomRepository(FeedRepository).getAvailable()
-  const updatedFeeds = []
+/// Refreshes a single feed
+async function refreshFeed(original: Feed) {
+  /// Fetch feed again
+  const latest = FeedMapper.fromRSSFeed(await loadFeed(original.rssUrl), original.rssUrl)
+  const hasChange = (latest.lastUpdate && original.lastUpdate)
+    && (latest.lastUpdate.getTime() > original.lastUpdate.getTime())
+  if (!hasChange) return null
 
-  /// Compare old feed published date to the new feed published date
-  for (let i = 0; i < availableFeeds.length; i++) {
-    const original = availableFeeds[i]
+  console.log(`Updating ${original.feedTitle}`)
 
-    /// Fetch feed again
-    const latest: RSS.Feed = await loadFeed(original.rssUrl)
-    if ((latest.lastBuildDate && original.lastUpdate) && !(latest.lastBuildDate.getTime() > original.lastUpdate.getTime())) continue
+  /// Update existing articles
+  const updatedArticles = updateArticles(original, latest)
 
-    console.log(`updating ${original.feedTitle}`)
+  /// Add new articles
+  const originalIdentifiers = original.articles.map(article => generateArticleIdentifier(article))
+  const newArticles = latest
+    .articles
+    .filter(article => !originalIdentifiers.includes(generateArticleIdentifier(article)))
 
-    /// Update existing articles
-    const latestIdentifiers = latest.items.map(item => generateArticleIdentifier(item))
+  const allArticles = updatedArticles.slice().concat(newArticles)
 
-    const existingArticles = original
-      .articles
-      .map(article => {
-        const articleIdentifier = generateArticleIdentifier(article)
+  const updatedFeed = Object.assign({}, original)
+  updatedFeed.articles = allArticles
+  updatedFeed.lastUpdate = latest.lastUpdate
 
-        if (!latestIdentifiers.includes(articleIdentifier)) return article
-
-        const latestArticle = latest.items[latestIdentifiers.indexOf(articleIdentifier)]
-
-        if (latestArticle.content === article.articleContent) return article
-        if (latestArticle.link === article.articleLink) return article
-
-        const updatedArticle = Object.assign({}, article)
-        /// TODO: Handle the case where the title and descriptions are exactly the same
-        updatedArticle.articleContent = latestArticle.content
-        updatedArticle.articleLink = latestArticle.link
-
-        return updatedArticle
-      })
-
-    /// Add new articles
-    const originalIdentifiers = original.articles.map(article => generateArticleIdentifier(article))
-
-    const newArticles = latest
-      .items
-      .filter(item => !originalIdentifiers.includes(generateArticleIdentifier(item)))
-      .map(item => ArticleMapper.fromRSSItem(item))
-
-    const updatedArticles = existingArticles.slice().concat(newArticles)
-
-    const updatedFeed = Object.assign({}, original)
-    updatedFeed.articles = updatedArticles
-    updatedFeed.lastUpdate = latest.lastBuildDate
-
-    updatedFeeds.push(updatedFeed)
-  }
-
-  const feedRepository = getConnection().getRepository(Feed)
-  await feedRepository.save(updatedFeeds)
-
-  /// Refetch the tag feeds
-  return await getAvailableFeedsToTagFeeds()
+  return updatedFeed
 }
 
-function generateArticleIdentifier(article: RSS.Item | Article): string {
-  let title = ''
-  let description = ''
+/// Checks for changes to existing articles in a feed, and updates the ones that have changed
+function updateArticles(original: Feed, latest: Feed) {
+  const latestIdentifiers = latest.articles.map(generateArticleIdentifier)
 
-  if (article instanceof Article) {
-    title = article.articleTitle ? article.articleTitle : ''
-    description = article.articleDescription ? article.articleDescription : ''
-  } else {
-    title = article.title ? article.title : ''
-    description = article.description ? article.description : ''
-  }
+  const updatedArticles = original.articles.map(originalArticle => {
+    const articleIdentifier = generateArticleIdentifier(originalArticle)
 
-  const identifier = btoa(`${title}+${description}`)
-  return identifier
+    if (!latestIdentifiers.includes(articleIdentifier)) return originalArticle
+
+    const latestArticle = latest.articles[latestIdentifiers.indexOf(articleIdentifier)]
+
+    const hasContentChanged = !((latestArticle.articleContent === originalArticle.articleContent)
+      || (latestArticle.articleLink === originalArticle.articleLink))
+    if (!hasContentChanged) return originalArticle
+
+    const updatedArticle = Object.assign({}, originalArticle)
+    updatedArticle.articleContent = latestArticle.articleContent
+    updatedArticle.articleLink = latestArticle.articleLink
+
+    return updatedArticle
+  })
+
+  return updatedArticles
+}
+
+function generateArticleIdentifier(article: Article): string {
+  const title = article.articleTitle ? article.articleTitle : ''
+  const description = article.articleDescription ? article.articleDescription : ''
+
+  return btoa(`${title}+${description}`)
 }
 
