@@ -19,7 +19,7 @@
 		"scope": "javascript, typescript",
 		"body": [
 			"import Handler from \".\/Handler\";",
-			"export default class $1 extends Handler<$2> {",
+			"export default class $1 implements Handler<$2> {",
 			"  async handle($3) {",
 			"    $4",
 			"  }",

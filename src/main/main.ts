@@ -1,12 +1,12 @@
 import { app, BrowserWindow } from 'electron'
 import 'reflect-metadata'
 import { setupDatabase } from './database/database'
-import setupHandlers from './ipcHandler'
+import registerHandlers from './ipcHandler'
 
 require('dotenv').config()
 
 setupDatabase()
-setupHandlers()
+registerHandlers()
 
 app.on('ready', () => {
   const mainWindow = new BrowserWindow({
