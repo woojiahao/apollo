@@ -192,7 +192,7 @@ export default class Sidebar extends React.Component<SidebarProps, SidebarState>
           open={this.state.feedContextMenu !== null}
           onClose={() => this.setState({ feedContextMenu: null })}
           anchorReference="anchorPosition"
-          anchorPosition={this.state.feedContextMenu ? { top: this.state.feedContextMenu.mouseX, left: this.state.feedContextMenu.mouseX } : undefined}>
+          anchorPosition={this.state.feedContextMenu ? { top: this.state.feedContextMenu.mouseY, left: this.state.feedContextMenu.mouseX } : undefined}>
           <MenuItem onClick={() => this.props.refreshFeed('https://woojiahao.github.io/rss.xml')}>Refresh Feed</MenuItem>
           <MenuItem>Rename Feed</MenuItem>
           <MenuItem>Edit Feed Update Interval</MenuItem>
@@ -204,7 +204,7 @@ export default class Sidebar extends React.Component<SidebarProps, SidebarState>
           open={this.state.articleContextMenu !== null}
           onClose={() => this.setState({ articleContextMenu: null })}
           anchorReference="anchorPosition"
-          anchorPosition={this.state.articleContextMenu ? { top: this.state.articleContextMenu.mouseX, left: this.state.articleContextMenu.mouseX } : undefined}>
+          anchorPosition={this.state.articleContextMenu ? { top: this.state.articleContextMenu.mouseY, left: this.state.articleContextMenu.mouseX } : undefined}>
           <MenuItem>Bookmark</MenuItem>
           <Divider />
           <MenuItem>Mark as Read</MenuItem>
