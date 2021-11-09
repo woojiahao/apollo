@@ -11,8 +11,10 @@ export default class RefreshFeedsHandler implements Handler<RSS.TagFeeds> {
     const feedRepository = getCustomRepository(FeedRepository)
     const availableFeeds = await feedRepository.getAvailable()
     const updatedFeeds = await Promise.all(availableFeeds.map(refreshFeed))
-    const savedFeeds = await feedRepository.save(updatedFeeds)
-    const tagFeeds = FeedMapper.toTagFeeds(savedFeeds)
+    await feedRepository.save(updatedFeeds)
+
+    const feeds = await feedRepository.getAvailable()
+    const tagFeeds = FeedMapper.toTagFeeds(feeds)
     return tagFeeds
   }
 }
