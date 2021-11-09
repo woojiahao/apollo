@@ -1,10 +1,10 @@
 import { Column, CreateDateColumn, DeleteDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
-import { Article } from "./Article";
-import { Tag } from "./Tag";
+import Article from "./Article";
+import Tag from "./Tag";
 
 // TODO: Maybe keep track of the base URL given? To prevent adding the same feed again and again
 @Entity()
-export class Feed {
+export default class Feed {
   @PrimaryGeneratedColumn()
   public feedId: number
 

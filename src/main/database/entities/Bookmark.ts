@@ -1,8 +1,8 @@
 import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from "typeorm";
-import { Article } from "./Article";
+import Article from "./Article";
 
 @Entity()
-export class Bookmark {
+export default class Bookmark {
   @PrimaryGeneratedColumn()
   public bookmarkId: number
 
