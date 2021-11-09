@@ -3,7 +3,7 @@
  */
 
 import { ipcRenderer } from "electron";
-import { Feed } from "../main/database/entities/Feed";
+import Feed from "../main/database/entities/Feed";
 import { RSS } from "../main/rss/data";
 
 export async function getFeed(feedUrl: string): Promise<RSS.Feed> {
