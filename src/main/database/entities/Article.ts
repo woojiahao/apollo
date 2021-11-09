@@ -1,9 +1,9 @@
 import { Column, CreateDateColumn, DeleteDateColumn, Entity, ManyToOne, OneToOne, PrimaryGeneratedColumn } from "typeorm";
-import { Bookmark } from "./Bookmark";
-import { Feed } from "./Feed";
+import Bookmark from "./Bookmark";
+import Feed from "./Feed";
 
 @Entity()
-export class Article {
+export default class Article {
   @PrimaryGeneratedColumn()
   public articleId: number
 

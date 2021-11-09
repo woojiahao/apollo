@@ -3,7 +3,8 @@
  */
 
 import { ipcRenderer } from "electron";
-import { Feed } from "../main/database/entities/Feed";
+import Feed from "../main/database/entities/Feed";
+import FeedMapper from "../main/database/mappers/FeedMapper";
 import { RSS } from "../main/rss/data";
 
 export async function getFeed(feedUrl: string): Promise<RSS.Feed> {
@@ -26,10 +27,7 @@ export async function getTagFeeds(): Promise<RSS.TagFeeds> {
   return tagFeeds
 }
 
-export async function addFeed(
-  rawFeed: RSS.Feed,
-  feedUrl: string,
-  tagName: string | null): Promise<Feed> {
+export async function addFeed(rawFeed: RSS.Feed, feedUrl: string, tagName: string | null): Promise<Feed> {
   // TODO: Experiment if two separate ipc calls create lag?
   const newFeed: Feed = await ipcRenderer.invoke('add-feed', rawFeed, feedUrl, tagName)
   return newFeed

@@ -1,9 +1,9 @@
 import { Column, CreateDateColumn, DeleteDateColumn, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm"
-import { Feed } from "./Feed"
+import Feed from "./Feed"
 
 // TODO: Soft delete tag when no more feeds under it
 @Entity()
-export class Tag {
+export default class Tag {
   @PrimaryGeneratedColumn()
   public tagId: number
 

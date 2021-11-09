@@ -1,12 +1,12 @@
 import { app, BrowserWindow } from 'electron'
 import 'reflect-metadata'
 import { setupDatabase } from './database/database'
-import setupHandlers from './ipcHandler'
+import registerHandlers from './ipcHandler'
 
 require('dotenv').config()
 
 setupDatabase()
-setupHandlers()
+registerHandlers()
 
 app.on('ready', () => {
   const mainWindow = new BrowserWindow({
@@ -22,7 +22,6 @@ app.on('ready', () => {
   mainWindow.loadFile('index.html')
 
   mainWindow.maximize()
-  mainWindow.webContents.openDevTools()
 })
 
 app.on('window-all-closed', () => {
