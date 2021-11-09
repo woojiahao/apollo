@@ -6,7 +6,7 @@ import AddFeedDialog from './components/AddFeedDialog'
 import Feed from './components/Feed'
 import Navigation from './components/Navigation'
 import Sidebar from './components/Sidebar'
-import { getTagFeeds, refreshFeeds as ipcRefreshFeeds } from './ipcInvoker'
+import { getTagFeeds, refreshFeed as ipcRefreshFeed, refreshFeeds as ipcRefreshFeeds } from './ipcInvoker'
 import './styles.css'
 
 type IndexState = {
@@ -59,6 +59,11 @@ export default class Index extends React.Component<{}, IndexState> {
     })
   }
 
+  async refreshFeed(rssUrl: string) {
+    const updatedTagFeeds = await ipcRefreshFeed(rssUrl)
+    this.setState({ tagFeeds: updatedTagFeeds })
+  }
+
   render() {
     return (
       <Box sx={{ height: `100%`, overflow: `hidden` }}>
@@ -92,7 +97,10 @@ export default class Index extends React.Component<{}, IndexState> {
               backgroundColor: `#FBFBFB`,
               overflowY: 'auto'
             }}>
-            <Sidebar loadArticle={this.setArticleId.bind(this)} tagFeeds={this.state.tagFeeds} />
+            <Sidebar
+              loadArticle={this.setArticleId.bind(this)}
+              tagFeeds={this.state.tagFeeds}
+              refreshFeed={rssUrl => this.refreshFeed(rssUrl)} />
           </Grid>
 
           <Grid
