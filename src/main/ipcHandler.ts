@@ -2,7 +2,7 @@ import { ipcMain } from "electron"
 import { getConnection, getCustomRepository } from "typeorm"
 import { Article } from "./database/entities/Article"
 import { Feed } from "./database/entities/Feed"
-import { Tag } from "./database/entities/Tag"
+import ArticleMapper from "./database/mappers/ArticleMapper"
 import FeedMapper from "./database/mappers/FeedMapper"
 import ArticleRepository from "./database/repositories/ArticleRepository"
 import FeedRepository from "./database/repositories/FeedRepository"
@@ -32,67 +32,38 @@ async function handleGetFeed(feedUrl: string): Promise<RSS.Feed> {
 
 async function handleGetArticle(articleId: number): Promise<RSS.Item> {
   const article = await getCustomRepository(ArticleRepository).getArticle(articleId)
-  return articleToItem(article)
+  return ArticleMapper.toRSSItem(article)
 }
 
 
 // TODO: Handle concurrent updates to the tag list
-// TODO: Abstract any database operations to a dedicated file, so this can act as a controller
-async function handleAddFeed(
-  rawFeed: RSS.Feed,
-  feedUrl: string,
-  tagName: string | null): Promise<Feed> {
-  const feedRepository = getConnection().getRepository(Feed)
-  const tagRepository = getConnection().getRepository(Tag)
-
-  const feed = new Feed()
-  feed.rssUrl = feedUrl
-  feed.feedTitle = rawFeed.title
-  feed.feedDescription = rawFeed.description
-  feed.feedUrl = rawFeed.link
-  feed.lastUpdate = rawFeed.lastBuildDate
-  feed.articles = rawFeed.items.map(item => {
-    const article = new Article()
-    article.articleTitle = item.title
-    article.articleDescription = item.description
-    article.articleContent = item.content
-    article.articleLink = item.link
-    article.publishedDate = item.pubDate
-
-    return article
-  })
+async function handleAddFeed(rawFeed: RSS.Feed, feedUrl: string, tagName: string | null): Promise<Feed> {
+  const feed = FeedMapper.fromRSSFeed(rawFeed, feedUrl)
 
   if (tagName) {
-    let tag = await tagRepository.findOne({ where: { tagName: tagName } })
-    if (!tag) {
-      // Tag does not exist in DB yet
-      tag = new Tag()
-      tag.tagName = tagName
-      tag.feeds = []
-      tag = await tagRepository.save(tag)
-    }
+    const tag = await getCustomRepository(TagRepository).createIfNotExists(tagName)
     feed.tag = tag
   }
 
-  const newFeed = await feedRepository.save(feed)
+  const newFeed = await getCustomRepository(FeedRepository).save(feed)
 
   return newFeed
 }
 
 async function handleGetTags(): Promise<string[]> {
-  const tags = await getCustomRepository(TagRepository).getAvailableTags()
+  const tags = await getCustomRepository(TagRepository).getAvailable()
   return tags.map(tag => tag.tagName)
 }
 
 async function handleGetTagFeeds(): Promise<RSS.TagFeeds> {
-  const availableFeeds = await getCustomRepository(FeedRepository).getAvailableFeeds()
+  const availableFeeds = await getCustomRepository(FeedRepository).getAvailable()
   const tagFeeds = FeedMapper.toTagFeeds(availableFeeds)
   return tagFeeds
 }
 
 async function handleRefreshFeeds(): Promise<RSS.TagFeeds> {
   /// Get all non-deleted feeds 
-  const availableFeeds = await getAvailableFeeds()
+  const availableFeeds = await getCustomRepository(FeedRepository).getAvailable()
   const updatedFeeds = []
 
   /// Compare old feed published date to the new feed published date
@@ -134,7 +105,7 @@ async function handleRefreshFeeds(): Promise<RSS.TagFeeds> {
     const newArticles = latest
       .items
       .filter(item => !originalIdentifiers.includes(generateArticleIdentifier(item)))
-      .map(item => itemToArticle(item))
+      .map(item => ArticleMapper.fromRSSItem(item))
 
     const updatedArticles = existingArticles.slice().concat(newArticles)
 
@@ -168,30 +139,3 @@ function generateArticleIdentifier(article: RSS.Item | Article): string {
   return identifier
 }
 
-
-function itemToArticle(item: RSS.Item): Article {
-  const article = new Article()
-  article.articleTitle = item.title
-  article.articleDescription = item.description
-  article.articleContent = item.content
-  article.articleLink = item.link
-  article.publishedDate = item.pubDate
-
-  return article
-}
-
-function articleToItem(article: Article): RSS.Item {
-  const item: RSS.Item = {
-    title: article.articleTitle,
-    link: article.articleLink,
-    description: article.articleDescription,
-    content: article.articleContent,
-    pubDate: article.publishedDate,
-    author: null,
-    categories: [],
-    comments: null,
-    enclosure: null,
-    guid: null
-  }
-  return item
-}
