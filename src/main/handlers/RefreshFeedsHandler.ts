@@ -1,5 +1,4 @@
 import { getCustomRepository } from "typeorm";
-import Feed from "../database/entities/Feed";
 import FeedMapper from "../database/mappers/FeedMapper";
 import FeedRepository from "../database/repositories/FeedRepository";
 import { RSS } from "../rss/data";

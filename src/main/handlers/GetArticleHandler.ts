@@ -1,5 +1,4 @@
 import { getCustomRepository } from "typeorm";
-import Article from "../database/entities/Article";
 import ArticleMapper from "../database/mappers/ArticleMapper";
 import ArticleRepository from "../database/repositories/ArticleRepository";
 import { RSS } from "../rss/data";
