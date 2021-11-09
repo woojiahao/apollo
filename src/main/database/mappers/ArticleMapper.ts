@@ -1,5 +1,5 @@
 import { RSS } from "../../rss/data";
-import { Article } from "../entities/Article";
+import Article from "../entities/Article";
 
 export default class ArticleMapper {
   static fromRSSItem(item: RSS.Item): Article {

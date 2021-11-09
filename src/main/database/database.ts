@@ -1,8 +1,8 @@
 import { createConnection } from "typeorm";
-import { Article } from "./entities/Article";
-import { Bookmark } from "./entities/Bookmark";
-import { Feed } from "./entities/Feed";
-import { Tag } from "./entities/Tag";
+import Article from "./entities/Article";
+import Bookmark from "./entities/Bookmark";
+import Feed from "./entities/Feed";
+import Tag from "./entities/Tag";
 
 interface DatabaseInformation {
   host: string,

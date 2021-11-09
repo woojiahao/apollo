@@ -1,5 +1,5 @@
 import { RSS } from "../../rss/data";
-import { Feed } from "../entities/Feed";
+import Feed from "../entities/Feed";
 import ArticleMapper from "./ArticleMapper";
 
 export default class FeedMapper {

@@ -1,5 +1,5 @@
 import { EntityRepository, IsNull, Repository } from "typeorm";
-import { Feed } from "../entities/Feed";
+import Feed from "../entities/Feed";
 
 @EntityRepository(Feed)
 export default class FeedRepository extends Repository<Feed> {
