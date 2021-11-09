@@ -9,8 +9,7 @@ export async function refreshFeed(original: Feed) {
   const latest = FeedMapper.fromRSSFeed(await loadFeed(original.rssUrl), original.rssUrl)
   const hasChange = (latest.lastUpdate && original.lastUpdate)
     && (latest.lastUpdate.getTime() > original.lastUpdate.getTime())
-  console.log(hasChange)
-  if (!hasChange) return null
+  if (!hasChange) return original
 
   console.log(`Updating ${original.feedTitle}`)
 
@@ -29,13 +28,11 @@ export async function refreshFeed(original: Feed) {
   updatedFeed.articles = allArticles
   updatedFeed.lastUpdate = latest.lastUpdate
 
-  console.log(updatedFeed)
-
   return updatedFeed
 }
 
 /// Checks for changes to existing articles in a feed, and updates the ones that have changed
-export function updateArticles(original: Feed, latest: Feed) {
+function updateArticles(original: Feed, latest: Feed) {
   const latestIdentifiers = latest.articles.map(generateArticleIdentifier)
 
   const updatedArticles = original.articles.map(originalArticle => {
