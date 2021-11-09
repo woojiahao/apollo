@@ -3,7 +3,9 @@ import { getConnection, getCustomRepository } from "typeorm"
 import { Article } from "./database/entities/Article"
 import { Feed } from "./database/entities/Feed"
 import { Tag } from "./database/entities/Tag"
-import { getAvailableFeeds, getAvailableFeedsToTagFeeds } from "./database/repositories/feedRepository"
+import FeedMapper from "./database/mappers/FeedMapper"
+import ArticleRepository from "./database/repositories/ArticleRepository"
+import FeedRepository from "./database/repositories/FeedRepository"
 import TagRepository from "./database/repositories/TagRepository"
 import { RSS } from "./rss/data"
 import { loadFeed } from "./rss/rss"
@@ -29,21 +31,8 @@ async function handleGetFeed(feedUrl: string): Promise<RSS.Feed> {
 }
 
 async function handleGetArticle(articleId: number): Promise<RSS.Item> {
-  const articleRepository = getConnection().getRepository(Article)
-  const article = await articleRepository.findOne({ where: { articleId: articleId } })
-  const item: RSS.Item = {
-    title: article.articleTitle,
-    link: article.articleLink,
-    description: article.articleDescription,
-    content: article.articleContent,
-    pubDate: article.publishedDate,
-    author: null,
-    categories: [],
-    comments: null,
-    enclosure: null,
-    guid: null
-  }
-  return item
+  const article = await getCustomRepository(ArticleRepository).getArticle(articleId)
+  return articleToItem(article)
 }
 
 
@@ -96,7 +85,9 @@ async function handleGetTags(): Promise<string[]> {
 }
 
 async function handleGetTagFeeds(): Promise<RSS.TagFeeds> {
-  return await getAvailableFeedsToTagFeeds()
+  const availableFeeds = await getCustomRepository(FeedRepository).getAvailableFeeds()
+  const tagFeeds = FeedMapper.toTagFeeds(availableFeeds)
+  return tagFeeds
 }
 
 async function handleRefreshFeeds(): Promise<RSS.TagFeeds> {
@@ -187,4 +178,20 @@ function itemToArticle(item: RSS.Item): Article {
   article.publishedDate = item.pubDate
 
   return article
+}
+
+function articleToItem(article: Article): RSS.Item {
+  const item: RSS.Item = {
+    title: article.articleTitle,
+    link: article.articleLink,
+    description: article.articleDescription,
+    content: article.articleContent,
+    pubDate: article.publishedDate,
+    author: null,
+    categories: [],
+    comments: null,
+    enclosure: null,
+    guid: null
+  }
+  return item
 }
