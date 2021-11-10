@@ -1,18 +1,20 @@
+import BookmarksIcon from '@mui/icons-material/Bookmarks';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import TodayIcon from '@mui/icons-material/Today';
-import BookmarksIcon from '@mui/icons-material/Bookmarks';
 import TreeItem, { TreeItemContentProps, TreeItemProps, useTreeItem } from "@mui/lab/TreeItem";
 import TreeView from '@mui/lab/TreeView';
 import { Divider, Menu, MenuItem, Typography } from '@mui/material';
 import Box from '@mui/material/Box';
 import clsx from 'clsx';
 import React from "react";
+import { SimpleArticle } from '../../main/database/mappers/ArticleMapper';
 import { RSS } from '../../main/rss/data';
 
 type SidebarProps = {
   loadArticle: (articleId: number) => void,
   tagFeeds: RSS.TagFeeds,
+  today: SimpleArticle[],
   refreshFeed: (feedId: number) => void
 }
 
@@ -138,15 +140,28 @@ export default class Sidebar extends React.Component<SidebarProps, SidebarState>
   }
 
   render() {
-    let counter = 3
+    let counter = 2
     return (
       <Box>
         <TreeView aria-label="navigation"
           defaultCollapseIcon={<ExpandMoreIcon />}
           defaultExpandIcon={<ChevronRightIcon />}
           sx={{ height: `100%` }}>
-          <CustomTreeItem nodeId="1" key="Today" label="Today" icon={<TodayIcon />} />
-          <CustomTreeItem nodeId="2" key="Bookmarks" label="Bookmarks" icon={<BookmarksIcon />} />
+
+          <CustomTreeItem nodeId="1" key="Today" label="Today" icon={<TodayIcon />}>
+            {this.props.today.map(({ articleId, articleTitle }) => {
+              console.log(articleId)
+              return (
+                <CustomTreeItem
+                  key={articleTitle + (counter + 1)}
+                  nodeId={`${counter++}`}
+                  label={articleTitle}
+                  onClick={() => this.props.loadArticle(articleId)} />
+              )
+            })}
+          </CustomTreeItem>
+
+          <CustomTreeItem nodeId={`${counter++}`} key="Bookmarks" label="Bookmarks" icon={<BookmarksIcon />} />
 
           <Typography>Feed</Typography>
 

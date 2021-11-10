@@ -4,10 +4,11 @@
 
 import { ipcRenderer } from "electron";
 import Feed from "../main/database/entities/Feed";
+import { SimpleArticle } from "../main/database/mappers/ArticleMapper";
 import { RSS } from "../main/rss/data";
 
-async function invoke(action: string, ...args: any[]) {
-  return await ipcRenderer.invoke(action, ...args)
+async function invoke<T>(action: string, ...args: any[]): Promise<T> {
+  return await ipcRenderer.invoke(action, ...args) as T
 }
 
 export async function getFeed(feedUrl: string): Promise<RSS.Feed> {
@@ -41,7 +42,12 @@ export async function refreshFeeds(): Promise<RSS.TagFeeds> {
   return tagFeeds
 }
 
-export async function refreshFeed(feedId: number): Promise<RSS.TagFeeds> {
-  const tagFeeds: RSS.TagFeeds = await invoke('refresh-feed', feedId)
+export async function refreshFeed(feedId: number) {
+  const tagFeeds = await invoke<RSS.TagFeeds>('refresh-feed', feedId)
   return tagFeeds
+}
+
+export async function getToday() {
+  const today = await invoke<SimpleArticle[]>('get-today')
+  return today
 }

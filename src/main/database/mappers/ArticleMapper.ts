@@ -1,6 +1,11 @@
 import { RSS } from "../../rss/data";
 import Article from "../entities/Article";
 
+export type SimpleArticle = {
+  articleId: number,
+  articleTitle: string
+}
+
 export default class ArticleMapper {
   static fromRSSItem(item: RSS.Item): Article {
     const article = new Article()
@@ -25,6 +30,13 @@ export default class ArticleMapper {
       comments: null,
       enclosure: null,
       guid: null
+    }
+  }
+
+  static toSimple(article: Article): SimpleArticle {
+    return {
+      articleId: article.articleId,
+      articleTitle: article.articleTitle
     }
   }
 }

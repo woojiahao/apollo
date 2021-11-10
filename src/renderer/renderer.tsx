@@ -1,17 +1,19 @@
 import { Box, CircularProgress, createTheme, CssBaseline, Grid, Modal, ThemeProvider } from '@mui/material'
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'
+import { SimpleArticle } from '../main/database/mappers/ArticleMapper'
 import { RSS } from '../main/rss/data'
 import AddFeedDialog from './components/AddFeedDialog'
 import Feed from './components/Feed'
 import Navigation from './components/Navigation'
 import Sidebar from './components/Sidebar'
-import { getTagFeeds, refreshFeed as ipcRefreshFeed, refreshFeeds as ipcRefreshFeeds } from './ipcInvoker'
+import { getTagFeeds, getToday, refreshFeed as ipcRefreshFeed, refreshFeeds as ipcRefreshFeeds } from './ipcInvoker'
 import './styles.css'
 
 type IndexState = {
   articleId: number,
   tagFeeds: RSS.TagFeeds,
+  today: SimpleArticle[],
   isAddFeedDialogOpen: boolean,
   isLoading: boolean
 }
@@ -32,6 +34,7 @@ export default class Index extends React.Component<{}, IndexState> {
     this.state = {
       articleId: undefined,
       tagFeeds: {},
+      today: [],
       isAddFeedDialogOpen: false,
       isLoading: false
     }
@@ -39,7 +42,9 @@ export default class Index extends React.Component<{}, IndexState> {
 
   async refreshTagFeeds() {
     const tagFeeds = await getTagFeeds()
-    this.setState({ tagFeeds: tagFeeds })
+    this.setState({
+      tagFeeds: tagFeeds,
+    })
   }
 
   async componentDidMount() {
@@ -61,10 +66,12 @@ export default class Index extends React.Component<{}, IndexState> {
 
   async refreshFeeds() {
     this.setState({ isLoading: true })
-    ipcRefreshFeeds().then(updatedTagFeeds => {
+    ipcRefreshFeeds().then(async (updatedTagFeeds) => {
+      const today = await getToday()
       this.setState({
         isLoading: false,
-        tagFeeds: updatedTagFeeds
+        tagFeeds: updatedTagFeeds,
+        today: today
       })
     })
   }
@@ -112,6 +119,7 @@ export default class Index extends React.Component<{}, IndexState> {
               <Sidebar
                 loadArticle={this.setArticleId.bind(this)}
                 tagFeeds={this.state.tagFeeds}
+                today={this.state.today}
                 refreshFeed={feedId => this.refreshFeed(feedId)} />
             </Grid>
 
