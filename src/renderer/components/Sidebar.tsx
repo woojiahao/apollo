@@ -22,7 +22,8 @@ type SidebarState = {
   }
   articleContextMenu: {
     mouseX: number,
-    mouseY: number
+    mouseY: number,
+    articleId: number
   }
 }
 
@@ -97,26 +98,36 @@ export default class Sidebar extends React.Component<SidebarProps, SidebarState>
     }
   }
 
-  handleContextMenu(e: React.MouseEvent, isFeed: boolean) {
-    if (!isFeed) {
-      this.setState({
-        articleContextMenu: { mouseX: e.clientX - 2, mouseY: e.clientY - 4 }
-      })
-    }
-  }
-
-  handleFeedContextMenu(e: React.MouseEvent, feedId: number) {
+  handleContextMenu(e: React.MouseEvent, type: 'feed' | 'article', id: number) {
     e.preventDefault()
     e.stopPropagation()
     e.nativeEvent.stopImmediatePropagation()
 
-    this.setState({
-      feedContextMenu: {
-        mouseX: e.clientX - 2,
-        mouseY: e.clientY - 4,
-        feedId
-      }
-    })
+    const mouseX = e.clientX - 2
+    const mouseY = e.clientY - 4
+
+    switch (type) {
+      case 'feed':
+        this.setState({
+          feedContextMenu: {
+            mouseX,
+            mouseY,
+            feedId: id
+          },
+          articleContextMenu: null
+        })
+        break
+      case 'article':
+        this.setState({
+          articleContextMenu: {
+            mouseX,
+            mouseY,
+            articleId: id
+          },
+          feedContextMenu: null
+        })
+        break
+    }
   }
 
   refreshFeed() {
@@ -143,7 +154,7 @@ export default class Sidebar extends React.Component<SidebarProps, SidebarState>
                 <CustomTreeItem
                   nodeId={`${counter++}`}
                   key={feedTitle + counter.toString()}
-                  onContextMenu={e => this.handleFeedContextMenu(e, feedId)}
+                  onContextMenu={e => this.handleContextMenu(e, 'feed', feedId)}
                   label={feedTitle}>
                   {articles.map(({ articleTitle, articleId }) => {
                     return (
@@ -151,7 +162,7 @@ export default class Sidebar extends React.Component<SidebarProps, SidebarState>
                         key={feedTitle + articleTitle + counter.toString()}
                         label={articleTitle}
                         onClick={() => this.props.loadArticle(articleId)}
-                        onContextMenu={e => this.handleContextMenu(e, false)} />
+                        onContextMenu={e => this.handleContextMenu(e, 'article', articleId)} />
                     )
                   })}
                 </CustomTreeItem>
