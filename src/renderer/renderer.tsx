@@ -33,7 +33,7 @@ export default class Index extends React.Component<{}, IndexState> {
   }
 
   async componentDidMount() {
-    await this.refreshTagFeeds()
+    await this.refreshFeeds()
   }
 
   setArticleId(articleId: number) {
