@@ -16,10 +16,7 @@ type FeedProps = {
 const theme = createTheme({
   typography: {
     fontFamily: [
-      'Noto Sans',
       'Noto Serif',
-      'Roboto',
-      'Open Sans',
       'serif'
     ].join(',')
   }
