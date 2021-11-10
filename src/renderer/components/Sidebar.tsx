@@ -136,7 +136,7 @@ export default class Sidebar extends React.Component<SidebarProps, SidebarState>
   }
 
   render() {
-    let counter = 4
+    let counter = 3
     return (
       <Box>
         <TreeView aria-label="navigation"
@@ -148,28 +148,6 @@ export default class Sidebar extends React.Component<SidebarProps, SidebarState>
 
           <Typography>Feed</Typography>
 
-          <CustomTreeItem nodeId="3" key="All" label="All">
-            {Object.values(this.props.tagFeeds).reduce((acc, cur) => acc.concat(cur), []).map(({ feedId, feedTitle, rssUrl, articles }) => {
-              return (
-                <CustomTreeItem
-                  nodeId={`${counter++}`}
-                  key={feedTitle + counter.toString()}
-                  onContextMenu={e => this.handleContextMenu(e, 'feed', feedId)}
-                  label={feedTitle}>
-                  {articles.map(({ articleTitle, articleId }) => {
-                    return (
-                      <CustomTreeItem nodeId={`${counter++}`}
-                        key={feedTitle + articleTitle + counter.toString()}
-                        label={articleTitle}
-                        onClick={() => this.props.loadArticle(articleId)}
-                        onContextMenu={e => this.handleContextMenu(e, 'article', articleId)} />
-                    )
-                  })}
-                </CustomTreeItem>
-              )
-            })}
-          </CustomTreeItem>
-
           {Object.entries(this.props.tagFeeds).map(([tag, feeds]) => {
             return (
               <div>
@@ -179,13 +157,14 @@ export default class Sidebar extends React.Component<SidebarProps, SidebarState>
                       <CustomTreeItem
                         nodeId={`${counter++}`}
                         key={feedTitle + counter.toString()}
-                        data-rssurl={rssUrl}
+                        onContextMenu={e => this.handleContextMenu(e, 'feed', feedId)}
                         label={feedTitle}>
                         {articles.map(({ articleTitle, articleId }) => {
                           return (
                             <CustomTreeItem nodeId={`${counter++}`}
                               key={feedTitle + articleTitle + counter.toString()}
                               label={articleTitle}
+                              onContextMenu={e => this.handleContextMenu(e, 'article', articleId)}
                               onClick={() => this.props.loadArticle(articleId)} />
                           )
                         })}
