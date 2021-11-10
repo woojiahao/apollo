@@ -1,5 +1,7 @@
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import TodayIcon from '@mui/icons-material/Today';
+import BookmarksIcon from '@mui/icons-material/Bookmarks';
 import TreeItem, { TreeItemContentProps, TreeItemProps, useTreeItem } from "@mui/lab/TreeItem";
 import TreeView from '@mui/lab/TreeView';
 import { Divider, Menu, MenuItem, Typography } from '@mui/material';
@@ -143,8 +145,8 @@ export default class Sidebar extends React.Component<SidebarProps, SidebarState>
           defaultCollapseIcon={<ExpandMoreIcon />}
           defaultExpandIcon={<ChevronRightIcon />}
           sx={{ height: `100%` }}>
-          <CustomTreeItem nodeId="1" key="Today" label="Today" />
-          <CustomTreeItem nodeId="2" key="Bookmarks" label="Bookmarks" />
+          <CustomTreeItem nodeId="1" key="Today" label="Today" icon={<TodayIcon />} />
+          <CustomTreeItem nodeId="2" key="Bookmarks" label="Bookmarks" icon={<BookmarksIcon />} />
 
           <Typography>Feed</Typography>
 
