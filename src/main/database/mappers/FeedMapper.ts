@@ -1,16 +1,13 @@
 import { RSS } from "../../rss/data";
 import Feed from "../entities/Feed";
-import ArticleMapper from "./ArticleMapper";
+import ArticleMapper, { SimpleArticle } from "./ArticleMapper";
 
 export type TagFeeds = {
   [tag: string]: {
     feedId: number
     feedTitle: string
     rssUrl: string
-    articles: {
-      articleTitle: string
-      articleId: number
-    }[]
+    articles: SimpleArticle[]
   }[]
 }
 
@@ -41,7 +38,11 @@ export default class FeedMapper {
       const articles = !f.articles ? [] : f.articles
         .sort((a, b) => b.publishedDate.getTime() - a.publishedDate.getTime())
       const simplifiedArticles = articles.map(a => {
-        return { articleTitle: a.articleTitle, articleId: a.articleId }
+        return {
+          articleTitle: a.articleTitle,
+          articleId: a.articleId,
+          isRead: a.isRead
+        }
       })
 
       tagFeeds[tag].push({

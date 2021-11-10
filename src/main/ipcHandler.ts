@@ -6,6 +6,7 @@ import GetTagFeedsHandler from "./handlers/GetTagFeedsHandler"
 import GetTagsHandler from "./handlers/GetTagsHandler"
 import GetTodayHandler from "./handlers/GetTodayHandler"
 import Handler from "./handlers/Handler"
+import ReadArticleHandler from "./handlers/ReadArticleHandler"
 import RefreshFeedHandler from "./handlers/RefreshFeedHandler"
 import RefreshFeedsHandler from "./handlers/RefreshFeedsHandler"
 
@@ -26,6 +27,7 @@ export default function registerHandlers() {
     'get-today': new GetTodayHandler(),
     'refresh-feeds': new RefreshFeedsHandler(),
     'refresh-feed': new RefreshFeedHandler(),
+    'read-article': new ReadArticleHandler()
   }
 
   Object.entries(handlers).forEach(([key, handler]) => {

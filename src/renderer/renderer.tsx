@@ -7,7 +7,7 @@ import AddFeedDialog from './components/AddFeedDialog'
 import Feed from './components/Feed'
 import Navigation from './components/Navigation'
 import Sidebar from './components/Sidebar'
-import { getTagFeeds, getToday, refreshFeed as ipcRefreshFeed, refreshFeeds as ipcRefreshFeeds } from './ipcInvoker'
+import { getTagFeeds, getToday, readArticle as ipcReadArticle, refreshFeed as ipcRefreshFeed, refreshFeeds as ipcRefreshFeeds } from './ipcInvoker'
 import './styles.css'
 
 type IndexState = {
@@ -81,6 +81,16 @@ export default class Index extends React.Component<{}, IndexState> {
     this.setState({ tagFeeds: updatedTagFeeds })
   }
 
+  async readArticle(articleId: number) {
+    /// TODO: Figure out if there's a less expensive way to read an article and update the state
+    const updatedTagFeeds = await ipcReadArticle(articleId)
+    const today = await getToday()
+    this.setState({
+      tagFeeds: updatedTagFeeds,
+      today: today
+    })
+  }
+
   render() {
     return (
       <ThemeProvider theme={globalTheme}>
@@ -120,7 +130,8 @@ export default class Index extends React.Component<{}, IndexState> {
                 loadArticle={this.setArticleId.bind(this)}
                 tagFeeds={this.state.tagFeeds}
                 today={this.state.today}
-                refreshFeed={feedId => this.refreshFeed(feedId)} />
+                refreshFeed={feedId => this.refreshFeed(feedId)}
+                readArticle={articleId => this.readArticle(articleId)} />
             </Grid>
 
             <Grid

@@ -52,3 +52,8 @@ export async function getToday() {
   const today = await invoke<SimpleArticle[]>('get-today')
   return today
 }
+
+export async function readArticle(articleId: number) {
+  const updatedTagFeeds = await invoke<TagFeeds>('read-article', articleId)
+  return updatedTagFeeds
+}

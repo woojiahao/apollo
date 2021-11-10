@@ -22,4 +22,13 @@ export default class ArticleRepository extends Repository<Article> {
       }
     })
   }
+
+  async readArticle(articleId: number) {
+    const article = await this.getArticle(articleId)
+    if (article !== null) {
+      const updatedArticle = Object.assign({}, article)
+      updatedArticle.isRead = true
+      this.save(updatedArticle)
+    }
+  }
 }

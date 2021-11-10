@@ -3,7 +3,8 @@ import Article from "../entities/Article";
 
 export type SimpleArticle = {
   articleId: number,
-  articleTitle: string
+  articleTitle: string,
+  isRead: boolean
 }
 
 export default class ArticleMapper {
@@ -36,7 +37,8 @@ export default class ArticleMapper {
   static toSimple(article: Article): SimpleArticle {
     return {
       articleId: article.articleId,
-      articleTitle: article.articleTitle
+      articleTitle: article.articleTitle,
+      isRead: article.isRead
     }
   }
 }

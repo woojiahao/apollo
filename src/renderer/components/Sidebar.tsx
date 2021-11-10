@@ -1,5 +1,6 @@
 import BookmarksIcon from '@mui/icons-material/Bookmarks';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import CircleIcon from '@mui/icons-material/Circle';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import TodayIcon from '@mui/icons-material/Today';
 import TreeItem, { TreeItemContentProps, TreeItemProps, useTreeItem } from "@mui/lab/TreeItem";
@@ -12,10 +13,11 @@ import { SimpleArticle } from '../../main/database/mappers/ArticleMapper';
 import { TagFeeds } from '../../main/database/mappers/FeedMapper';
 
 type SidebarProps = {
-  loadArticle: (articleId: number) => void,
-  tagFeeds: TagFeeds,
-  today: SimpleArticle[],
+  loadArticle: (articleId: number) => void
+  tagFeeds: TagFeeds
+  today: SimpleArticle[]
   refreshFeed: (feedId: number) => void
+  readArticle: (articleId: number) => void
 }
 
 type SidebarState = {
@@ -139,6 +141,11 @@ export default class Sidebar extends React.Component<SidebarProps, SidebarState>
     this.setState({ feedContextMenu: null })
   }
 
+  viewArticle(articleId: number) {
+    this.props.loadArticle(articleId)
+    this.props.readArticle(articleId)
+  }
+
   render() {
     let counter = 2
     return (
@@ -149,14 +156,18 @@ export default class Sidebar extends React.Component<SidebarProps, SidebarState>
           sx={{ height: `100%` }}>
 
           <CustomTreeItem nodeId="1" key="Today" label="Today" icon={<TodayIcon />}>
-            {this.props.today.map(({ articleId, articleTitle }) => {
+            {this.props.today.map(({ articleId, articleTitle, isRead }) => {
               console.log(articleId)
               return (
                 <CustomTreeItem
                   key={articleTitle + (counter + 1)}
                   nodeId={`${counter++}`}
                   label={articleTitle}
-                  onClick={() => this.props.loadArticle(articleId)} />
+                  endIcon={
+                    isRead ?
+                      <CircleIcon sx={{ color: 'green' }} fontSize='small' /> :
+                      <CircleIcon sx={{ color: 'red' }} fontSize='small' />}
+                  onClick={() => this.viewArticle(articleId)} />
               )
             })}
           </CustomTreeItem>
@@ -176,13 +187,17 @@ export default class Sidebar extends React.Component<SidebarProps, SidebarState>
                         key={feedTitle + counter.toString()}
                         onContextMenu={e => this.handleContextMenu(e, 'feed', feedId)}
                         label={feedTitle}>
-                        {articles.map(({ articleTitle, articleId }) => {
+                        {articles.map(({ articleTitle, articleId, isRead }) => {
                           return (
                             <CustomTreeItem nodeId={`${counter++}`}
                               key={feedTitle + articleTitle + counter.toString()}
                               label={articleTitle}
                               onContextMenu={e => this.handleContextMenu(e, 'article', articleId)}
-                              onClick={() => this.props.loadArticle(articleId)} />
+                              endIcon={
+                                isRead ?
+                                  <CircleIcon sx={{ color: 'green' }} /> :
+                                  <CircleIcon sx={{ color: 'red' }} />}
+                              onClick={() => this.viewArticle(articleId)} />
                           )
                         })}
                       </CustomTreeItem>
