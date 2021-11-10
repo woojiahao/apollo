@@ -1,11 +1,11 @@
 import { getCustomRepository } from "typeorm";
 import FeedMapper from "../database/mappers/FeedMapper";
 import FeedRepository from "../database/repositories/FeedRepository";
-import { RSS } from "../rss/data";
+import { TagFeeds } from "../database/mappers/FeedMapper"
 import Handler from "./Handler";
 import { refreshFeed } from "./utility";
 
-export default class RefreshFeedHandler implements Handler<RSS.TagFeeds> {
+export default class RefreshFeedHandler implements Handler<TagFeeds> {
   async handle(feedId: number) {
     const feedRepository = getCustomRepository(FeedRepository)
     const feed = await feedRepository.getFeed(feedId)

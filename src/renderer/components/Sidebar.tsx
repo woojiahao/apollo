@@ -9,11 +9,11 @@ import Box from '@mui/material/Box';
 import clsx from 'clsx';
 import React from "react";
 import { SimpleArticle } from '../../main/database/mappers/ArticleMapper';
-import { RSS } from '../../main/rss/data';
+import { TagFeeds } from '../../main/database/mappers/FeedMapper';
 
 type SidebarProps = {
   loadArticle: (articleId: number) => void,
-  tagFeeds: RSS.TagFeeds,
+  tagFeeds: TagFeeds,
   today: SimpleArticle[],
   refreshFeed: (feedId: number) => void
 }

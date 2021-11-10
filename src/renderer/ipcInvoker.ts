@@ -5,6 +5,7 @@
 import { ipcRenderer } from "electron";
 import Feed from "../main/database/entities/Feed";
 import { SimpleArticle } from "../main/database/mappers/ArticleMapper";
+import { TagFeeds } from "../main/database/mappers/FeedMapper";
 import { RSS } from "../main/rss/data";
 
 async function invoke<T>(action: string, ...args: any[]): Promise<T> {
@@ -26,8 +27,8 @@ export async function getTags(): Promise<string[]> {
   return results
 }
 
-export async function getTagFeeds(): Promise<RSS.TagFeeds> {
-  const tagFeeds: RSS.TagFeeds = await invoke('get-tag-feeds')
+export async function getTagFeeds(): Promise<TagFeeds> {
+  const tagFeeds: TagFeeds = await invoke('get-tag-feeds')
   return tagFeeds
 }
 
@@ -37,13 +38,13 @@ export async function addFeed(rawFeed: RSS.Feed, feedUrl: string, tagName: strin
   return newFeed
 }
 
-export async function refreshFeeds(): Promise<RSS.TagFeeds> {
-  const tagFeeds: RSS.TagFeeds = await invoke('refresh-feeds')
+export async function refreshFeeds(): Promise<TagFeeds> {
+  const tagFeeds: TagFeeds = await invoke('refresh-feeds')
   return tagFeeds
 }
 
 export async function refreshFeed(feedId: number) {
-  const tagFeeds = await invoke<RSS.TagFeeds>('refresh-feed', feedId)
+  const tagFeeds = await invoke<TagFeeds>('refresh-feed', feedId)
   return tagFeeds
 }
 

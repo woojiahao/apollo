@@ -1,11 +1,12 @@
 import { Autocomplete, Box, Button, createFilterOptions, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, LinearProgress, TextField, Typography } from "@mui/material";
 import React from "react";
+import { TagFeeds } from "../../main/database/mappers/FeedMapper";
 import { RSS } from "../../main/rss/data";
 import { addFeed, getFeed } from "../ipcInvoker";
 
 type AddFeedDialogProps = {
   open: boolean
-  tagFeeds: RSS.TagFeeds
+  tagFeeds: TagFeeds
   onClose: () => void
 }
 

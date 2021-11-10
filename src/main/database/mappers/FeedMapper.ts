@@ -2,6 +2,18 @@ import { RSS } from "../../rss/data";
 import Feed from "../entities/Feed";
 import ArticleMapper from "./ArticleMapper";
 
+export type TagFeeds = {
+  [tag: string]: {
+    feedId: number
+    feedTitle: string
+    rssUrl: string
+    articles: {
+      articleTitle: string
+      articleId: number
+    }[]
+  }[]
+}
+
 export default class FeedMapper {
   static fromRSSFeed(rssFeed: RSS.Feed, rssUrl: string): Feed {
     const feed = new Feed()
@@ -15,8 +27,8 @@ export default class FeedMapper {
     return feed
   }
 
-  static toTagFeeds(feeds: Feed[]): RSS.TagFeeds {
-    const tagFeeds: RSS.TagFeeds = {}
+  static toTagFeeds(feeds: Feed[]): TagFeeds {
+    const tagFeeds: TagFeeds = {}
 
     for (const f of feeds) {
       const tag = !f.tag ? 'Uncategorized' : f.tag.tagName

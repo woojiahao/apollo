@@ -2,7 +2,7 @@ import { Box, CircularProgress, createTheme, CssBaseline, Grid, Modal, ThemeProv
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'
 import { SimpleArticle } from '../main/database/mappers/ArticleMapper'
-import { RSS } from '../main/rss/data'
+import { TagFeeds } from '../main/database/mappers/FeedMapper'
 import AddFeedDialog from './components/AddFeedDialog'
 import Feed from './components/Feed'
 import Navigation from './components/Navigation'
@@ -12,7 +12,7 @@ import './styles.css'
 
 type IndexState = {
   articleId: number,
-  tagFeeds: RSS.TagFeeds,
+  tagFeeds: TagFeeds,
   today: SimpleArticle[],
   isAddFeedDialogOpen: boolean,
   isLoading: boolean
