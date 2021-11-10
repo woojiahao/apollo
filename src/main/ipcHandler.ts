@@ -5,6 +5,7 @@ import GetFeedHandler from "./handlers/GetFeedHandler"
 import GetTagFeedsHandler from "./handlers/GetTagFeedsHandler"
 import GetTagsHandler from "./handlers/GetTagsHandler"
 import Handler from "./handlers/Handler"
+import RefreshFeedHandler from "./handlers/RefreshFeedHandler"
 import RefreshFeedsHandler from "./handlers/RefreshFeedsHandler"
 
 /**
@@ -21,7 +22,8 @@ export default function registerHandlers() {
     'add-feed': new AddFeedHandler(),
     'get-tags': new GetTagsHandler(),
     'get-tag-feeds': new GetTagFeedsHandler(),
-    'refresh-feeds': new RefreshFeedsHandler()
+    'refresh-feeds': new RefreshFeedsHandler(),
+    'refresh-feed': new RefreshFeedHandler()
   }
 
   Object.entries(handlers).forEach(([key, handler]) => {

@@ -10,4 +10,15 @@ export default class FeedRepository extends Repository<Feed> {
     })
     return availableFeeds
   }
+
+  getFeed(feedId: number): Promise<Feed> {
+    const feed = this.findOne({
+      where: {
+        deletedOn: IsNull(),
+        feedId: feedId
+      },
+      relations: ['tag', 'articles']
+    })
+    return feed
+  }
 }

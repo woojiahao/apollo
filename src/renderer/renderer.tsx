@@ -59,8 +59,8 @@ export default class Index extends React.Component<{}, IndexState> {
     })
   }
 
-  async refreshFeed(rssUrl: string) {
-    const updatedTagFeeds = await ipcRefreshFeed(rssUrl)
+  async refreshFeed(feedId: number) {
+    const updatedTagFeeds = await ipcRefreshFeed(feedId)
     this.setState({ tagFeeds: updatedTagFeeds })
   }
 
@@ -100,7 +100,7 @@ export default class Index extends React.Component<{}, IndexState> {
             <Sidebar
               loadArticle={this.setArticleId.bind(this)}
               tagFeeds={this.state.tagFeeds}
-              refreshFeed={rssUrl => this.refreshFeed(rssUrl)} />
+              refreshFeed={feedId => this.refreshFeed(feedId)} />
           </Grid>
 
           <Grid

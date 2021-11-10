@@ -11,13 +11,14 @@ import { RSS } from '../../main/rss/data';
 type SidebarProps = {
   loadArticle: (articleId: number) => void,
   tagFeeds: RSS.TagFeeds,
-  refreshFeed: (rssUrl: string) => void
+  refreshFeed: (feedId: number) => void
 }
 
 type SidebarState = {
   feedContextMenu: {
     mouseX: number,
-    mouseY: number
+    mouseY: number,
+    feedId: number
   }
   articleContextMenu: {
     mouseX: number,
@@ -97,31 +98,30 @@ export default class Sidebar extends React.Component<SidebarProps, SidebarState>
   }
 
   handleContextMenu(e: React.MouseEvent, isFeed: boolean) {
+    if (!isFeed) {
+      this.setState({
+        articleContextMenu: { mouseX: e.clientX - 2, mouseY: e.clientY - 4 }
+      })
+    }
+  }
+
+  handleFeedContextMenu(e: React.MouseEvent, feedId: number) {
     e.preventDefault()
     e.stopPropagation()
     e.nativeEvent.stopImmediatePropagation()
 
-    if (isFeed) {
-      this.setState({
-        feedContextMenu: {
-          mouseX: e.clientX - 2,
-          mouseY: e.clientY - 4
-        }
-      })
-    } else {
-      this.setState({
-        articleContextMenu: {
-          mouseX: e.clientX - 2,
-          mouseY: e.clientY - 4
-        }
-      })
-    }
+    this.setState({
+      feedContextMenu: {
+        mouseX: e.clientX - 2,
+        mouseY: e.clientY - 4,
+        feedId
+      }
+    })
+  }
 
-    console.log('opening feed context menu')
-    console.log(e)
-
-    const selectedFeedItem = e.target
-    console.log(selectedFeedItem)
+  refreshFeed() {
+    this.props.refreshFeed(this.state.feedContextMenu.feedId)
+    this.setState({ feedContextMenu: null })
   }
 
   render() {
@@ -138,13 +138,12 @@ export default class Sidebar extends React.Component<SidebarProps, SidebarState>
           <Typography>Feed</Typography>
 
           <CustomTreeItem nodeId="3" key="All" label="All">
-            {Object.values(this.props.tagFeeds).reduce((acc, cur) => acc.concat(cur), []).map(({ feedTitle, rssUrl, articles }) => {
+            {Object.values(this.props.tagFeeds).reduce((acc, cur) => acc.concat(cur), []).map(({ feedId, feedTitle, rssUrl, articles }) => {
               return (
                 <CustomTreeItem
                   nodeId={`${counter++}`}
                   key={feedTitle + counter.toString()}
-                  data-rssurl={rssUrl}
-                  onContextMenu={e => this.handleContextMenu(e, true)}
+                  onContextMenu={e => this.handleFeedContextMenu(e, feedId)}
                   label={feedTitle}>
                   {articles.map(({ articleTitle, articleId }) => {
                     return (
@@ -164,7 +163,7 @@ export default class Sidebar extends React.Component<SidebarProps, SidebarState>
             return (
               <div>
                 <CustomTreeItem key={tag} nodeId={`${counter++}`} label={tag}>
-                  {feeds.map(({ feedTitle, rssUrl, articles }) => {
+                  {feeds.map(({ feedId, feedTitle, rssUrl, articles }) => {
                     return (
                       <CustomTreeItem
                         nodeId={`${counter++}`}
@@ -193,7 +192,7 @@ export default class Sidebar extends React.Component<SidebarProps, SidebarState>
           onClose={() => this.setState({ feedContextMenu: null })}
           anchorReference="anchorPosition"
           anchorPosition={this.state.feedContextMenu ? { top: this.state.feedContextMenu.mouseY, left: this.state.feedContextMenu.mouseX } : undefined}>
-          <MenuItem onClick={() => this.props.refreshFeed('https://woojiahao.github.io/rss.xml')}>Refresh Feed</MenuItem>
+          <MenuItem onClick={() => this.refreshFeed()}>Refresh Feed</MenuItem>
           <MenuItem>Rename Feed</MenuItem>
           <MenuItem>Edit Feed Update Interval</MenuItem>
           <Divider />

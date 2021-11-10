@@ -56,6 +56,7 @@ export namespace RSS {
 
   export type TagFeeds = {
     [tag: string]: {
+      feedId: number
       feedTitle: string
       rssUrl: string
       articles: {

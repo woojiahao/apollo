@@ -41,7 +41,7 @@ export async function refreshFeeds(): Promise<RSS.TagFeeds> {
   return tagFeeds
 }
 
-export async function refreshFeed(rssUrl: string): Promise<RSS.TagFeeds> {
-  const tagFeeds: RSS.TagFeeds = await invoke('refresh-feed', rssUrl)
+export async function refreshFeed(feedId: number): Promise<RSS.TagFeeds> {
+  const tagFeeds: RSS.TagFeeds = await invoke('refresh-feed', feedId)
   return tagFeeds
 }

@@ -32,7 +32,12 @@ export default class FeedMapper {
         return { articleTitle: a.articleTitle, articleId: a.articleId }
       })
 
-      tagFeeds[tag].push({ feedTitle, rssUrl, articles: simplifiedArticles })
+      tagFeeds[tag].push({
+        feedId: f.feedId,
+        feedTitle,
+        rssUrl,
+        articles: simplifiedArticles
+      })
     }
 
     if (!('Uncategorized' in tagFeeds)) {
