@@ -42,7 +42,7 @@ export function setupDatabase() {
           Bookmark
         ],
         synchronize: true,
-        logging: ['query', 'error']
+        logging: ['error']
       })
       console.log('Database connection created')
     } catch (e) {

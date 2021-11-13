@@ -1,4 +1,5 @@
 const HtmlWebpackConfigPlugin = require('html-webpack-plugin')
+const CopyPlugin = require('copy-webpack-plugin')
 const {
   IgnorePlugin
 } = require('webpack')
@@ -26,6 +27,12 @@ module.exports = [{
     plugins: [
       new IgnorePlugin({
         resourceRegExp: /^pg-native$/
+      }),
+      new CopyPlugin({
+        patterns: [{
+          from: 'public/icons',
+          to: '.'
+        }]
       })
     ]
   },
