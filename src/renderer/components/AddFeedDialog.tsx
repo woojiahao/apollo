@@ -97,7 +97,9 @@ export default class AddFeedDialog extends React.Component<AddFeedDialogProps, A
 
     return (
       // TODO: Add error handling to reset the state of the dialog
-      <Dialog open={this.props.open} onClose={() => this.props.onClose()}>
+      <Dialog open={this.props.open} onClose={(_, reason) => {
+        if (reason !== 'backdropClick') return this.props.onClose()
+      }} disableEscapeKeyDown>
         <DialogTitle>Add Feed</DialogTitle>
 
         <DialogContent>

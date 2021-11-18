@@ -5,4 +5,4 @@ export default class LoadFeedError extends Error {
     super('Failed to load feed. Ensure your URL is a valid RSS URL')
     this.baseError = baseError
   }
-}:w
+}
