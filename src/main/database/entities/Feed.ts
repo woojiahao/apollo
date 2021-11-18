@@ -8,6 +8,10 @@ export default class Feed {
   @PrimaryGeneratedColumn()
   public feedId: number
 
+  /// Original RSS link provided by user
+  @Column({ nullable: false, unique: true })
+  public rssUrl: string
+
   @Column({ nullable: false })
   public feedTitle: string
 
@@ -17,10 +21,6 @@ export default class Feed {
   /// Link provided by the server
   @Column({ nullable: false })
   public feedUrl: string
-
-  /// Original RSS link provided by user
-  @Column({ nullable: false })
-  public rssUrl: string
 
   @Column({ nullable: true })
   public lastUpdate: Date | null

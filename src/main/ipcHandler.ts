@@ -1,4 +1,5 @@
 import { ipcMain } from "electron"
+import DatabseError from "./errors/DatabaseError"
 import AddFeedHandler from "./handlers/AddFeedHandler"
 import GetArticleHandler from "./handlers/GetArticleHandler"
 import GetFeedHandler from "./handlers/GetFeedHandler"
@@ -31,6 +32,15 @@ export default function registerHandlers() {
   }
 
   Object.entries(handlers).forEach(([key, handler]) => {
-    ipcMain.handle(key, async (_e, ...args) => handler.handle(...args))
+    ipcMain.handle(key, async (_e, ...args) => {
+      try {
+        const result = await handler.handle(...args)
+        return result
+      } catch (e) {
+        if (e instanceof DatabseError) console.error(e.print())
+        else console.error('Error occurred with handler ', e)
+        return e
+      }
+    })
   })
 }

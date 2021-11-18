@@ -39,7 +39,6 @@ if (!gotTheLock) {
 }
 
 function initializeWindow() {
-  console.log(__dirname)
   window = new BrowserWindow({
     minWidth: 1200,
     minHeight: 800,
@@ -52,7 +51,6 @@ function initializeWindow() {
   })
 
   window.on('close', e => {
-    console.log('closing window')
     e.preventDefault()
     window.hide()
   })
@@ -79,6 +77,8 @@ function initializeSystemTray() {
     }, {
       label: 'Quit',
       click: function () {
+        /// TODO: Properly handle last minute changes/downloads - can experiment with work queues to check if there's any pending tasks
+        /// This can be done with ipcInvoker.ts since it will be the one sending messages to the backend which handles the tasks
         window.close()
         app.exit()
       }

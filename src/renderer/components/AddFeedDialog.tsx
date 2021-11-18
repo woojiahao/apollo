@@ -55,9 +55,9 @@ export default class AddFeedDialog extends React.Component<AddFeedDialogProps, A
     const updatedFeedWithName: RSS.Feed = Object.assign({}, this.state.feed)
     updatedFeedWithName.title = this.state.feedName
     const tag = this.state.feedTag === 'Uncategorized' ? null : this.state.feedTag
-    addFeed(updatedFeedWithName, this.state.feedUrl, tag).then(newFeed => {
-      this.closeDialog()
-    })
+    addFeed(updatedFeedWithName, this.state.feedUrl, tag)
+      .then(newFeed => { this.closeDialog() })
+      .catch(e => { console.log(e) })
   }
 
   closeDialog() {

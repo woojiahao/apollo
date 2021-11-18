@@ -9,7 +9,9 @@ import { TagFeeds } from "../main/database/mappers/FeedMapper";
 import { RSS } from "../main/rss/data";
 
 async function invoke<T>(action: string, ...args: any[]): Promise<T> {
-  return await ipcRenderer.invoke(action, ...args) as T
+  const result: T | Error = await ipcRenderer.invoke(action, ...args)
+  if (result instanceof Error) throw result
+  return result as T
 }
 
 export async function getFeed(feedUrl: string): Promise<RSS.Feed> {
@@ -32,10 +34,9 @@ export async function getTagFeeds(): Promise<TagFeeds> {
   return tagFeeds
 }
 
-export async function addFeed(rawFeed: RSS.Feed, feedUrl: string, tagName: string | null): Promise<Feed> {
+export function addFeed(rawFeed: RSS.Feed, feedUrl: string, tagName: string | null): Promise<Feed> {
   // TODO: Experiment if two separate ipc calls create lag?
-  const newFeed: Feed = await invoke('add-feed', rawFeed, feedUrl, tagName)
-  return newFeed
+  return invoke('add-feed', rawFeed, feedUrl, tagName)
 }
 
 export async function refreshFeeds(): Promise<TagFeeds> {

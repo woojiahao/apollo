@@ -21,4 +21,14 @@ export default class FeedRepository extends Repository<Feed> {
     })
     return feed
   }
+
+  async hasFeed(rssUrl: string): Promise<boolean> {
+    const [_, feedCount] = await this.findAndCount({
+      where: {
+        deletedOn: IsNull(),
+        rssUrl: rssUrl
+      }
+    })
+    return feedCount > 0
+  }
 }
