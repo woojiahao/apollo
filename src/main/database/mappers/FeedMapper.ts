@@ -35,13 +35,12 @@ export default class FeedMapper {
         tagFeeds[tag] = []
       }
 
-      const articles = !f.articles ? [] : f.articles
-        .sort((a, b) => b.publishedDate.getTime() - a.publishedDate.getTime())
-      const simplifiedArticles = articles.map(a => {
+      const simplifiedArticles = f.articles.map(a => {
         return {
           articleTitle: a.articleTitle,
           articleId: a.articleId,
-          isRead: a.isRead
+          isRead: a.isRead,
+          isBookmark: a.bookmark !== null
         }
       })
 

@@ -12,6 +12,16 @@ import React from "react";
 import { SimpleArticle } from '../../main/database/mappers/ArticleMapper';
 import { TagFeeds } from '../../main/database/mappers/FeedMapper';
 
+declare module "@mui/lab/TreeItem" {
+  interface TreeItemContentProps {
+    isread?: string
+  }
+
+  interface TreeItemProps {
+    isread?: string
+  }
+}
+
 type SidebarProps = {
   loadArticle: (articleId: number) => void
   tagFeeds: TagFeeds
@@ -43,7 +53,8 @@ const CustomContent = React.forwardRef(function CustomContent(props: TreeItemCon
     expansionIcon,
     displayIcon,
     onContextMenu,
-    onClick
+    onClick,
+    isread
   } = props
 
   const {
@@ -65,6 +76,9 @@ const CustomContent = React.forwardRef(function CustomContent(props: TreeItemCon
     handleExpansion(event);
   }
 
+  const isRead = isread === undefined ? "true" : isread
+  console.log(classes)
+
   return (
     // eslint-disable-next-line jsx-a11y/no-static-element-interactions
     <div
@@ -83,8 +97,7 @@ const CustomContent = React.forwardRef(function CustomContent(props: TreeItemCon
       <Typography
         onClick={onClick}
         onContextMenu={onContextMenu}
-        component="div"
-        className={classes.label}>
+        fontWeight={isRead.toString() === 'false' ? "fontWeightBold" : "fontWeightNormal"}>
         {label}
       </Typography>
     </div>
@@ -92,7 +105,7 @@ const CustomContent = React.forwardRef(function CustomContent(props: TreeItemCon
 })
 
 const CustomTreeItem = (props: TreeItemProps) => (
-  <TreeItem ContentComponent={CustomContent} {...props} />
+  <TreeItem ContentComponent={CustomContent} ContentProps={{ isread: props.isread } as any} {...props} />
 )
 
 export default class Sidebar extends React.Component<SidebarProps, SidebarState> {
@@ -187,16 +200,14 @@ export default class Sidebar extends React.Component<SidebarProps, SidebarState>
                         key={feedTitle + counter.toString()}
                         onContextMenu={e => this.handleContextMenu(e, 'feed', feedId)}
                         label={feedTitle}>
-                        {articles.map(({ articleTitle, articleId, isRead }) => {
+                        {articles.map(({ articleTitle, articleId, isRead, isBookmark }) => {
                           return (
-                            <CustomTreeItem nodeId={`${counter++}`}
+                            <CustomTreeItem
+                              nodeId={`${counter++}`}
                               key={feedTitle + articleTitle + counter.toString()}
                               label={articleTitle}
                               onContextMenu={e => this.handleContextMenu(e, 'article', articleId)}
-                              endIcon={
-                                isRead ?
-                                  <CircleIcon sx={{ color: 'green' }} /> :
-                                  <CircleIcon sx={{ color: 'red' }} />}
+                              isread={isRead.toString()}
                               onClick={() => this.viewArticle(articleId)} />
                           )
                         })}

@@ -116,7 +116,7 @@ export default class AddFeedDialog extends React.Component<AddFeedDialogProps, A
             margin="normal"
             variant="outlined"
             disabled={this.state.isFinalStep}
-            sx={{ width: 400 }}
+            sx={{ width: 500 }}
             onChange={e => { this.setState({ feedUrl: e.target.value }) }} />
 
           <Box style={{ display: this.state.isFinalStep ? `block` : `none` }}>
@@ -130,7 +130,7 @@ export default class AddFeedDialog extends React.Component<AddFeedDialogProps, A
               variant="outlined"
               value={this.state.feedName}
               disabled={!this.state.isFinalStep}
-              sx={{ width: 400 }}
+              sx={{ width: 500 }}
               onChange={e => { this.setState({ feedName: e.target.value }) }} />
 
             <Autocomplete
@@ -158,7 +158,7 @@ export default class AddFeedDialog extends React.Component<AddFeedDialogProps, A
               options={Object.keys(this.props.tagFeeds)}
               getOptionLabel={option => option}
               renderOption={(props, option) => <li {...props}>{option}</li>}
-              sx={{ width: 400 }}
+              sx={{ width: 500 }}
               freeSolo
               renderInput={(params) => (
                 <TextField {...params} label="Tag Select" />

@@ -4,7 +4,8 @@ import Article from "../entities/Article";
 export type SimpleArticle = {
   articleId: number,
   articleTitle: string,
-  isRead: boolean
+  isRead: boolean,
+  isBookmark: boolean
 }
 
 export default class ArticleMapper {
@@ -38,7 +39,8 @@ export default class ArticleMapper {
     return {
       articleId: article.articleId,
       articleTitle: article.articleTitle,
-      isRead: article.isRead
+      isRead: article.isRead,
+      isBookmark: article.bookmark !== null
     }
   }
 }
