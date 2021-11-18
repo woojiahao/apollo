@@ -40,14 +40,22 @@ export default class AddFeedDialog extends React.Component<AddFeedDialogProps, A
       isLoading: true
     })
     const feedUrl = this.state.feedUrl
-    getFeed(feedUrl).then(feed => {
-      this.setState({
-        isLoading: false,
-        feed: feed,
-        feedName: feed.title,
-        isFinalStep: true
+    getFeed(feedUrl)
+      .then(feed => {
+        this.setState({
+          isLoading: false,
+          isFinalStep: true,
+          feed: feed,
+          feedName: feed.title
+        })
       })
-    })
+      .catch(e => {
+        this.setState({
+          isLoading: false,
+          isFinalStep: false,
+          error: e.message
+        })
+      })
   }
 
   async addFeed() {

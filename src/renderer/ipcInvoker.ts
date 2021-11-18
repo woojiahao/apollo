@@ -14,9 +14,8 @@ async function invoke<T>(action: string, ...args: any[]): Promise<T> {
   return result as T
 }
 
-export async function getFeed(feedUrl: string): Promise<RSS.Feed> {
-  const feed: RSS.Feed = await invoke('get-feed', feedUrl)
-  return feed
+export function getFeed(feedUrl: string): Promise<RSS.Feed> {
+  return invoke('get-feed', feedUrl)
 }
 
 export async function getArticle(articleId: number): Promise<RSS.Item> {

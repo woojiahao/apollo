@@ -7,6 +7,7 @@
 import parse from 'node-html-parser'
 import Parser from "rss-parser"
 import { RSS } from './data'
+import LoadFeedError from '../errors/LoadFeedError'
 
 const rssParser = new Parser({
   customFields: {
@@ -15,14 +16,18 @@ const rssParser = new Parser({
 })
 
 export async function loadFeed(url: string): Promise<RSS.Feed> {
-  const feed = await rssParser.parseURL(url)
-  const parsedFeed = parseFeed(feed)
+  try {
+    const feed = await rssParser.parseURL(url)
+    const parsedFeed = parseFeed(feed)
 
-  /// Parse each article to resolve any relative image paths
-  const rootPath = parsedFeed.link
-  parsedFeed.items = parsedFeed.items.map(item => injectBase(rootPath, item))
+    /// Parse each article to resolve any relative image paths
+    const rootPath = parsedFeed.link
+    parsedFeed.items = parsedFeed.items.map(item => injectBase(rootPath, item))
 
-  return parsedFeed
+    return parsedFeed
+  } catch (e) {
+    throw new LoadFeedError(e)
+  }
 }
 
 function injectBase(rootPath: string, item: RSS.Item): RSS.Item {
