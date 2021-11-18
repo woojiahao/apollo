@@ -11,7 +11,7 @@ export default class FeedRepository extends Repository<Feed> {
       .innerJoinAndSelect('feed.tag', 'tag')
       .where('feed.deletedOn is null')
       .orderBy('article.isRead')
-      .addOrderBy('article.publishedDate')
+      .addOrderBy('article.articleId', 'ASC')
       .getMany()
     return availableFeeds
   }
