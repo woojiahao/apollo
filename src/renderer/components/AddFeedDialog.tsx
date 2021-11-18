@@ -17,6 +17,7 @@ type AddFeedDialogState = {
   feedName: string
   feedTag: string
   feed: RSS.Feed
+  error: string
 }
 
 export default class AddFeedDialog extends React.Component<AddFeedDialogProps, AddFeedDialogState> {
@@ -29,7 +30,8 @@ export default class AddFeedDialog extends React.Component<AddFeedDialogProps, A
       feedUrl: '',
       feedName: '',
       feedTag: '',
-      feed: undefined
+      feed: undefined,
+      error: undefined
     }
   }
 
@@ -57,7 +59,13 @@ export default class AddFeedDialog extends React.Component<AddFeedDialogProps, A
     const tag = this.state.feedTag === 'Uncategorized' ? null : this.state.feedTag
     addFeed(updatedFeedWithName, this.state.feedUrl, tag)
       .then(newFeed => { this.closeDialog() })
-      .catch(e => { console.log(e) })
+      .catch(e => {
+        this.setState({
+          isLoading: false,
+          isFinalStep: false,
+          error: e.message
+        })
+      })
   }
 
   closeDialog() {
@@ -68,7 +76,8 @@ export default class AddFeedDialog extends React.Component<AddFeedDialogProps, A
       feedUrl: '',
       feedName: '',
       feedTag: '',
-      feed: undefined
+      feed: undefined,
+      error: undefined
     })
 
     /// Parent component will handle the rest of the information
@@ -155,14 +164,18 @@ export default class AddFeedDialog extends React.Component<AddFeedDialogProps, A
             <LinearProgress />
           </Box>
 
+          <Box style={{ display: this.state.error ? `block` : `none` }}>
+            <Typography fontWeight="bold" color="red">{this.state.error}</Typography>
+          </Box>
+
         </DialogContent>
 
         <DialogActions>
           {/* TODO: Handle last minute cancellations */}
           <Button disabled={this.state.isLoading} onClick={() => this.closeDialog()}>Cancel</Button>
           {this.state.isFinalStep ?
-            <Button disabled={this.state.isLoading} onClick={() => this.addFeed()}>Done</Button> :
-            <Button disabled={this.state.isLoading} onClick={() => this.downloadFeed()}>Add</Button>}
+            <Button disabled={this.state.isLoading || this.state.error !== undefined} onClick={() => this.addFeed()}>Done</Button> :
+            <Button disabled={this.state.isLoading || this.state.error !== undefined} onClick={() => this.downloadFeed()}>Add</Button>}
         </DialogActions>
       </Dialog >
     )

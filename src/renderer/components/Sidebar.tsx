@@ -174,7 +174,7 @@ export default class Sidebar extends React.Component<SidebarProps, SidebarState>
 
           <CustomTreeItem nodeId={`${counter++}`} key="Bookmarks" label="Bookmarks" icon={<BookmarksIcon />} />
 
-          <Typography>Feed</Typography>
+          <Typography key="Feed">Feed</Typography>
 
           {Object.entries(this.props.tagFeeds).map(([tag, feeds]) => {
             return (
