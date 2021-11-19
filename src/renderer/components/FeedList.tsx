@@ -77,7 +77,6 @@ const CustomContent = React.forwardRef(function CustomContent(props: TreeItemCon
   }
 
   const isRead = isread === undefined ? "true" : isread
-  console.log(classes)
 
   return (
     // eslint-disable-next-line jsx-a11y/no-static-element-interactions
@@ -108,7 +107,7 @@ const CustomTreeItem = (props: TreeItemProps) => (
   <TreeItem ContentComponent={CustomContent} ContentProps={{ isread: props.isread } as any} {...props} />
 )
 
-export default class Sidebar extends React.Component<SidebarProps, SidebarState> {
+export default class FeedList extends React.Component<SidebarProps, SidebarState> {
   constructor(props: SidebarProps) {
     super(props)
     this.state = {

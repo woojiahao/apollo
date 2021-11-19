@@ -6,7 +6,7 @@ import { TagFeeds } from '../main/database/mappers/FeedMapper'
 import AddFeedDialog from './components/AddFeedDialog'
 import Feed from './components/Feed'
 import Navigation from './components/Navigation'
-import Sidebar from './components/Sidebar'
+import FeedList from './components/FeedList'
 import { getTagFeeds, getToday, readArticle as ipcReadArticle, refreshFeed as ipcRefreshFeed, refreshFeeds as ipcRefreshFeeds } from './ipcInvoker'
 import './styles.css'
 
@@ -124,7 +124,7 @@ export default class Index extends React.Component<{}, IndexState> {
                 backgroundColor: `#FBFBFB`,
                 overflowY: 'auto'
               }}>
-              <Sidebar
+              <FeedList
                 loadArticle={this.setArticleId.bind(this)}
                 tagFeeds={this.state.tagFeeds}
                 today={this.state.today}
