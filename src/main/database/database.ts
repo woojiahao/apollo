@@ -1,6 +1,5 @@
 import { createConnection } from "typeorm";
 import Article from "./entities/Article";
-import Bookmark from "./entities/Bookmark";
 import Feed from "./entities/Feed";
 import Tag from "./entities/Tag";
 
@@ -39,7 +38,6 @@ export function setupDatabase() {
           Tag,
           Feed,
           Article,
-          Bookmark
         ],
         synchronize: true,
         logging: ['error']

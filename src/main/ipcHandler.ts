@@ -1,6 +1,7 @@
 import { ipcMain } from "electron"
 import DatabseError from "./errors/DatabaseError"
 import AddFeedHandler from "./handlers/AddFeedHandler"
+import BookmarkArticleHandler from "./handlers/BookmarkArticleHandler"
 import GetArticleHandler from "./handlers/GetArticleHandler"
 import GetFeedHandler from "./handlers/GetFeedHandler"
 import GetTagFeedsHandler from "./handlers/GetTagFeedsHandler"
@@ -28,7 +29,8 @@ export default function registerHandlers() {
     'get-today': new GetTodayHandler(),
     'refresh-feeds': new RefreshFeedsHandler(),
     'refresh-feed': new RefreshFeedHandler(),
-    'read-article': new ReadArticleHandler()
+    'read-article': new ReadArticleHandler(),
+    'bookmark-article': new BookmarkArticleHandler()
   }
 
   Object.entries(handlers).forEach(([key, handler]) => {

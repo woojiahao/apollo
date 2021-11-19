@@ -28,6 +28,7 @@ type SidebarProps = {
   today: SimpleArticle[]
   refreshFeed: (feedId: number) => void
   readArticle: (articleId: number) => void
+  bookmarkArticle: (articleId: number) => void
 }
 
 type SidebarState = {
@@ -93,9 +94,11 @@ const CustomContent = React.forwardRef(function CustomContent(props: TreeItemCon
       <div onClick={handleExpansionClick} className={classes.iconContainer}>
         {icon}
       </div>
+      {/* TODO: Devise new way of displaying unread articles */}
       <Typography
         onClick={onClick}
         onContextMenu={onContextMenu}
+        color={isRead.toString() === 'false' ? 'gray' : 'inherit'}
         fontWeight={isRead.toString() === 'false' ? "fontWeightBold" : "fontWeightNormal"}>
         {label}
       </Typography>
@@ -151,6 +154,10 @@ export default class FeedList extends React.Component<SidebarProps, SidebarState
   refreshFeed() {
     this.props.refreshFeed(this.state.feedContextMenu.feedId)
     this.setState({ feedContextMenu: null })
+  }
+
+  bookmarkArticle() {
+    this.props.bookmarkArticle(this.state.articleContextMenu.articleId)
   }
 
   viewArticle(articleId: number) {
@@ -236,7 +243,9 @@ export default class FeedList extends React.Component<SidebarProps, SidebarState
           onClose={() => this.setState({ articleContextMenu: null })}
           anchorReference="anchorPosition"
           anchorPosition={this.state.articleContextMenu ? { top: this.state.articleContextMenu.mouseY, left: this.state.articleContextMenu.mouseX } : undefined}>
-          <MenuItem>Bookmark</MenuItem>
+          <MenuItem onClick={() => this.bookmarkArticle()}>
+            Bookmark
+          </MenuItem>
           <Divider />
           <MenuItem>Mark as Read</MenuItem>
         </Menu>

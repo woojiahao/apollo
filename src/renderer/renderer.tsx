@@ -5,9 +5,9 @@ import { SimpleArticle } from '../main/database/mappers/ArticleMapper'
 import { TagFeeds } from '../main/database/mappers/FeedMapper'
 import AddFeedDialog from './components/AddFeedDialog'
 import Feed from './components/Feed'
-import Navigation from './components/Navigation'
 import FeedList from './components/FeedList'
-import { getTagFeeds, getToday, readArticle as ipcReadArticle, refreshFeed as ipcRefreshFeed, refreshFeeds as ipcRefreshFeeds } from './ipcInvoker'
+import Navigation from './components/Navigation'
+import { bookmarkArticle as ipcBookmarkArticle, getTagFeeds, getToday, readArticle as ipcReadArticle, refreshFeed as ipcRefreshFeed, refreshFeeds as ipcRefreshFeeds } from './ipcInvoker'
 import './styles.css'
 
 type IndexState = {
@@ -89,6 +89,15 @@ export default class Index extends React.Component<{}, IndexState> {
     })
   }
 
+  async bookmarkArticle(articleId: number) {
+    const updatedTagFeeds = await ipcBookmarkArticle(articleId)
+    const updatedToday = await getToday()
+    this.setState({
+      tagFeeds: updatedTagFeeds,
+      today: updatedToday
+    })
+  }
+
   render() {
     return (
       <ThemeProvider theme={globalTheme}>
@@ -129,7 +138,8 @@ export default class Index extends React.Component<{}, IndexState> {
                 tagFeeds={this.state.tagFeeds}
                 today={this.state.today}
                 refreshFeed={feedId => this.refreshFeed(feedId)}
-                readArticle={articleId => this.readArticle(articleId)} />
+                readArticle={articleId => this.readArticle(articleId)}
+                bookmarkArticle={articleId => this.bookmarkArticle(articleId)} />
             </Grid>
 
             <Grid

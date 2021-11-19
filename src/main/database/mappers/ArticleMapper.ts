@@ -40,7 +40,7 @@ export default class ArticleMapper {
       articleId: article.articleId,
       articleTitle: article.articleTitle,
       isRead: article.isRead,
-      isBookmark: article.bookmark !== null
+      isBookmark: article.isBookmark
     }
   }
 }

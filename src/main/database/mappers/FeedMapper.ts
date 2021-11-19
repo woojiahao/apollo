@@ -40,7 +40,7 @@ export default class FeedMapper {
           articleTitle: a.articleTitle,
           articleId: a.articleId,
           isRead: a.isRead,
-          isBookmark: a.bookmark !== null
+          isBookmark: a.isBookmark
         }
       })
 

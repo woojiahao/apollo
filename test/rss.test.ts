@@ -2,7 +2,7 @@ import { RSS } from "../src/main/rss/data"
 
 const expect = require('chai').expect
 const nock = require('nock')
-const pullChanges = require('../src/backend/rss').pullChanges
+const pullChanges = require('../src/main/rss/rss').loadFeed
 const fs = require('fs')
 
 const expectDate = (date: Date, expectedDate: number, expectedMonth: number, expectedYear: number) => {

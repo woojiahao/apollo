@@ -1,5 +1,4 @@
-import { Column, CreateDateColumn, DeleteDateColumn, Entity, ManyToOne, OneToOne, PrimaryGeneratedColumn } from "typeorm";
-import Bookmark from "./Bookmark";
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import Feed from "./Feed";
 
 @Entity()
@@ -25,6 +24,9 @@ export default class Article {
   @Column({ nullable: false, default: false })
   public isRead: boolean
 
+  @Column({ nullable: false, default: false })
+  public isBookmark: boolean
+
   @CreateDateColumn({ update: false })
   public readonly addedOn: Date
 
@@ -33,7 +35,4 @@ export default class Article {
 
   @ManyToOne(() => Feed, feed => feed.articles)
   public feed: Feed
-
-  @OneToOne(() => Bookmark, bookmark => bookmark.article)
-  public bookmark: Bookmark
 }
