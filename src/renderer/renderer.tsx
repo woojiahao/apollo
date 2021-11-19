@@ -66,13 +66,11 @@ export default class Index extends React.Component<{}, IndexState> {
 
   async refreshFeeds() {
     this.setState({ isLoading: true })
-    ipcRefreshFeeds().then(async (updatedTagFeeds) => {
-      const today = await getToday()
-      this.setState({
-        isLoading: false,
-        tagFeeds: updatedTagFeeds,
-        today: today
-      })
+    const [updatedTagFeeds, updatedToday] = await Promise.all([ipcRefreshFeeds(), getToday()])
+    this.setState({
+      isLoading: false,
+      tagFeeds: updatedTagFeeds,
+      today: updatedToday
     })
   }
 
