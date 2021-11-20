@@ -10,6 +10,98 @@ import NavigationBar from './components/NavigationBar'
 import { bookmarkArticle as ipcBookmarkArticle, getTagFeeds, getToday, readArticle as ipcReadArticle, refreshFeeds as ipcRefreshFeeds } from './ipcInvoker'
 import './styles.css'
 
+declare module '@mui/material/styles' {
+  interface TypographyVariants {
+    appTitle: React.CSSProperties
+    sectionTitle: React.CSSProperties
+    wrapIcon: React.CSSProperties
+    wrapIconText: React.CSSProperties
+  }
+
+  interface TypographyVariantsOptions {
+    appTitle?: React.CSSProperties
+    sectionTitle?: React.CSSProperties
+    wrapIcon?: React.CSSProperties
+    wrapIconText?: React.CSSProperties
+  }
+}
+
+declare module '@mui/material/Typography' {
+  interface TypographyPropsVariantOverrides {
+    appTitle: true
+    sectionTitle: true
+    wrapIcon: true
+    wrapIconText: true
+  }
+}
+
+const headerFont = ['Rubik', 'Roboto', 'Lato', 'sans-serif'].join(',')
+const bodyFont = ['Lato', 'Roboto', 'sans-serif'].join(',')
+
+const globalTheme = createTheme({
+  palette: {
+    primary: {
+      main: '#2860CD',
+      light: '#98C5F9'
+    },
+    secondary: {
+      main: '#F5594F'
+    }
+  },
+  typography: {
+    fontFamily: bodyFont,
+    fontSize: 16,
+    h1: {
+      fontFamily: headerFont,
+      fontSize: 24
+    },
+    h2: {
+      fontFamily: headerFont,
+      fontSize: 22
+    },
+    h3: {
+      fontFamily: headerFont,
+      fontSize: 20
+    },
+    appTitle: {
+      color: '#98C5F9',
+      fontSize: 24,
+      fontWeight: 'bold',
+      letterSpacing: 6,
+      textTransform: 'uppercase',
+      fontFamily: headerFont
+    },
+    sectionTitle: {
+      color: '#FFFFFF',
+      fontSize: 20,
+      fontWeight: 'bold',
+      textTransform: 'uppercase',
+      fontFamily: headerFont
+    },
+    wrapIcon: {
+      display: 'flex',
+      flexDirection: 'row',
+      alignContent: 'center',
+      marginBottom: '0.8rem',
+      fill: '#FFFFFFF',
+      color: '#FFFFFF'
+    },
+    wrapIconText: {
+      marginLeft: '10px',
+      fontFamily: bodyFont,
+      fontSize: '1.2rem'
+    },
+    subtitle1: {
+      color: '#424242',
+      lineHeight: 1
+    },
+    subtitle2: {
+      color: '#424242',
+      lineHeight: 1
+    }
+  }
+})
+
 type IndexState = {
   feedId: number,
   articleId: number,
@@ -18,16 +110,6 @@ type IndexState = {
   isAddFeedDialogOpen: boolean,
   isLoading: boolean
 }
-
-const globalTheme = createTheme({
-  typography: {
-    fontFamily: [
-      'Open Sans',
-      'sans-serif'
-    ].join(','),
-    fontSize: 16
-  }
-})
 
 export default class Index extends React.Component<{}, IndexState> {
   constructor(props) {
@@ -114,12 +196,12 @@ export default class Index extends React.Component<{}, IndexState> {
 
             <Grid
               item
-              xs={3}
+              xs={2}
               sx={{
                 height: '100vh',
-                padding: '8px',
+                padding: '20px',
                 boxSizing: 'border-box',
-                backgroundColor: '#14213D',
+                backgroundColor: '#2860CD',
                 overflowY: 'auto'
               }}>
 
@@ -147,7 +229,7 @@ export default class Index extends React.Component<{}, IndexState> {
             <Grid item xs={3}
               sx={{
                 height: '100vh',
-                padding: '16px',
+                padding: '30px',
                 boxSizing: 'border-box',
                 backgroundColor: '#98C5F9',
                 overflowY: 'auto'

@@ -1,6 +1,5 @@
 import LabelIcon from '@mui/icons-material/Label';
 import { Divider, Menu, MenuItem, Theme, Typography } from "@mui/material";
-import { withStyles } from '@mui/styles';
 import { Box } from "@mui/system";
 import React from "react";
 import { TagFeeds } from '../../../main/database/mappers/FeedMapper';
@@ -56,13 +55,13 @@ export default class FeedList extends React.Component<FeedListProps, FeedListSta
         <Box className="feed-list">
           {Object.entries(this.props.feeds).map(([tag, feeds]) => {
             return (
-              <ul>
-                <Typography className="wrap-icon">
-                  <LabelIcon /> {tag}
+              <ul key={tag}>
+                <Typography variant="wrapIcon">
+                  <LabelIcon /> <Typography component="span" variant="wrapIconText">{tag}</Typography>
                 </Typography>
                 {feeds.map(feed => {
                   return (
-                    <li>
+                    <li key={feed.feedId}>
                       <Typography
                         component="div"
                         onContextMenu={(e: React.MouseEvent) => this.onContextMenu(e, feed.feedId)}
