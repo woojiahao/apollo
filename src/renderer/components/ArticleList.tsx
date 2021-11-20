@@ -8,6 +8,7 @@ import { getMonth } from "../utility";
 type ArticleListProps = {
   /// Feed to load
   feedId: number
+  onArticleIdChange: (articleId: number) => void
 }
 
 type ArticleListState = {
@@ -42,7 +43,7 @@ export default class ArticleList extends React.Component<ArticleListProps, Artic
         {/* TODO: Add isRead and isBookmark */}
         {this.state.articles.map(({ id, title, description, publishedDate }) => {
           return (
-            <Box>
+            <Box onClick={() => this.props.onArticleIdChange(id)}>
               <Typography variant="h3">{title}</Typography>
 
               {description && <Typography variant="subtitle1">{description}</Typography>}

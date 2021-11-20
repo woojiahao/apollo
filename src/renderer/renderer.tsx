@@ -151,7 +151,9 @@ export default class Index extends React.Component<{}, IndexState> {
                 backgroundColor: '#98C5F9',
                 overflowY: 'auto'
               }}>
-              <ArticleList feedId={this.state.feedId} />
+              <ArticleList
+                feedId={this.state.feedId}
+                onArticleIdChange={articleId => this.setState({ articleId })} />
             </Grid>
 
             <Grid
