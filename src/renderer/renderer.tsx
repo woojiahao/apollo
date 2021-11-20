@@ -57,10 +57,6 @@ export default class Index extends React.Component<{}, IndexState> {
     this.setState({ articleId: articleId })
   }
 
-  onFeedIdChange(feedId: number) {
-    this.setState({ feedId: feedId })
-  }
-
   openAddFeedDialog() {
     this.setState({ isAddFeedDialogOpen: true })
   }
@@ -78,11 +74,6 @@ export default class Index extends React.Component<{}, IndexState> {
       tagFeeds: updatedTagFeeds,
       today: updatedToday
     })
-  }
-
-  async refreshFeed(feedId: number) {
-    const updatedTagFeeds = await ipcRefreshFeed(feedId)
-    this.setState({ tagFeeds: updatedTagFeeds })
   }
 
   async readArticle(articleId: number) {

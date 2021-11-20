@@ -49,8 +49,7 @@ export async function refreshFeeds(): Promise<TagFeeds> {
 }
 
 export async function refreshFeed(feedId: number) {
-  const tagFeeds = await invoke<TagFeeds>('refresh-feed', feedId)
-  return tagFeeds
+  await invoke<Feed>('refresh-feed', feedId)
 }
 
 export async function getToday() {
