@@ -1,22 +1,10 @@
 import LabelIcon from '@mui/icons-material/Label';
-import { Divider, Menu, MenuItem, Typography } from "@mui/material";
-import { makeStyles } from "@mui/styles";
+import { Divider, Menu, MenuItem, Theme, Typography } from "@mui/material";
+import { withStyles } from '@mui/styles';
 import { Box } from "@mui/system";
 import React from "react";
-import { TagFeeds } from '../../main/database/mappers/FeedMapper';
-import { refreshFeed as ipcRefreshFeed } from "../ipcInvoker";
-
-const useStyles = makeStyles(theme => ({
-  wrapIcon: {
-    verticalAlign: 'middle',
-    display: 'inline-flex'
-  },
-  feed: {
-    '& li': {
-      color: 'green'
-    }
-  }
-}))
+import { TagFeeds } from '../../../main/database/mappers/FeedMapper';
+import { refreshFeed as ipcRefreshFeed } from "../../ipcInvoker";
 
 type FeedListProps = {
   /// Callback invoked when the user selects a feed, informs the Root application to change the feedId
@@ -63,15 +51,13 @@ export default class FeedList extends React.Component<FeedListProps, FeedListSta
   }
 
   render() {
-    const classes = useStyles()
-
     return (
       <Box>
-        <Box className={classes.feed}>
+        <Box className="feed-list">
           {Object.entries(this.props.feeds).map(([tag, feeds]) => {
             return (
               <ul>
-                <Typography classes={classes.wrapIcon}>
+                <Typography className="wrap-icon">
                   <LabelIcon /> {tag}
                 </Typography>
                 {feeds.map(feed => {
