@@ -6,6 +6,8 @@ RSS made easy
 - For shared state, do not use the props as the state of the component
 - ~~Use `@electron/remote` to share the db connection from the main process to the renderer process~~
 - Use ipcRenderer and ipcMain to invoke functions in the main process (which has access to the database)
+- When dealing with nested children, perform data changes while in the child component and inform the root component of 
+  the changes when done so that it will pull from the database and retrieve the changes for itself
 
 ## Refresh feed algorithm
 
