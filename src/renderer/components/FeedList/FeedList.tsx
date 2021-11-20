@@ -1,11 +1,19 @@
 import LabelIcon from '@mui/icons-material/Label';
 import { Divider, Menu, MenuItem, Theme, Typography } from "@mui/material";
+import { withStyles, WithStyles } from '@mui/styles';
+import createStyles from '@mui/styles/createStyles';
 import { Box } from "@mui/system";
 import React from "react";
 import { TagFeeds } from '../../../main/database/mappers/FeedMapper';
 import { refreshFeed as ipcRefreshFeed } from "../../ipcInvoker";
 
-type FeedListProps = {
+const styles = (theme: Theme) => createStyles({
+  feedList: {
+    backgroundColor: 'green'
+  }
+});
+
+interface FeedListProps extends WithStyles<typeof styles> {
   /// Callback invoked when the user selects a feed, informs the Root application to change the feedId
   onFeedIdChange: (feedId: number) => void
   /// Callback invoked when the data from the database has been changed in some way -- usually by the context menu action
@@ -21,7 +29,7 @@ type FeedListState = {
   }
 }
 
-export default class FeedList extends React.Component<FeedListProps, FeedListState> {
+class FeedList extends React.Component<FeedListProps, FeedListState> {
   constructor(props: FeedListProps) {
     super(props)
     this.state = {
@@ -52,7 +60,7 @@ export default class FeedList extends React.Component<FeedListProps, FeedListSta
   render() {
     return (
       <Box>
-        <Box className="feed-list">
+        <Box className={this.props.classes.feedList}>
           {Object.entries(this.props.feeds).map(([tag, feeds]) => {
             return (
               <ul key={tag}>
@@ -96,3 +104,5 @@ export default class FeedList extends React.Component<FeedListProps, FeedListSta
     )
   }
 }
+
+export default withStyles(styles)(FeedList)
