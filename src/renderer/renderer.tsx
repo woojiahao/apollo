@@ -11,6 +11,7 @@ import { bookmarkArticle as ipcBookmarkArticle, getTagFeeds, getToday, readArtic
 import './styles.css'
 
 type IndexState = {
+  feedId: number,
   articleId: number,
   tagFeeds: TagFeeds,
   today: SimpleArticle[],
@@ -32,6 +33,7 @@ export default class Index extends React.Component<{}, IndexState> {
   constructor(props) {
     super(props)
     this.state = {
+      feedId: undefined,
       articleId: undefined,
       tagFeeds: {},
       today: [],
@@ -53,6 +55,10 @@ export default class Index extends React.Component<{}, IndexState> {
 
   setArticleId(articleId: number) {
     this.setState({ articleId: articleId })
+  }
+
+  onFeedIdChange(feedId: number) {
+    this.setState({ feedId: feedId })
   }
 
   openAddFeedDialog() {
@@ -98,6 +104,18 @@ export default class Index extends React.Component<{}, IndexState> {
     })
   }
 
+  /** 
+   * This callback is called when a component indicates that there has been a change to the data stored in the database
+   * This will fetch all the data from the database again and update the shared state
+   */
+  async onDataChange() {
+    const [tagFeeds, today] = await Promise.all([ipcRefreshFeeds(), getToday()])
+    this.setState({
+      tagFeeds,
+      today
+    })
+  }
+
   render() {
     return (
       <ThemeProvider theme={globalTheme}>
@@ -134,12 +152,16 @@ export default class Index extends React.Component<{}, IndexState> {
                 overflowY: 'auto'
               }}>
               <FeedList
+                onFeedIdChange={feedId => this.setState({ feedId })}
+                onDataChange={this.onDataChange}
+                feeds={this.state.tagFeeds} />
+              {/* <FeedListOld
                 loadArticle={this.setArticleId.bind(this)}
                 tagFeeds={this.state.tagFeeds}
                 today={this.state.today}
                 refreshFeed={feedId => this.refreshFeed(feedId)}
                 readArticle={articleId => this.readArticle(articleId)}
-                bookmarkArticle={articleId => this.bookmarkArticle(articleId)} />
+                bookmarkArticle={articleId => this.bookmarkArticle(articleId)} /> */}
             </Grid>
 
             <Grid
