@@ -1,16 +1,16 @@
-import { createTheme, CssBaseline, ThemeProvider } from "@mui/material";
+import { createTheme, CssBaseline, ThemeProvider, Typography } from "@mui/material";
 import Container from "@mui/material/Container";
 import React from "react";
 import '../../../public/prism.css';
 import { RSS } from "../../main/rss/data";
 import { getArticle } from "../ipcInvoker";
 
-type FeedState = {
-  article: RSS.Item
+type ArticleViewerProps = {
+  articleId: number
 }
 
-type FeedProps = {
-  articleId: number
+type ArticleViewerState = {
+  article: RSS.Item
 }
 
 const theme = createTheme({
@@ -22,15 +22,15 @@ const theme = createTheme({
   }
 })
 
-export default class Feed extends React.Component<FeedProps, FeedState> {
-  constructor(props: FeedProps) {
+export default class ArticleViewer extends React.Component<ArticleViewerProps, ArticleViewerState> {
+  constructor(props: ArticleViewerProps) {
     super(props)
     this.state = {
       article: undefined
     }
   }
 
-  async componentDidUpdate(prevProps: FeedProps) {
+  async componentDidUpdate(prevProps: ArticleViewerProps) {
     if (prevProps.articleId !== this.props.articleId) {
       await this.loadArticle(this.props.articleId)
     }
@@ -49,15 +49,15 @@ export default class Feed extends React.Component<FeedProps, FeedState> {
         <Container maxWidth="lg">
           {this.state.article &&
             (<div>
-              <div className="heading">
-                <h1>{this.state.article.title}</h1>
-              </div>
+              <Typography variant="h1">
+                {this.state.article.title}
+              </Typography>
               <div className="item">
                 <br />
                 {/* TODO: When redirected to a different page, show a top bar to navigate back */}
                 {/* TODO: Load iFrame */}
                 {this.state.article.pubDate &&
-                  <p>Published on: <em>{this.state.article.pubDate.toUTCString()}</em></p>}
+                  <Typography variant="body1">Published on: <em>{this.state.article.pubDate.toUTCString()}</em></Typography>}
                 {this.state.article.content ?
                   <div dangerouslySetInnerHTML={{ __html: this.state.article.content }}></div> :
                   this.state.article.description ?

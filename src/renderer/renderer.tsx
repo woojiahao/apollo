@@ -5,7 +5,7 @@ import { SimpleArticle } from '../main/database/mappers/ArticleMapper'
 import { TagFeeds } from '../main/database/mappers/FeedMapper'
 import AddFeedDialog from './components/AddFeedDialog'
 import ArticleList from './components/ArticleList'
-import Feed from './components/Feed'
+import ArticleViewer from './components/ArticleViewer'
 import NavigationBar from './components/NavigationBar'
 import { bookmarkArticle as ipcBookmarkArticle, getTagFeeds, getToday, readArticle as ipcReadArticle, refreshFeeds as ipcRefreshFeeds } from './ipcInvoker'
 import './styles.css'
@@ -151,9 +151,7 @@ export default class Index extends React.Component<{}, IndexState> {
                 backgroundColor: '#98C5F9',
                 overflowY: 'auto'
               }}>
-
               <ArticleList feedId={this.state.feedId} />
-
             </Grid>
 
             <Grid
@@ -163,7 +161,7 @@ export default class Index extends React.Component<{}, IndexState> {
                 height: `100%`,
                 overflowY: `auto`
               }}>
-              <Feed articleId={this.state.articleId} />
+              <ArticleViewer articleId={this.state.articleId} />
             </Grid>
           </Grid>
         </Box >
