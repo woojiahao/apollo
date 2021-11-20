@@ -8,23 +8,16 @@ import { TagFeeds } from '../../main/database/mappers/FeedMapper';
 import FeedList from './FeedList';
 
 type NavigationBarProps = {
-  onFeedIdChange: (feedId: number) => void
-  openAddFeedDialog: () => void
-  refreshFeeds: () => void
   tagFeeds: TagFeeds
+  onFeedIdChange: (feedId: number) => void
+  onDataChange: () => void
+  onOpenAddFeedDialog: () => void
+  onRefreshFeeds: () => void
 }
 
 export default class NavigationBar extends React.Component<NavigationBarProps> {
   constructor(props: NavigationBarProps) {
     super(props)
-  }
-
-  simplifyTagFeeds(tagFeeds: TagFeeds) {
-    const simplified: { [tag: string]: string[] } = {}
-    for (const [tag, feeds] of Object.entries(tagFeeds)) {
-      if (!(tag in simplified)) simplified[tag] = []
-
-    }
   }
 
   render() {
@@ -50,21 +43,20 @@ export default class NavigationBar extends React.Component<NavigationBarProps> {
             <Typography variant="h3" sx={{ textTransform: 'uppercase' }}>Feeds</Typography>
 
             <Stack direction="row" spacing={3}>
-              <IconButton aria-label="refresh-feeds" onClick={this.props.refreshFeeds}>
+              <IconButton aria-label="refresh-feeds" onClick={this.props.onRefreshFeeds}>
                 <RefreshIcon sx={{ fontSize: '1em', fill: '#fff' }} />
               </IconButton>
 
-              <IconButton aria-label="add-feed" onClick={this.props.openAddFeedDialog}>
+              <IconButton aria-label="add-feed" onClick={this.props.onOpenAddFeedDialog}>
                 <AddCircleIcon sx={{ fontSize: '1em', fill: '#fff' }} />
               </IconButton>
             </Stack>
           </Stack>
 
           <FeedList
-            feeds={
-              Object.entries(this.props.tagFeeds)
-                .map(([tag, feeds]) => { return { tag: feeds.map(f => f.feedTitle) } })
-            } />
+            feeds={this.props.tagFeeds}
+            onFeedIdChange={this.props.onFeedIdChange}
+            onDataChange={this.props.onDataChange} />
         </Box>
       </Box>
     )

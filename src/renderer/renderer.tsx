@@ -5,9 +5,9 @@ import { SimpleArticle } from '../main/database/mappers/ArticleMapper'
 import { TagFeeds } from '../main/database/mappers/FeedMapper'
 import AddFeedDialog from './components/AddFeedDialog'
 import Feed from './components/Feed'
-import FeedList from './components/FeedList'
 import Navigation from './components/Navigation'
-import { bookmarkArticle as ipcBookmarkArticle, getTagFeeds, getToday, readArticle as ipcReadArticle, refreshFeed as ipcRefreshFeed, refreshFeeds as ipcRefreshFeeds } from './ipcInvoker'
+import NavigationBar from './components/NavigationBar'
+import { bookmarkArticle as ipcBookmarkArticle, getTagFeeds, getToday, readArticle as ipcReadArticle, refreshFeeds as ipcRefreshFeeds } from './ipcInvoker'
 import './styles.css'
 
 type IndexState = {
@@ -115,10 +115,23 @@ export default class Index extends React.Component<{}, IndexState> {
           <Grid
             container
             sx={{ height: `100%` }}>
-            <Grid item xs="auto" alignItems="flex-end">
-              <Navigation
-                onOpenAddFeedDialog={() => this.openAddFeedDialog()}
-                onRefreshFeeds={() => this.refreshFeeds()} />
+            <Grid
+              item
+              xs={3}
+              sx={{
+                height: `100vh`,
+                padding: `16px`,
+                boxSizing: `border-box`,
+                backgroundColor: `#FBFBFB`,
+                overflowY: 'auto'
+              }}>
+              <NavigationBar
+                tagFeeds={this.state.tagFeeds}
+                onFeedIdChange={feedId => this.setState({ feedId })}
+                onDataChange={this.onDataChange}
+                onOpenAddFeedDialog={this.openAddFeedDialog}
+                onRefreshFeeds={this.refreshFeeds}
+              />
             </Grid>
 
             <AddFeedDialog
@@ -131,29 +144,6 @@ export default class Index extends React.Component<{}, IndexState> {
                 <CircularProgress />
               </Box>
             </Modal>
-
-            <Grid
-              item
-              xs={3}
-              sx={{
-                height: `100vh`,
-                padding: `16px`,
-                boxSizing: `border-box`,
-                backgroundColor: `#FBFBFB`,
-                overflowY: 'auto'
-              }}>
-              <FeedList
-                onFeedIdChange={feedId => this.setState({ feedId })}
-                onDataChange={this.onDataChange}
-                feeds={this.state.tagFeeds} />
-              {/* <FeedListOld
-                loadArticle={this.setArticleId.bind(this)}
-                tagFeeds={this.state.tagFeeds}
-                today={this.state.today}
-                refreshFeed={feedId => this.refreshFeed(feedId)}
-                readArticle={articleId => this.readArticle(articleId)}
-                bookmarkArticle={articleId => this.bookmarkArticle(articleId)} /> */}
-            </Grid>
 
             <Grid
               item
