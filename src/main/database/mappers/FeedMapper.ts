@@ -1,13 +1,11 @@
 import { RSS } from "../../rss/data";
 import Feed from "../entities/Feed";
-import ArticleMapper, { SimpleArticle } from "./ArticleMapper";
+import ArticleMapper from "./ArticleMapper";
 
 export type TagFeeds = {
   [tag: string]: {
     feedId: number
     feedTitle: string
-    rssUrl: string
-    articles: SimpleArticle[]
   }[]
 }
 
@@ -30,25 +28,11 @@ export default class FeedMapper {
     for (const f of feeds) {
       const tag = !f.tag ? 'Uncategorized' : f.tag.tagName
       const feedTitle = f.feedTitle
-      const rssUrl = f.rssUrl
-      if (!(tag in tagFeeds)) {
-        tagFeeds[tag] = []
-      }
-
-      const simplifiedArticles = f.articles.map(a => {
-        return {
-          articleTitle: a.articleTitle,
-          articleId: a.articleId,
-          isRead: a.isRead,
-          isBookmark: a.isBookmark
-        }
-      })
+      if (!(tag in tagFeeds)) tagFeeds[tag] = []
 
       tagFeeds[tag].push({
         feedId: f.feedId,
-        feedTitle,
-        rssUrl,
-        articles: simplifiedArticles
+        feedTitle
       })
     }
 
