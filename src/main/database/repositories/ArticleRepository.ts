@@ -3,6 +3,17 @@ import Article from "../entities/Article";
 
 @EntityRepository(Article)
 export default class ArticleRepository extends Repository<Article> {
+  getArticlesInFeed(feedId: number) {
+    return this.find({
+      where: {
+        feed: {
+          feedId: feedId
+        },
+        deletedOn: IsNull()
+      }
+    })
+  }
+
   getArticle(articleId: number) {
     /// TODO: Add error handling if article not found
     return this.findOne({

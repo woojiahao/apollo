@@ -4,8 +4,8 @@ import * as ReactDOM from 'react-dom'
 import { SimpleArticle } from '../main/database/mappers/ArticleMapper'
 import { TagFeeds } from '../main/database/mappers/FeedMapper'
 import AddFeedDialog from './components/AddFeedDialog'
+import ArticleList from './components/ArticleList'
 import Feed from './components/Feed'
-import Navigation from './components/Navigation'
 import NavigationBar from './components/NavigationBar'
 import { bookmarkArticle as ipcBookmarkArticle, getTagFeeds, getToday, readArticle as ipcReadArticle, refreshFeeds as ipcRefreshFeeds } from './ipcInvoker'
 import './styles.css'
@@ -55,10 +55,6 @@ export default class Index extends React.Component<{}, IndexState> {
 
   setArticleId(articleId: number) {
     this.setState({ articleId: articleId })
-  }
-
-  openAddFeedDialog() {
-    this.setState({ isAddFeedDialogOpen: true })
   }
 
   async closeAddFeedDialog() {
@@ -125,13 +121,15 @@ export default class Index extends React.Component<{}, IndexState> {
                 backgroundColor: `#FBFBFB`,
                 overflowY: 'auto'
               }}>
+
               <NavigationBar
                 tagFeeds={this.state.tagFeeds}
                 onFeedIdChange={feedId => this.setState({ feedId })}
                 onDataChange={this.onDataChange}
-                onOpenAddFeedDialog={this.openAddFeedDialog}
+                onOpenAddFeedDialog={() => this.setState({ isAddFeedDialogOpen: true })}
                 onRefreshFeeds={this.refreshFeeds}
               />
+
             </Grid>
 
             <AddFeedDialog
@@ -144,6 +142,19 @@ export default class Index extends React.Component<{}, IndexState> {
                 <CircularProgress />
               </Box>
             </Modal>
+
+            <Grid item xs={3}
+              sx={{
+                height: '100vh',
+                padding: '16px',
+                boxSizing: 'border-box',
+                backgroundColor: '#98C5F9',
+                overflowY: 'auto'
+              }}>
+
+              <ArticleList feedId={this.state.feedId} />
+
+            </Grid>
 
             <Grid
               item

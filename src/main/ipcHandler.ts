@@ -3,6 +3,7 @@ import DatabseError from "./errors/DatabaseError"
 import AddFeedHandler from "./handlers/AddFeedHandler"
 import BookmarkArticleHandler from "./handlers/BookmarkArticleHandler"
 import GetArticleHandler from "./handlers/GetArticleHandler"
+import GetArticlesInFeedHandler from "./handlers/GetArticlesInFeedHandler"
 import GetFeedHandler from "./handlers/GetFeedHandler"
 import GetTagFeedsHandler from "./handlers/GetTagFeedsHandler"
 import GetTagsHandler from "./handlers/GetTagsHandler"
@@ -23,6 +24,7 @@ export default function registerHandlers() {
   const handlers: { [key: string]: Handler<any> } = {
     'get-feed': new GetFeedHandler(),
     'get-article': new GetArticleHandler(),
+    'get-articles-in-feed': new GetArticlesInFeedHandler(),
     'add-feed': new AddFeedHandler(),
     'get-tags': new GetTagsHandler(),
     'get-tag-feeds': new GetTagFeedsHandler(),

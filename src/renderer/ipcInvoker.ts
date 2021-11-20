@@ -18,6 +18,10 @@ export function getFeed(feedUrl: string): Promise<RSS.Feed> {
   return invoke('get-feed', feedUrl)
 }
 
+export function getArticlesInFeed(feedId: number) {
+  return invoke<SimpleArticle[]>('get-articles-in-feed', feedId)
+}
+
 export async function bookmarkArticle(articleId: number): Promise<TagFeeds> {
   const tagFeeds: TagFeeds = await invoke('bookmark-article', articleId)
   return tagFeeds
