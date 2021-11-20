@@ -111,14 +111,15 @@ export default class Index extends React.Component<{}, IndexState> {
           <Grid
             container
             sx={{ height: `100%` }}>
+
             <Grid
               item
               xs={3}
               sx={{
-                height: `100vh`,
-                padding: `16px`,
-                boxSizing: `border-box`,
-                backgroundColor: `#FBFBFB`,
+                height: '100vh',
+                padding: '8px',
+                boxSizing: 'border-box',
+                backgroundColor: '#14213D',
                 overflowY: 'auto'
               }}>
 

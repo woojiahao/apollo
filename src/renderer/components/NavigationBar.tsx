@@ -22,14 +22,7 @@ export default class NavigationBar extends React.Component<NavigationBarProps> {
 
   render() {
     return (
-      <Box
-        sx={{
-          height: `100vh`,
-          backgroundColor: `#14213D`,
-          padding: `8px`,
-          boxSizing: `border-box`
-        }}>
-
+      <Box>
         <Stack direction="row" justifyContent="space-between">
           {/* TODO: Style the title */}
           <Typography variant="h2" letterSpacing="6" sx={{ textTransform: 'uppercase' }}>Apollo</Typography>
