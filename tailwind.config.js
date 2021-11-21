@@ -4,13 +4,13 @@ module.exports = {
       'sans': ['Mukta', 'Roboto', 'Lato', 'Arial', 'sans-serif']
     },
     fontSize: {
-      'tiny': '14px',
-      'base': '18px',
-      'lg': '20px',
-      'xl': '24px',
-      '2xl': '26px',
-      '3xl': '30px',
-      '4xl': '36px'
+      'tiny': '16px',
+      'base': '20px',
+      'lg': '22px',
+      'xl': '26px',
+      '2xl': '28px',
+      '3xl': '32px',
+      '4xl': '38px'
     },
     colors: {
       primary: '#232323',
@@ -20,6 +20,9 @@ module.exports = {
       background: '#FAFAFA',
       icon: '#CFCFCF',
       red: '#D16666'
+    },
+    container: {
+      padding: '1.5rem'
     }
   },
   variants: {},

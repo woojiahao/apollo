@@ -6,7 +6,7 @@ import { TagFeeds } from '../main/database/mappers/FeedMapper'
 import AddFeedDialog from './components/AddFeedDialog'
 import ArticleList from './components/ArticleList'
 import ArticleViewer from './components/ArticleViewer'
-import NavigationBar from './components/NavigationBar'
+import NavigationBar from './components/_NavigationBar'
 import { bookmarkArticle as ipcBookmarkArticle, getTagFeeds, getToday, readArticle as ipcReadArticle, refreshFeeds as ipcRefreshFeeds } from './ipcInvoker'
 import './styles.css'
 

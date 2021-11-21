@@ -25,6 +25,10 @@
     @apply text-lg;
     @apply font-bold;
   }
+
+  span, p {
+    @apply text-base text-primary;
+  }
 }
 
 @tailwind components;
@@ -33,6 +37,12 @@
 body {
   position: relative;
   height: 100vh;
-  background-color: theme('colors.background');
   overflow-y: hidden;
+}
+
+svg {
+  fill: theme('colors.icon');
+  stroke: theme('colors.icon');
+  width: 24px;
+  height: 24px;
 }
