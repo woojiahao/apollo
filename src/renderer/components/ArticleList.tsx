@@ -1,11 +1,19 @@
+import { Theme } from "@mui/material";
 import Typography from "@mui/material/Typography";
+import { withStyles, WithStyles } from "@mui/styles";
 import Box from "@mui/system/Box";
 import React from "react";
 import { SimpleArticle } from "../../main/database/mappers/ArticleMapper";
 import { getArticlesInFeed } from "../ipcInvoker";
 import { getMonth } from "../utility";
 
-type ArticleListProps = {
+const styles = (theme: Theme) => ({
+  article: {
+    marginBottom: '0.8rem'
+  }
+})
+
+interface ArticleListProps extends WithStyles<typeof styles> {
   /// Feed to load
   feedId: number
   onArticleIdChange: (articleId: number) => void
@@ -15,7 +23,7 @@ type ArticleListState = {
   articles: SimpleArticle[]
 }
 
-export default class ArticleList extends React.Component<ArticleListProps, ArticleListState> {
+class ArticleList extends React.Component<ArticleListProps, ArticleListState> {
   constructor(props: ArticleListProps) {
     super(props)
     this.state = {
@@ -31,19 +39,21 @@ export default class ArticleList extends React.Component<ArticleListProps, Artic
   }
 
   formatDate(date: Date) {
-    const day = date.getUTCDay()
+    const day = date.getUTCDate()
     const month = getMonth(date.getUTCMonth())
     const year = date.getUTCFullYear()
     return `${day} ${month} ${year}`
   }
 
   render() {
+    const { classes } = this.props
+
     return (
       <Box>
         {/* TODO: Add isRead and isBookmark */}
         {this.state.articles.map(({ id, title, description, publishedDate }) => {
           return (
-            <Box onClick={() => this.props.onArticleIdChange(id)}>
+            <Box onClick={() => this.props.onArticleIdChange(id)} className={classes.article} key={id}>
               <Typography variant="h3">{title}</Typography>
 
               {description && <Typography variant="subtitle1">{description}</Typography>}
@@ -55,3 +65,5 @@ export default class ArticleList extends React.Component<ArticleListProps, Artic
     )
   }
 }
+
+export default withStyles(styles)(ArticleList)

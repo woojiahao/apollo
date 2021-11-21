@@ -4,12 +4,27 @@ import { withStyles, WithStyles } from '@mui/styles';
 import createStyles from '@mui/styles/createStyles';
 import { Box } from "@mui/system";
 import React from "react";
-import { TagFeeds } from '../../../main/database/mappers/FeedMapper';
-import { refreshFeed as ipcRefreshFeed } from "../../ipcInvoker";
+import { TagFeeds } from '../../main/database/mappers/FeedMapper';
+import { refreshFeed as ipcRefreshFeed } from "../ipcInvoker";
 
 const styles = (theme: Theme) => createStyles({
   feedList: {
-    backgroundColor: 'green'
+    '& ul': {
+      margin: 0,
+      marginBlockStart: 0,
+      marginBlockEnd: 0,
+      paddingInlineStart: 0,
+      '&:not(:last-child)': {
+        marginBottom: '0.8rem'
+      },
+      '& li': {
+        listStyleType: 'none',
+        marginLeft: '2rem',
+        '&:hover': {
+          cursor: 'pointer'
+        }
+      }
+    },
   }
 });
 
@@ -58,9 +73,11 @@ class FeedList extends React.Component<FeedListProps, FeedListState> {
   }
 
   render() {
+    const { classes } = this.props
+
     return (
       <Box>
-        <Box className={this.props.classes.feedList}>
+        <Box className={classes.feedList}>
           {Object.entries(this.props.feeds).map(([tag, feeds]) => {
             return (
               <ul key={tag}>
@@ -73,7 +90,7 @@ class FeedList extends React.Component<FeedListProps, FeedListState> {
                       <Typography
                         component="div"
                         onContextMenu={(e: React.MouseEvent) => this.onContextMenu(e, feed.feedId)}
-                        onDoubleClick={() => this.props.onFeedIdChange(feed.feedId)}>
+                        onClick={() => this.props.onFeedIdChange(feed.feedId)}>
                         {/* TODO: Add unred icon if applicable */}
                         {feed.feedTitle}
                       </Typography>

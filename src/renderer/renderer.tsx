@@ -53,15 +53,16 @@ const globalTheme = createTheme({
     fontSize: 16,
     h1: {
       fontFamily: headerFont,
-      fontSize: 24
+      fontSize: 28
     },
     h2: {
       fontFamily: headerFont,
-      fontSize: 22
+      fontSize: 26
     },
     h3: {
       fontFamily: headerFont,
-      fontSize: 20
+      fontSize: 24,
+      marginBottom: '0.5rem'
     },
     appTitle: {
       color: '#98C5F9',

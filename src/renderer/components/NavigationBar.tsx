@@ -7,7 +7,7 @@ import { IconButton, Stack, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import React from "react";
 import { TagFeeds } from '../../main/database/mappers/FeedMapper';
-import FeedList from './FeedList/FeedList';
+import FeedList from './FeedList';
 
 type NavigationBarProps = {
   tagFeeds: TagFeeds
