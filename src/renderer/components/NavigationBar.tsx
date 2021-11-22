@@ -1,13 +1,36 @@
 import React from "react";
-import { MdBookmarks, MdToday } from "react-icons/md"
+import { MdBookmarks, MdOutlineAdd, MdRefresh, MdToday } from "react-icons/md";
+import { TagFeeds } from "../../main/database/mappers/FeedMapper";
+import FeedList from "./FeedList";
+import TreeView from "./TreeView/TreeView";
 import WrapIcon from "./WrapIcon";
 
-export default class NavigationBar extends React.Component {
+interface NavigationBarProps {
+  tagFeeds?: TagFeeds
+}
+
+export default class NavigationBar extends React.Component<NavigationBarProps> {
+  constructor(props: NavigationBarProps) {
+    super(props)
+  }
+
   render() {
     return (
-      <div className="container bg-background h-screen border-box py-6">
-        <WrapIcon icon={<MdToday />} content="Today" />
-        <WrapIcon icon={<MdBookmarks />} content="Bookmarks" />
+      <div className="container bg-background h-screen border-box py-6 max-w-xs">
+        <div className="space-y-4 mb-4">
+          <WrapIcon icon={<MdToday />} content="Today" />
+          <WrapIcon icon={<MdBookmarks />} content="Bookmarks" />
+        </div>
+
+        <div className="flex justify-between items-center mb-2">
+          <span className="font-bold text-subtitle">Feeds</span>
+          <div className="flex space-x-6">
+            <MdRefresh />
+            <MdOutlineAdd />
+          </div>
+        </div>
+
+        <FeedList tagFeeds={this.props.tagFeeds} />
       </div>
     )
   }

@@ -19,7 +19,8 @@ module.exports = {
       accent: '#645E9D',
       background: '#FAFAFA',
       icon: '#CFCFCF',
-      red: '#D16666'
+      red: '#D16666',
+      hover: '#F3F1F1'
     },
     container: {
       padding: '1.5rem'

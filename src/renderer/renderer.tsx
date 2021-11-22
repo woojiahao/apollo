@@ -2,15 +2,27 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "./app.global.css";
 import NavigationBar from "./components/NavigationBar";
+import StyledButton from "./components/StyledButton";
+import StyledTextField from "./components/StyledTextField";
 
 export default class Index extends React.Component {
   render() {
+    const tagFeeds = {
+      'Programming': [
+        { feedId: 1, feedTitle: 'A Programmer\'s Perspective' },
+        { feedId: 2, feedTitle: 'SlashDot' },
+        { feedId: 3, feedTitle: 'Bob\'s Feed' },
+      ]
+    }
+
     return (
       <div className="flex">
-        <div className="flex-1">
-          <NavigationBar />
-        </div>
+        <NavigationBar tagFeeds={tagFeeds} />
         <div className="container py-6">
+          <StyledButton text="Cancel" color="bg-red"/>
+          <StyledButton text="Add" color="bg-accent" />
+          <StyledTextField title="Feed URL" label="feedurl" />
+          
           <h1>Open-source Deep Dive</h1>
           <p>Open-source Deep Dive</p>
           <h2>Header 2</h2>
