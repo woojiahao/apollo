@@ -2,7 +2,7 @@ import React, { ReactElement } from "react";
 
 interface TreeItemProps {
   icon?: ReactElement
-  key?: string | number
+  id?: string | number
   onClick?: () => void
 }
 
@@ -13,7 +13,10 @@ export default class TreeItem extends React.Component<TreeItemProps> {
 
   render() {
     return (
-      <li key={this.props.key} onClick={this.props.onClick}>
+      <li
+        className="px-16 hover:bg-hover block"
+        key={this.props.id}
+        onClick={this.props.onClick}>
         {this.props.children}
       </li>
     )

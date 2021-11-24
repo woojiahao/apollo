@@ -20,7 +20,7 @@ export default class FeedList extends React.Component<FeedListProps> {
             <TreeView title={tag} key={tag}>
               {feeds.map(feed => {
                 return (
-                  <TreeItem key={feed.feedId}>
+                  <TreeItem id={feed.feedId} onClick={() => console.log(feed.feedTitle)}>
                     {feed.feedTitle}
                   </TreeItem>
                 )

@@ -35,10 +35,6 @@ export default class TreeView extends React.Component<TreeViewProps, TreeViewSta
   render() {
     const expandIcon = this.props.expandIcon ? this.props.expandIcon : <MdOutlineExpandMore />
     const collapseIcon = this.props.collapseIcon ? this.props.collapseIcon : <MdOutlineChevronRight />
-    const itemClasses = [
-      "px-16",
-      "hover:bg-hover"
-    ].join(' ')
 
     return (
       <ul
@@ -53,9 +49,7 @@ export default class TreeView extends React.Component<TreeViewProps, TreeViewSta
         </div>
         {/* TODO: Move the classes to the tree item and let it handle the on clicks */}
         <div style={{ display: this.state.isExpanded ? 'block' : 'none' }}>
-          {Array.isArray(this.props.children) ?
-            this.props.children.map(e => (<div className={itemClasses}>{e}</div>)) :
-            (<div className={itemClasses}>{this.props.children}</div>)}
+          {this.props.children}
         </div>
       </ul>
     )
