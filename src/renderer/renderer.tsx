@@ -12,6 +12,9 @@ export default class Index extends React.Component {
         { feedId: 1, feedTitle: 'A Programmer\'s Perspective' },
         { feedId: 2, feedTitle: 'SlashDot' },
         { feedId: 3, feedTitle: 'Bob\'s Feed' },
+      ],
+      'Uncategorized': [
+        { feedId: 4, feedTitle: 'John Green' }
       ]
     }
 
@@ -19,10 +22,10 @@ export default class Index extends React.Component {
       <div className="flex">
         <NavigationBar tagFeeds={tagFeeds} />
         <div className="container py-6">
-          <StyledButton text="Cancel" color="bg-red"/>
+          <StyledButton text="Cancel" color="bg-red" />
           <StyledButton text="Add" color="bg-accent" />
           <StyledTextField title="Feed URL" label="feedurl" />
-          
+
           <h1>Open-source Deep Dive</h1>
           <p>Open-source Deep Dive</p>
           <h2>Header 2</h2>

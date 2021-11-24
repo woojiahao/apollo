@@ -10,6 +10,7 @@ export default class StyledButton extends React.Component<StyledButtonProps> {
   render() {
     const classes = [
       this.props.color,
+      `hover:${this.props.color}-darker`,
       'py-2',
       'px-6',
       'rounded-md'
