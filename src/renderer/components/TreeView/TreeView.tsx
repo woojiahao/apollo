@@ -52,9 +52,11 @@ export default class TreeView extends React.Component<TreeViewProps, TreeViewSta
             onClick={this.expand.bind(this)} />
         </div>
         {/* TODO: Move the classes to the tree item and let it handle the on clicks */}
-        {Array.isArray(this.props.children) ?
-          this.props.children.map(e => (<div className={itemClasses}>{e}</div>)) :
-          (<div className={itemClasses}>{this.props.children}</div>)}
+        <div style={{ display: this.state.isExpanded ? 'block' : 'none' }}>
+          {Array.isArray(this.props.children) ?
+            this.props.children.map(e => (<div className={itemClasses}>{e}</div>)) :
+            (<div className={itemClasses}>{this.props.children}</div>)}
+        </div>
       </ul>
     )
   }
