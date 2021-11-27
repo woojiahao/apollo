@@ -1,8 +1,8 @@
-import React, { createRef, useEffect, useState } from "react";
+import React, { createRef, useState } from "react";
 import { MdArrowBack } from "react-icons/md";
 import { useNavigate } from "react-router";
 import { RSS } from "../../main/rss/data";
-import { getFeed } from "../ipcInvoker";
+import { getFeed, addFeed as ipcAddFeed } from "../ipcInvoker";
 import StyledButton from "./form/StyledButton";
 import StyledTextField from "./form/StyledTextField";
 import WrapIcon from "./WrapIcon";
@@ -12,10 +12,11 @@ interface AddFeedFormProps {
 }
 
 const AddFeedForm = ({ layout }: AddFeedFormProps) => {
-  const [isMounted, setIsMounted] = useState(false)
   const [isFinalStep, setIsFinalStep] = useState(false)
   const [feed, setFeed] = useState<RSS.Feed>(undefined)
   const [feedTitle, setFeedTitle] = useState('')
+  const [feedUrl, setFeedUrl] = useState('')
+  const [feedTag, setFeedTag] = useState('Uncategorized')
 
   const navigate = useNavigate()
 
@@ -33,13 +34,19 @@ const AddFeedForm = ({ layout }: AddFeedFormProps) => {
     navigate(-1)
   }
 
-  useEffect(() => { setIsMounted(true) }, [])
-
   // TODO: Add loader
   async function downloadFeed(url: string) {
     const feed = await getFeed(url)
     setFeed(feed)
     setFeedTitle(feed.title)
+    setFeedUrl(url)
+    setIsFinalStep(true)
+  }
+
+  async function addFeed(title: string) {
+    const updatedFeedWithName: RSS.Feed = Object.assign({}, feed)
+    updatedFeedWithName.title = title
+    await ipcAddFeed(updatedFeedWithName, feedUrl, feedTag)
   }
 
   return (
@@ -49,9 +56,9 @@ const AddFeedForm = ({ layout }: AddFeedFormProps) => {
       <h1>Add Feed</h1>
 
       <div className="mb-4">
-        <StyledTextField label="feed-url" title="Feed URL" ref={feedUrlRef} disabled={!isMounted || isFinalStep} />
+        <StyledTextField label="feed-url" title="Feed URL" ref={feedUrlRef} disabled={isFinalStep} />
 
-        <div style={{ display: !isFinalStep ? 'visible' : 'none' }}>
+        <div style={{ display: isFinalStep ? 'block' : 'none' }}>
           <h2>Configure Feed</h2>
           <StyledTextField label="feed-name" title="Feed Name" ref={feedNameRef} value={feedTitle} />
           <StyledTextField label="feed-tag" title="Feed Tag" ref={feedTagRef} />
@@ -60,7 +67,10 @@ const AddFeedForm = ({ layout }: AddFeedFormProps) => {
 
       <div className="flex">
         <StyledButton color="bg-red" text="Cancel" />
-        <StyledButton color="bg-accent" text="Add" onClick={() => downloadFeed(feedUrlRef.current.value)} />
+        <StyledButton
+          color="bg-accent"
+          text={isFinalStep ? 'Add' : 'Download'}
+          onClick={() => isFinalStep ? addFeed(feedNameRef.current.value) : downloadFeed(feedUrlRef.current.value)} />
       </div>
     </div >
   )
