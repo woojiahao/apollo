@@ -1,8 +1,11 @@
 import React, { useEffect } from "react";
+import { MdArrowBack } from "react-icons/md";
+import { useNavigate } from "react-router";
 import '../../../public/prism.css';
 import { formatDate } from "../../main/handlers/utility";
 import { RSS } from "../../main/rss/data";
 import { getArticle } from "../ipcInvoker";
+import WrapIcon from "./WrapIcon";
 
 type ArticleViewerProps = {
   articleId: number
@@ -11,6 +14,8 @@ type ArticleViewerProps = {
 
 const ArticleViewer = (props: ArticleViewerProps) => {
   const [article, setArticle] = React.useState<RSS.Item>(undefined)
+
+  const navigate = useNavigate()
 
   const classes = [
     props.layout,
@@ -26,8 +31,13 @@ const ArticleViewer = (props: ArticleViewerProps) => {
     loadArticle()
   }, [])
 
+  function back() {
+    navigate(-1)
+  }
+
   return (
     <div className={classes}>
+      <WrapIcon icon={<MdArrowBack />} content="Back" onClick={back.bind(this)} />
       {article &&
         (
           <div>
