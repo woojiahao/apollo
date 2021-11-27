@@ -2,7 +2,7 @@ import { getCustomRepository } from "typeorm";
 import FeedMapper, { TagFeeds } from "../database/mappers/FeedMapper";
 import FeedRepository from "../database/repositories/FeedRepository";
 import Handler from "./Handler";
-import { refreshFeed } from "./utility";
+import { refreshFeed } from "../utility";
 
 export default class RefreshFeedsHandler implements Handler<TagFeeds> {
   /// TODO: Make the refreshing task concurrent

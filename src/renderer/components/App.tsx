@@ -1,24 +1,26 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Route, Routes, useNavigate } from "react-router-dom";
+import { TagFeeds } from "../../main/database/mappers/FeedMapper";
+import { getTagFeeds } from "../ipcInvoker";
 import ArticleList from "./ArticleList/ArticleList";
 import ArticleViewer from "./ArticleViewer";
 import NavigationBar from "./NavigationBar";
 
 const App = () => {
-  const [articleId, setArticleId] = React.useState(undefined)
+  const [articleId, setArticleId] = React.useState<number>(undefined)
+  const [feedId, setFeedId] = React.useState<number>(undefined)
+  const [tagFeeds, setTagFeeds] = React.useState<TagFeeds>(undefined)
 
   const navigate = useNavigate()
 
-  const tagFeeds = {
-    'Programming': [
-      { feedId: 1, feedTitle: 'A Programmer\'s Perspective' },
-      { feedId: 2, feedTitle: 'SlashDot' },
-      { feedId: 3, feedTitle: 'Bob\'s Feed' },
-    ],
-    'Uncategorized': [
-      { feedId: 4, feedTitle: 'John Green' }
-    ]
-  }
+  useEffect(() => {
+    async function loadTagFeeds() {
+      const tagFeeds = await getTagFeeds()
+      setTagFeeds(tagFeeds)
+    }
+
+    loadTagFeeds()
+  }, [])
 
   function selectArticle(articleId: number) {
     setArticleId(articleId)
@@ -32,7 +34,7 @@ const App = () => {
       {/* TODO: Add scroll history */}
       <Routes>
         <Route path="/" element={<ArticleList layout="col-span-3" feedId={1} onSelectArticle={selectArticle.bind(this)} />} />
-        <Route path="article" element={<ArticleViewer layout="col-span-3" articleId={articleId} />} />
+        <Route path="/article/:id" element={<ArticleViewer layout="col-span-3" />} />
       </Routes>
     </div>
   )

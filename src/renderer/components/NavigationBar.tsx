@@ -5,7 +5,8 @@ import FeedList from "./FeedList";
 import WrapIcon from "./WrapIcon";
 
 interface NavigationBarProps {
-  tagFeeds?: TagFeeds
+  tagFeeds: TagFeeds
+  onFeedSelect?: (id: number) => void
 }
 
 export default class NavigationBar extends React.Component<NavigationBarProps> {
@@ -32,7 +33,9 @@ export default class NavigationBar extends React.Component<NavigationBarProps> {
           </div>
         </div>
 
-        <FeedList tagFeeds={this.props.tagFeeds} />
+        {this.props.tagFeeds &&
+          <FeedList tagFeeds={this.props.tagFeeds} onFeedSelect={this.props.onFeedSelect} />
+        }
       </div>
     )
   }

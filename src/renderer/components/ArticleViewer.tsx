@@ -1,24 +1,27 @@
 import React, { useEffect } from "react";
 import { MdArrowBack } from "react-icons/md";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate, useParams } from "react-router";
 import '../../../public/prism.css';
-import { formatDate } from "../../main/handlers/utility";
 import { RSS } from "../../main/rss/data";
+import { formatDate } from "../../main/utility";
 import { getArticle } from "../ipcInvoker";
 import WrapIcon from "./WrapIcon";
 
 type ArticleViewerProps = {
-  articleId: number
   layout: string
 }
 
-const ArticleViewer = (props: ArticleViewerProps) => {
+const ArticleViewer = ({ layout }: ArticleViewerProps) => {
   const [article, setArticle] = React.useState<RSS.Item>(undefined)
 
   const navigate = useNavigate()
 
+  const { id } = useParams()
+
+  const articleId = parseInt(id)
+
   const classes = [
-    props.layout,
+    layout,
     'container',
     'hidden-scroll',
     'py-6'
@@ -26,7 +29,7 @@ const ArticleViewer = (props: ArticleViewerProps) => {
 
   useEffect(() => {
     async function loadArticle() {
-      const article = await getArticle(props.articleId)
+      const article = await getArticle(articleId)
       setArticle(article)
     }
 

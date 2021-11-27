@@ -1,12 +1,12 @@
-import { groupBy } from "../../handlers/utility";
+import { groupBy } from "../../utility";
 import { RSS } from "../../rss/data";
 import Feed from "../entities/Feed";
 import ArticleMapper, { SimpleArticle } from "./ArticleMapper";
 
 export type TagFeeds = {
   [tag: string]: {
-    feedId: number
-    feedTitle: string
+    id: number
+    title: string
   }[]
 }
 
@@ -39,8 +39,8 @@ export default class FeedMapper {
       if (!(tag in tagFeeds)) tagFeeds[tag] = []
 
       tagFeeds[tag].push({
-        feedId: f.feedId,
-        feedTitle
+        id: f.feedId,
+        title: feedTitle
       })
     }
 

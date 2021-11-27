@@ -1,4 +1,4 @@
-import React, { ReactElement } from "react";
+import React, { PropsWithChildren, ReactElement } from "react";
 
 interface TreeItemProps {
   icon?: ReactElement
@@ -6,19 +6,15 @@ interface TreeItemProps {
   onClick?: () => void
 }
 
-export default class TreeItem extends React.Component<TreeItemProps> {
-  constructor(props: TreeItemProps) {
-    super(props)
-  }
-
-  render() {
-    return (
-      <li
-        className="px-16 hover:bg-hover block"
-        key={this.props.id}
-        onClick={this.props.onClick}>
-        {this.props.children}
-      </li>
-    )
-  }
+const TreeItem = ({ icon, id, onClick, children }: PropsWithChildren<TreeItemProps>) => {
+  return (
+    <li
+      className="px-16 hover:bg-hover block"
+      key={id}
+      onClick={onClick}>
+      {children}
+    </li>
+  )
 }
+
+export default TreeItem

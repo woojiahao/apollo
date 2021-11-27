@@ -5,30 +5,28 @@ import TreeView from "./TreeView/TreeView";
 
 interface FeedListProps {
   tagFeeds: TagFeeds
+  onFeedSelect: (id: number) => void
 }
 
-export default class FeedList extends React.Component<FeedListProps> {
-  constructor(props: FeedListProps) {
-    super(props)
-  }
+const FeedList = ({ tagFeeds, onFeedSelect }: FeedListProps) => {
+  return (
+    <div>
+      {Object.entries(tagFeeds).map(([tag, feeds]) => {
+        return (
+          <TreeView title={tag} key={tag}>
+            {feeds.map(feed => {
+              return (
+                <TreeItem onClick={() => onFeedSelect(feed.id)} id={feed.id}>
+                  {feed.title}
+                </TreeItem>
+              )
+            })}
+          </TreeView>
+        )
+      })}
+    </div>
 
-  render() {
-    return (
-      <div>
-        {Object.entries(this.props.tagFeeds).map(([tag, feeds]) => {
-          return (
-            <TreeView title={tag} key={tag}>
-              {feeds.map(feed => {
-                return (
-                  <TreeItem id={feed.feedId}>
-                    {feed.feedTitle}
-                  </TreeItem>
-                )
-              })}
-            </TreeView>
-          )
-        })}
-      </div>
-    )
-  }
+  )
 }
+
+export default FeedList

@@ -1,7 +1,7 @@
-import Article from "../database/entities/Article"
-import Feed from "../database/entities/Feed"
-import FeedMapper from "../database/mappers/FeedMapper"
-import { loadFeed } from "../rss/rss"
+import Article from "./database/entities/Article"
+import Feed from "./database/entities/Feed"
+import FeedMapper from "./database/mappers/FeedMapper"
+import { loadFeed } from "./rss/rss"
 
 /// Refreshes a single feed
 export async function refreshFeed(original: Feed) {

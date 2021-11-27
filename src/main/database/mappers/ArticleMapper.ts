@@ -1,4 +1,4 @@
-import { formatDate } from "../../handlers/utility";
+import { formatDate } from "../../utility";
 import { RSS } from "../../rss/data";
 import Article from "../entities/Article";
 

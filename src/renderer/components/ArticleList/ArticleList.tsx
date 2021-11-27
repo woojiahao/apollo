@@ -56,7 +56,7 @@ export default class ArticleList extends React.Component<ArticleListProps, Artic
               return (
                 <div className="mb-6">
                   <p className="text-subtitle text-tiny">{publishedDate}</p>
-                  {articles.map(article => <ArticleCard article={article} onSelectArticle={this.props.onSelectArticle} />)}
+                  {articles.map(article => <ArticleCard article={article} />)}
                 </div>
               )
             })}
