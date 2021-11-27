@@ -23,7 +23,7 @@ const NavigationBar = ({ tagFeeds }: NavigationBarProps) => {
   return (
     <div className={classes}>
       <div className="space-y-4 mb-4">
-        <WrapIcon icon={<MdToday />} content="Today" onClick={() => navigate('/add')} />
+        <WrapIcon icon={<MdToday />} content="Today" />
         <WrapIcon icon={<MdBookmarks />} content="Bookmarks" />
       </div>
 
@@ -31,7 +31,7 @@ const NavigationBar = ({ tagFeeds }: NavigationBarProps) => {
         <span className="font-bold text-subtitle">Feeds</span>
         <div className="flex space-x-6">
           <MdRefresh />
-          <MdOutlineAdd />
+          <MdOutlineAdd className="hover:fill-current hover:text-subtitle cursor-pointer" onClick={() => navigate('/add')} />
         </div>
       </div>
 
