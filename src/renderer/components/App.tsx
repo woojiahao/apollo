@@ -26,9 +26,10 @@ const App = () => {
   }
 
   return (
-    <div className="grid grid-cols-5 gap-12">
+    <div className="grid grid-cols-5 gap-12 overflow-y-hidden h-screen">
       <NavigationBar tagFeeds={tagFeeds} />
 
+      {/* TODO: Add scroll history */}
       <Routes>
         <Route path="/" element={<ArticleList layout="col-span-3" feedId={1} onSelectArticle={selectArticle.bind(this)} />} />
         <Route path="article" element={<ArticleViewer layout="col-span-3" articleId={articleId} />} />

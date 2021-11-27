@@ -29,6 +29,10 @@
   span, p {
     @apply text-base text-primary;
   }
+
+  svg {
+    @apply fill-current text-icon;
+  }
 }
 
 @tailwind components;
@@ -36,13 +40,21 @@
 
 body {
   position: relative;
-  height: 100vh;
-  overflow-y: hidden;
 }
 
 svg {
-  fill: theme('colors.icon');
-  stroke: theme('colors.icon');
   width: 24px;
   height: 24px;
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.hidden-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.hidden-scroll {
+  overflow-y: auto;
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
 }

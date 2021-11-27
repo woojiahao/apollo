@@ -10,12 +10,12 @@ interface ArticleCardProps {
 export default class ArticleCard extends React.Component<ArticleCardProps> {
   render() {
     return (
-      <div className="mb-4" onClick={() => this.props.onSelectArticle(this.props.article.id)}>
-        <div className="flex items-center">
+      <div className="mb-4 cursor-pointer" onClick={() => this.props.onSelectArticle(this.props.article.id)}>
+        <div className="flex items-center justify-between">
           <h2 className={this.props.article.isRead ? 'text-subtitle' : 'text-primary'}>{this.props.article.title}</h2>
-          <div>
-            <MdOutlineBookmark />
-            <MdCheck />
+          <div className="flex">
+            <MdOutlineBookmark className="mx-4 hover:fill-current hover:text-subtitle" />
+            <MdCheck className="hover:fill-current hover:text-subtitle" />
           </div>
         </div>
 

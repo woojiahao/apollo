@@ -40,7 +40,9 @@ export default class ArticleList extends React.Component<ArticleListProps, Artic
   render() {
     const classes = [
       this.props.layout,
-      'container'
+      'container',
+      'hidden-scroll',
+      'py-6'
     ].join(' ')
     return (
       <div className={classes}>
@@ -48,7 +50,7 @@ export default class ArticleList extends React.Component<ArticleListProps, Artic
           <div>
             <h1>{this.state.feed.title}</h1>
             {this.state.feed.description &&
-              <p className="text-subtitle">{this.state.feed.description}</p>}
+              <p className="text-subtitle mb-6">{this.state.feed.description}</p>}
 
             {Object.entries(this.state.feed.articles).map(([publishedDate, articles]) => {
               return (

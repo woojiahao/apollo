@@ -5,11 +5,11 @@ module.exports = {
     },
     fontSize: {
       'tiny': '16px',
-      'base': '20px',
+      'base': '18px',
       'lg': '22px',
       'xl': '26px',
       '2xl': '28px',
-      '3xl': '32px',
+      '3xl': '30px',
       '4xl': '38px'
     },
     colors: {
@@ -29,5 +29,6 @@ module.exports = {
     }
   },
   variants: {},
-  plugins: []
+  plugins: [],
+  important: true
 }

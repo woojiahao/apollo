@@ -19,7 +19,9 @@ const ArticleViewer = (props: ArticleViewerProps) => {
 
   const classes = [
     props.layout,
-    'container'
+    'container',
+    'hidden-scroll',
+    'py-6'
   ].join(' ')
 
   useEffect(() => {
