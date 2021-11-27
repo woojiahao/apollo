@@ -1,14 +1,20 @@
+import { groupBy } from "../../utility";
 import { RSS } from "../../rss/data";
 import Feed from "../entities/Feed";
 import ArticleMapper, { SimpleArticle } from "./ArticleMapper";
 
 export type TagFeeds = {
   [tag: string]: {
-    feedId: number
-    feedTitle: string
-    rssUrl: string
-    articles: SimpleArticle[]
+    id: number
+    title: string
   }[]
+}
+
+export type SimpleFeed = {
+  id: number
+  title: string
+  description: string | null
+  articles: { [publishedDate: string]: SimpleArticle[] }
 }
 
 export default class FeedMapper {
@@ -30,25 +36,11 @@ export default class FeedMapper {
     for (const f of feeds) {
       const tag = !f.tag ? 'Uncategorized' : f.tag.tagName
       const feedTitle = f.feedTitle
-      const rssUrl = f.rssUrl
-      if (!(tag in tagFeeds)) {
-        tagFeeds[tag] = []
-      }
-
-      const simplifiedArticles = f.articles.map(a => {
-        return {
-          articleTitle: a.articleTitle,
-          articleId: a.articleId,
-          isRead: a.isRead,
-          isBookmark: a.isBookmark
-        }
-      })
+      if (!(tag in tagFeeds)) tagFeeds[tag] = []
 
       tagFeeds[tag].push({
-        feedId: f.feedId,
-        feedTitle,
-        rssUrl,
-        articles: simplifiedArticles
+        id: f.feedId,
+        title: feedTitle
       })
     }
 
@@ -57,5 +49,14 @@ export default class FeedMapper {
     }
 
     return tagFeeds
+  }
+
+  static toSimple(feed: Feed): SimpleFeed {
+    return {
+      id: feed.feedId,
+      title: feed.feedTitle,
+      description: feed.feedDescription,
+      articles: groupBy(feed.articles.map(ArticleMapper.toSimple), 'publishedDate')
+    }
   }
 }

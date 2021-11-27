@@ -6,13 +6,13 @@ import registerHandlers from './ipcHandler'
 
 require('dotenv').config()
 
+const iconPath = path.join(__dirname, 'icon.png')
+const indexPath = path.join(__dirname, 'index.html');
+
 /// This runs for every new instance of the application
 /// Setup the backend for database and event handlers
 setupDatabase()
 registerHandlers()
-
-const iconPath = path.join(__dirname, 'icon.png')
-const indexPath = path.join(__dirname, 'index.html')
 
 let window: BrowserWindow = null
 let systemTray: Tray = null

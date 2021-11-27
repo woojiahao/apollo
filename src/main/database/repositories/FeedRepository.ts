@@ -17,13 +17,15 @@ export default class FeedRepository extends Repository<Feed> {
   }
 
   getFeed(feedId: number): Promise<Feed> {
-    const feed = this.findOne({
-      where: {
-        deletedOn: IsNull(),
-        feedId: feedId
-      },
-      relations: ['tag', 'articles']
-    })
+    /// TODO: Handle no feed match
+    const feed = this
+      .createQueryBuilder('feed')
+      .innerJoinAndSelect('feed.articles', 'article')
+      .where('feed.deletedOn is null')
+      .andWhere('feed.feedId = :feedId', { feedId })
+      .orderBy('article.publishedDate', 'DESC')
+      .addOrderBy('article.articleId', 'ASC')
+      .getOne()
     return feed
   }
 

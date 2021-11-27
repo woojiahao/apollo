@@ -1,10 +1,13 @@
+import { formatDate } from "../../utility";
 import { RSS } from "../../rss/data";
 import Article from "../entities/Article";
 
 export type SimpleArticle = {
-  articleId: number,
-  articleTitle: string,
-  isRead: boolean,
+  id: number
+  title: string
+  description: string | null
+  publishedDate: string
+  isRead: boolean
   isBookmark: boolean
 }
 
@@ -37,8 +40,10 @@ export default class ArticleMapper {
 
   static toSimple(article: Article): SimpleArticle {
     return {
-      articleId: article.articleId,
-      articleTitle: article.articleTitle,
+      id: article.articleId,
+      title: article.articleTitle,
+      description: article.articleDescription,
+      publishedDate: article.publishedDate ? formatDate(article.publishedDate) : 'No Published Date',
       isRead: article.isRead,
       isBookmark: article.isBookmark
     }
