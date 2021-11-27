@@ -1,13 +1,12 @@
 import { getCustomRepository } from "typeorm";
-import Article from "../database/entities/Article";
-import ArticleMapper, { SimpleArticle } from "../database/mappers/ArticleMapper";
-import ArticleRepository from "../database/repositories/ArticleRepository";
+import FeedMapper, { SimpleFeed } from "../database/mappers/FeedMapper";
+import FeedRepository from "../database/repositories/FeedRepository";
 import Handler from "./Handler";
 
-export default class GetArticlesInFeedHandler implements Handler<SimpleArticle[]> {
+export default class GetArticlesInFeedHandler implements Handler<SimpleFeed> {
   async handle(feedId: number) {
-    /// TODO: Handl when feed ID is invalid
-    const articles = await getCustomRepository(ArticleRepository).getArticlesInFeed(feedId)
-    return articles.map(ArticleMapper.toSimple)
+    /// TODO: Handle when feed ID is invalid
+    const feed = await getCustomRepository(FeedRepository).getFeed(feedId)
+    return FeedMapper.toSimple(feed)
   }
 }

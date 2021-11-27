@@ -2,7 +2,6 @@ import React from "react";
 import { MdBookmarks, MdOutlineAdd, MdRefresh, MdToday } from "react-icons/md";
 import { TagFeeds } from "../../main/database/mappers/FeedMapper";
 import FeedList from "./FeedList";
-import TreeView from "./TreeView/TreeView";
 import WrapIcon from "./WrapIcon";
 
 interface NavigationBarProps {
@@ -10,13 +9,16 @@ interface NavigationBarProps {
 }
 
 export default class NavigationBar extends React.Component<NavigationBarProps> {
-  constructor(props: NavigationBarProps) {
-    super(props)
-  }
-
   render() {
+    const classes = [
+      'container',
+      'bg-background',
+      'h-screen',
+      'border-box',
+      'py-6'
+    ].join(' ')
     return (
-      <div className="container bg-background h-screen border-box py-6 max-w-xs">
+      <div className={classes}>
         <div className="space-y-4 mb-4">
           <WrapIcon icon={<MdToday />} content="Today" />
           <WrapIcon icon={<MdBookmarks />} content="Bookmarks" />

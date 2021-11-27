@@ -1,12 +1,20 @@
+import { groupBy } from "../../handlers/utility";
 import { RSS } from "../../rss/data";
 import Feed from "../entities/Feed";
-import ArticleMapper from "./ArticleMapper";
+import ArticleMapper, { SimpleArticle } from "./ArticleMapper";
 
 export type TagFeeds = {
   [tag: string]: {
     feedId: number
     feedTitle: string
   }[]
+}
+
+export type SimpleFeed = {
+  id: number
+  title: string
+  description: string | null
+  articles: { [publishedDate: string]: SimpleArticle[] }
 }
 
 export default class FeedMapper {
@@ -41,5 +49,14 @@ export default class FeedMapper {
     }
 
     return tagFeeds
+  }
+
+  static toSimple(feed: Feed): SimpleFeed {
+    return {
+      id: feed.feedId,
+      title: feed.feedTitle,
+      description: feed.feedDescription,
+      articles: groupBy(feed.articles.map(ArticleMapper.toSimple), 'publishedDate')
+    }
   }
 }

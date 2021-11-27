@@ -5,7 +5,7 @@
 import { ipcRenderer } from "electron";
 import Feed from "../main/database/entities/Feed";
 import { SimpleArticle } from "../main/database/mappers/ArticleMapper";
-import { TagFeeds } from "../main/database/mappers/FeedMapper";
+import { SimpleFeed, TagFeeds } from "../main/database/mappers/FeedMapper";
 import { RSS } from "../main/rss/data";
 
 async function invoke<T>(action: string, ...args: any[]): Promise<T> {
@@ -19,7 +19,7 @@ export function getFeed(feedUrl: string): Promise<RSS.Feed> {
 }
 
 export function getArticlesInFeed(feedId: number) {
-  return invoke<SimpleArticle[]>('get-articles-in-feed', feedId)
+  return invoke<SimpleFeed>('get-articles-in-feed', feedId)
 }
 
 export async function bookmarkArticle(articleId: number): Promise<TagFeeds> {

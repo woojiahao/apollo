@@ -62,3 +62,42 @@ function generateArticleIdentifier(article: Article): string {
 
   return btoa(`${title}+${description}`)
 }
+
+export function groupBy<T>(data: T[], key: string): { [k: string]: T[] } {
+  const grouping: { [k: string]: T[] } = {}
+  for (const d of data) {
+    const k = d[key]
+    if (!(k in grouping)) grouping[k] = []
+    const copy = Object.assign({}, d)
+    grouping[k].push(copy)
+  }
+
+  return grouping
+}
+
+const months = [
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December'
+]
+
+function getMonth(month: number) {
+  if (month > months.length - 1) return null
+  return months[month]
+}
+
+export function formatDate(date: Date) {
+  const day = date.getUTCDate()
+  const month = getMonth(date.getUTCMonth())
+  const year = date.getUTCFullYear()
+  return `${day} ${month} ${year}`
+}
