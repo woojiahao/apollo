@@ -6,7 +6,6 @@ import WrapIcon from "./WrapIcon";
 
 interface NavigationBarProps {
   tagFeeds: TagFeeds
-  onFeedSelect?: (id: number) => void
 }
 
 export default class NavigationBar extends React.Component<NavigationBarProps> {
@@ -34,7 +33,7 @@ export default class NavigationBar extends React.Component<NavigationBarProps> {
         </div>
 
         {this.props.tagFeeds &&
-          <FeedList tagFeeds={this.props.tagFeeds} onFeedSelect={this.props.onFeedSelect} />
+          <FeedList tagFeeds={this.props.tagFeeds} />
         }
       </div>
     )
