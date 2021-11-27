@@ -1,69 +1,44 @@
-import AddCircleIcon from '@mui/icons-material/AddCircle';
-import RefreshIcon from '@mui/icons-material/Refresh';
-import SettingsIcon from '@mui/icons-material/Settings';
-import TodayIcon from '@mui/icons-material/Today';
-import BookmarksIcon from '@mui/icons-material/Bookmarks';
-import { IconButton, Stack, Typography } from "@mui/material";
-import { Box } from "@mui/system";
 import React from "react";
-import { TagFeeds } from '../../main/database/mappers/FeedMapper';
-import FeedList from './FeedList';
+import { MdBookmarks, MdOutlineAdd, MdRefresh, MdToday } from "react-icons/md";
+import { useNavigate } from "react-router-dom";
+import { TagFeeds } from "../../main/database/mappers/FeedMapper";
+import FeedList from "./FeedList";
+import WrapIcon from "./WrapIcon";
 
-type NavigationBarProps = {
+interface NavigationBarProps {
   tagFeeds: TagFeeds
-  onFeedIdChange: (feedId: number) => void
-  onDataChange: () => void
-  onOpenAddFeedDialog: () => void
-  onRefreshFeeds: () => void
 }
 
-export default class NavigationBar extends React.Component<NavigationBarProps> {
-  constructor(props: NavigationBarProps) {
-    super(props)
-  }
+const NavigationBar = ({ tagFeeds }: NavigationBarProps) => {
+  const navigate = useNavigate()
 
-  render() {
-    return (
-      <Box>
-        <Stack direction="row" justifyContent="space-between" alignItems="center">
-          {/* TODO: Style the title */}
-          <Typography variant="appTitle">Apollo</Typography>
-          <IconButton aria-label="settings" onClick={() => console.log('opening settings')}>
-            <SettingsIcon sx={{ fill: '#fff' }} />
-          </IconButton>
-        </Stack>
+  const classes = [
+    'container',
+    'bg-background',
+    'h-screen',
+    'border-box',
+    'py-6'
+  ].join(' ')
 
-        <Stack>
-          <Typography variant="wrapIcon" sx={{}}>
-            <TodayIcon /> <Typography component="span" variant="wrapIconText">Today</Typography>
-          </Typography>
+  return (
+    <div className={classes}>
+      <div className="space-y-4 mb-4">
+        <WrapIcon icon={<MdToday />} content="Today" />
+        <WrapIcon icon={<MdBookmarks />} content="Bookmarks" />
+      </div>
 
-          <Typography variant="wrapIcon">
-            <BookmarksIcon /> <Typography component="span" variant="wrapIconText">Bookmarks</Typography>
-          </Typography>
-        </Stack>
+      <div className="flex justify-between items-center mb-2">
+        <span className="font-bold text-subtitle">Feeds</span>
+        <div className="flex space-x-6">
+          <MdRefresh />
+          <MdOutlineAdd className="hover:fill-current hover:text-subtitle cursor-pointer" onClick={() => navigate('/add')} />
+        </div>
+      </div>
 
-        <Box>
-          <Stack direction="row" justifyContent="space-between" alignItems="center">
-            <Typography variant="sectionTitle">Feeds</Typography>
+      {tagFeeds && <FeedList tagFeeds={tagFeeds} />}
+    </div>
 
-            <Stack direction="row" spacing={3}>
-              <IconButton aria-label="refresh-feeds" onClick={this.props.onRefreshFeeds}>
-                <RefreshIcon sx={{ fill: '#fff' }} />
-              </IconButton>
-
-              <IconButton aria-label="add-feed" onClick={this.props.onOpenAddFeedDialog}>
-                <AddCircleIcon sx={{ fill: '#fff' }} />
-              </IconButton>
-            </Stack>
-          </Stack>
-
-          <FeedList
-            feeds={this.props.tagFeeds}
-            onFeedIdChange={this.props.onFeedIdChange}
-            onDataChange={this.props.onDataChange} />
-        </Box>
-      </Box>
-    )
-  }
+  )
 }
+
+export default NavigationBar

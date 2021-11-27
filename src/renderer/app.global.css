@@ -1,0 +1,60 @@
+@tailwind base;
+
+@layer base {
+  h1 {
+    @apply text-4xl;
+    @apply font-bold;
+  }
+
+  h2 {
+    @apply text-3xl;
+    @apply font-bold;
+  }
+
+  h3 {
+    @apply text-2xl;
+    @apply font-bold;
+  }
+
+  h4 {
+    @apply text-xl;
+    @apply font-bold;
+  }
+
+  h5 {
+    @apply text-lg;
+    @apply font-bold;
+  }
+
+  span, p {
+    @apply text-base text-primary;
+  }
+
+  svg {
+    @apply fill-current text-icon;
+  }
+}
+
+@tailwind components;
+@tailwind utilities;
+
+body {
+  position: relative;
+}
+
+svg {
+  width: 24px;
+  height: 24px;
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.hidden-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.hidden-scroll {
+  overflow-y: auto;
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}

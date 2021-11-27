@@ -1,7 +1,7 @@
-import Article from "../database/entities/Article"
-import Feed from "../database/entities/Feed"
-import FeedMapper from "../database/mappers/FeedMapper"
-import { loadFeed } from "../rss/rss"
+import Article from "./database/entities/Article"
+import Feed from "./database/entities/Feed"
+import FeedMapper from "./database/mappers/FeedMapper"
+import { loadFeed } from "./rss/rss"
 
 /// Refreshes a single feed
 export async function refreshFeed(original: Feed) {
@@ -61,4 +61,43 @@ function generateArticleIdentifier(article: Article): string {
   const description = article.articleDescription ? article.articleDescription : ''
 
   return btoa(`${title}+${description}`)
+}
+
+export function groupBy<T>(data: T[], key: string): { [k: string]: T[] } {
+  const grouping: { [k: string]: T[] } = {}
+  for (const d of data) {
+    const k = d[key]
+    if (!(k in grouping)) grouping[k] = []
+    const copy = Object.assign({}, d)
+    grouping[k].push(copy)
+  }
+
+  return grouping
+}
+
+const months = [
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December'
+]
+
+function getMonth(month: number) {
+  if (month > months.length - 1) return null
+  return months[month]
+}
+
+export function formatDate(date: Date) {
+  const day = date.getUTCDate()
+  const month = getMonth(date.getUTCMonth())
+  const year = date.getUTCFullYear()
+  return `${day} ${month} ${year}`
 }
