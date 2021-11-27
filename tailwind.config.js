@@ -22,7 +22,8 @@ module.exports = {
       red: '#D16666',
       hover: '#F3F1F1',
       'accent-darker': '#423C7E',
-      'red-darker': '#B14040'
+      'red-darker': '#B14040',
+      disabled: '#FCFCFC'
     },
     container: {
       padding: '1.5rem'
