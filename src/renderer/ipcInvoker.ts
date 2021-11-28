@@ -57,8 +57,7 @@ export async function refreshFeed(feedId: number) {
 }
 
 export async function getToday() {
-  const today = await invoke<SimpleArticle[]>('get-today')
-  return today
+  return invoke<{ [feedTitle: string]: SimpleArticle[] }>('get-today')
 }
 
 export async function readArticle(articleId: number) {

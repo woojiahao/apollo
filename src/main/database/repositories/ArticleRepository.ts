@@ -30,7 +30,8 @@ export default class ArticleRepository extends Repository<Article> {
       where: {
         publishedDate: Raw((alias) => `date_trunc('day', ${alias}) = current_date`),
         deletedOn: IsNull()
-      }
+      },
+      relations: ['feed']
     })
   }
 

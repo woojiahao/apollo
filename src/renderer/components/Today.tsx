@@ -8,7 +8,7 @@ interface TodayProps {
 }
 
 const Today = ({ layout }: TodayProps) => {
-  const [today, setToday] = useState<SimpleArticle[]>()
+  const [today, setToday] = useState<{ [feedTitle: string]: SimpleArticle[] }>()
 
   useEffect(() => {
     async function loadData() {
@@ -24,7 +24,14 @@ const Today = ({ layout }: TodayProps) => {
       <h1>Today</h1>
       <p className="text-subtitle mb-6">Latest updates on your RSS feed today</p>
 
-      {today && today.map(a => <ArticleCard article={a} />)}
+      {today && Object.entries(today).map(([feedTitle, articles]) => {
+        return (
+          <div className="mb-6">
+            <p className="text-subtitle text-tiny">{feedTitle}</p>
+            {articles.map(a => <ArticleCard article={a} />)}
+          </div>
+        )
+      })}
     </div>
   )
 }

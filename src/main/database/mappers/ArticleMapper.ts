@@ -1,14 +1,15 @@
-import { formatDate } from "../../utility";
 import { RSS } from "../../rss/data";
+import { formatDate } from "../../utility";
 import Article from "../entities/Article";
 
-export type SimpleArticle = {
+export interface SimpleArticle {
   id: number
   title: string
   description: string | null
   publishedDate: string
   isRead: boolean
   isBookmark: boolean
+  feedTitle: string
 }
 
 export default class ArticleMapper {
@@ -45,7 +46,8 @@ export default class ArticleMapper {
       description: article.articleDescription,
       publishedDate: article.publishedDate ? formatDate(article.publishedDate) : 'No Published Date',
       isRead: article.isRead,
-      isBookmark: article.isBookmark
+      isBookmark: article.isBookmark,
+      feedTitle: article.feed.feedTitle
     }
   }
 }
