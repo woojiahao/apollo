@@ -11,9 +11,10 @@ import TextField from "./Form/TextField";
 
 interface AddFeedFormProps {
   layout: string
+  onDataUpdate: () => void
 }
 
-const AddFeedForm = ({ layout }: AddFeedFormProps) => {
+const AddFeedForm = ({ layout, onDataUpdate }: AddFeedFormProps) => {
   const [isFinalStep, setIsFinalStep] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [feed, setFeed] = useState<RSS.Feed>(undefined)
@@ -53,6 +54,7 @@ const AddFeedForm = ({ layout }: AddFeedFormProps) => {
       updatedFeedWithName.title = title
       await ipcAddFeed(updatedFeedWithName, feedUrl, feedTag)
       setError(undefined)
+      onDataUpdate()
       back()
     } catch (e) {
       setError(e.message)

@@ -9,16 +9,17 @@ import Home from "./Home";
 import NavigationBar from "./NavigationBar";
 
 const App = () => {
-  const [tagFeeds, setTagFeeds] = React.useState<TagFeeds>(undefined)
+  const [tagFeeds, setTagFeeds] = React.useState<TagFeeds>(undefined);
 
-  useEffect(() => {
-    async function loadTagFeeds() {
-      const tagFeeds = await getTagFeeds()
-      setTagFeeds(tagFeeds)
-    }
+  (async () => {
+    const tf = await getTagFeeds()
+    setTagFeeds(tf)
+  })()
 
-    loadTagFeeds()
-  }, [])
+  async function onDataUpdate() {
+    const tf = await getTagFeeds()
+    setTagFeeds(tf)
+  }
 
   return (
     <div className="grid grid-cols-5 gap-10 overflow-y-hidden h-screen">
@@ -27,7 +28,7 @@ const App = () => {
       {/* TODO: Add scroll history */}
       <Routes>
         <Route path="/" element={<Home layout="col-span-4 pr-10" />} />
-        <Route path="/add" element={<AddFeedForm layout="col-span-4 pr-16" />} />
+        <Route path="/add" element={<AddFeedForm layout="col-span-4 pr-16" onDataUpdate={onDataUpdate.bind(this)} />} />
         <Route path="/feed/:id" element={<ArticleList layout="col-span-3" />} />
         <Route path="/article/:id" element={<ArticleViewer layout="col-span-3" />} />
       </Routes>
