@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { SimpleFeed } from "../../../main/database/mappers/FeedMapper";
 import { getArticlesInFeed } from "../../ipcInvoker";
@@ -19,12 +19,16 @@ const ArticleList = ({ layout }: ArticleListProps) => {
   ].join(' ')
 
   const { id } = useParams()
-  const feedId = parseInt(id);
+  const feedId = parseInt(id)
 
-  (async () => {
-    const f = await getArticlesInFeed(feedId)
-    setFeed(f)
-  })()
+  useEffect(() => {
+    async function loadArticles() {
+      const f = await getArticlesInFeed(feedId)
+      setFeed(f)
+    }
+
+    loadArticles()
+  }, [feedId])
 
   return (
     <div className={classes}>
