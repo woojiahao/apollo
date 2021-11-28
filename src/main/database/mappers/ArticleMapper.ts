@@ -47,7 +47,7 @@ export default class ArticleMapper {
       publishedDate: article.publishedDate ? formatDate(article.publishedDate) : 'No Published Date',
       isRead: article.isRead,
       isBookmark: article.isBookmark,
-      feedTitle: article.feed.feedTitle
+      feedTitle: article.feed ? article.feed.feedTitle : ''
     }
   }
 }

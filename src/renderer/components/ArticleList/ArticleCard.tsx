@@ -10,6 +10,13 @@ interface ArticleCardProps {
 const ArticleCard = ({ article }: ArticleCardProps) => {
   const navigate = useNavigate()
 
+  function summarizeDescription(description: string) {
+    const words = description.split(' ')
+    const limited = words.slice(0, 49) /// Limit to just 75 words
+    const updated = limited.concat(['...'])
+    return updated.join(' ')
+  }
+
   return (
     <div className="mb-4 cursor-pointer" onClick={() => navigate(`/article/${article.id}`)}>
       <div className="flex items-center justify-between">
@@ -21,7 +28,7 @@ const ArticleCard = ({ article }: ArticleCardProps) => {
       </div>
 
       {article.description &&
-        <p className={article.isRead ? 'text-faint' : 'text-subtitle'}>{article.description}</p>}
+        <p className={article.isRead ? 'text-faint' : 'text-subtitle'}>{summarizeDescription(article.description)}</p>}
     </div>
   )
 }

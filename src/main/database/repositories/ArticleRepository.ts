@@ -20,7 +20,8 @@ export default class ArticleRepository extends Repository<Article> {
       where: {
         articleId: articleId,
         deletedOn: IsNull()
-      }
+      },
+      relations: ['feed']
     })
   }
 
