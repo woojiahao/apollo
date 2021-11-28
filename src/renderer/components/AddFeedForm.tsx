@@ -2,9 +2,11 @@ import React, { createRef, useState } from "react";
 import { MdArrowBack } from "react-icons/md";
 import { useNavigate } from "react-router";
 import { RSS } from "../../main/rss/data";
-import { getFeed, addFeed as ipcAddFeed } from "../ipcInvoker";
+import { addFeed as ipcAddFeed, getFeed } from "../ipcInvoker";
+import ErrorMessage from "./form/ErrorMessage";
 import StyledButton from "./form/StyledButton";
 import StyledTextField from "./form/StyledTextField";
+import Loader from "./Loader";
 import WrapIcon from "./WrapIcon";
 
 interface AddFeedFormProps {
@@ -13,16 +15,21 @@ interface AddFeedFormProps {
 
 const AddFeedForm = ({ layout }: AddFeedFormProps) => {
   const [isFinalStep, setIsFinalStep] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
   const [feed, setFeed] = useState<RSS.Feed>(undefined)
   const [feedTitle, setFeedTitle] = useState('')
   const [feedUrl, setFeedUrl] = useState('')
   const [feedTag, setFeedTag] = useState('Uncategorized')
+  const [error, setError] = useState<string>(undefined)
 
   const navigate = useNavigate()
 
   const classes = [
     layout,
     'container',
+    'flex',
+    'flex-col',
+    'gap-4',
     'py-6'
   ].join(' ')
 
@@ -36,17 +43,35 @@ const AddFeedForm = ({ layout }: AddFeedFormProps) => {
 
   // TODO: Add loader
   async function downloadFeed(url: string) {
-    const feed = await getFeed(url)
-    setFeed(feed)
-    setFeedTitle(feed.title)
-    setFeedUrl(url)
-    setIsFinalStep(true)
+    setIsLoading(true)
+    try {
+      const feed = await getFeed(url)
+      setFeed(feed)
+      setFeedTitle(feed.title)
+      setFeedUrl(url)
+      setIsFinalStep(true)
+      setError(undefined)
+    } catch (e) {
+      setError(e.message)
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   async function addFeed(title: string) {
-    const updatedFeedWithName: RSS.Feed = Object.assign({}, feed)
-    updatedFeedWithName.title = title
-    await ipcAddFeed(updatedFeedWithName, feedUrl, feedTag)
+    // TODO: Add toast message on success
+    setIsLoading(true)
+    try {
+      const updatedFeedWithName: RSS.Feed = Object.assign({}, feed)
+      updatedFeedWithName.title = title
+      await ipcAddFeed(updatedFeedWithName, feedUrl, feedTag)
+      setError(undefined)
+      back()
+    } catch (e) {
+      setError(e.message)
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   return (
@@ -55,18 +80,27 @@ const AddFeedForm = ({ layout }: AddFeedFormProps) => {
 
       <h1>Add Feed</h1>
 
-      <div className="mb-4">
+      <div className={`absolute gap-6 top-0 bottom-0 left-0 right-0 bg-icon bg-opacity-50 ${isLoading ? 'block' : 'hidden'}`}>
+        <div className="h-screen flex-col flex items-center justify-center">
+          <h1>Loading...</h1>
+          <Loader />
+        </div>
+      </div>
+
+      <div className="mb-4 flex flex-col gap-4">
+        <ErrorMessage visibility={error !== undefined} message={error} />
+
         <StyledTextField label="feed-url" title="Feed URL" ref={feedUrlRef} disabled={isFinalStep} />
 
-        <div style={{ display: isFinalStep ? 'block' : 'none' }}>
+        <div className={`flex-col gap-4 ${isFinalStep ? 'flex' : 'hidden'}`}>
           <h2>Configure Feed</h2>
           <StyledTextField label="feed-name" title="Feed Name" ref={feedNameRef} value={feedTitle} />
           <StyledTextField label="feed-tag" title="Feed Tag" ref={feedTagRef} />
         </div>
       </div>
 
-      <div className="flex">
-        <StyledButton color="bg-red" text="Cancel" />
+      <div className="flex gap-4 justify-end">
+        <StyledButton color="bg-red" text="Cancel" onClick={back.bind(this)} />
         <StyledButton
           color="bg-accent"
           text={isFinalStep ? 'Add' : 'Download'}

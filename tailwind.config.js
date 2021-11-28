@@ -14,6 +14,7 @@ module.exports = {
     },
     colors: {
       primary: '#232323',
+      white: '#FFFFFF',
       subtitle: '#737373',
       faint: '#C3C3C3',
       accent: '#645E9D',
@@ -23,6 +24,7 @@ module.exports = {
       hover: '#F3F1F1',
       'accent-darker': '#423C7E',
       'red-darker': '#B14040',
+      'red-lighter': '#ED8585',
       disabled: '#FCFCFC'
     },
     container: {

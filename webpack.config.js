@@ -30,14 +30,9 @@ module.exports = [{
       }),
       new CopyPlugin({
         patterns: [{
-            from: 'public/icons',
-            to: '.'
-          },
-          {
-            from: 'public/svg-loaders',
-            to: '.'
-          }
-        ]
+          from: 'public/icons',
+          to: '.'
+        }]
       })
     ]
   },
