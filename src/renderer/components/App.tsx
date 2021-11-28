@@ -27,7 +27,7 @@ const App = () => {
       {/* TODO: Add scroll history */}
       <Routes>
         <Route path="/" element={<Home layout="col-span-4" />} />
-        <Route path="/add" element={<AddFeedForm layout="col-span-4" onDataUpdate={onDataUpdate.bind(this)} />} />
+        <Route path="/add" element={<AddFeedForm layout="col-span-4" onDataUpdate={onDataUpdate.bind(this)} tagFeeds={tagFeeds} />} />
         <Route path="/feed/:id" element={<ArticleList layout="col-span-3" />} />
         <Route path="/article/:id" element={<ArticleViewer layout="col-span-3" />} />
       </Routes>

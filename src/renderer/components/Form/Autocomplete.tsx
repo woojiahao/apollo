@@ -1,5 +1,5 @@
 import React, { createRef, useState } from "react";
-import { MdArrowDropDown, MdExpandLess, MdExpandMore } from "react-icons/md";
+import { MdExpandLess, MdExpandMore } from "react-icons/md";
 
 interface AutocompleteProps {
   title: string
@@ -46,7 +46,7 @@ const Autocomplete = React.forwardRef<HTMLInputElement, AutocompleteProps>(
 
           <div className="flex items-center cursor-pointer h-full rounded-md rounded-l-none border-2 border-l-0 border-icon"
             onClick={() => setDropdownShown(!dropdownShown)}>
-            {dropdownShown ? <MdExpandMore className="w-8 h-8" /> : <MdExpandLess className="w-8 h-8" />}
+            {dropdownShown ? <MdExpandLess className="w-8 h-8" /> : <MdExpandMore className="w-8 h-8" />}
           </div>
         </div>
 

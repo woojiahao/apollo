@@ -1,7 +1,9 @@
 import React, { createRef, useState } from "react";
 import { useNavigate } from "react-router";
+import { TagFeeds } from "../../main/database/mappers/FeedMapper";
 import { RSS } from "../../main/rss/data";
 import { addFeed as ipcAddFeed, getFeed } from "../ipcInvoker";
+import Autocomplete from "./Form/Autocomplete";
 import Button from "./Form/Button";
 import Form from "./Form/Form";
 import FormButtons from "./Form/FormButtons";
@@ -11,16 +13,16 @@ import TextField from "./Form/TextField";
 
 interface AddFeedFormProps {
   layout: string
+  tagFeeds: TagFeeds
   onDataUpdate: () => void
 }
 
-const AddFeedForm = ({ layout, onDataUpdate }: AddFeedFormProps) => {
+const AddFeedForm = ({ layout, tagFeeds, onDataUpdate }: AddFeedFormProps) => {
   const [isFinalStep, setIsFinalStep] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [feed, setFeed] = useState<RSS.Feed>(undefined)
   const [feedTitle, setFeedTitle] = useState('')
   const [feedUrl, setFeedUrl] = useState('')
-  const [feedTag, setFeedTag] = useState('Uncategorized')
   const [error, setError] = useState<string>(undefined)
 
   const navigate = useNavigate()
@@ -46,13 +48,13 @@ const AddFeedForm = ({ layout, onDataUpdate }: AddFeedFormProps) => {
     }
   }
 
-  async function addFeed(title: string) {
+  async function addFeed(title: string, tag: string) {
     // TODO: Add toast message on success
     setIsLoading(true)
     try {
       const updatedFeedWithName: RSS.Feed = Object.assign({}, feed)
       updatedFeedWithName.title = title
-      await ipcAddFeed(updatedFeedWithName, feedUrl, feedTag)
+      await ipcAddFeed(updatedFeedWithName, feedUrl, tag)
       setError(undefined)
       onDataUpdate()
       back()
@@ -74,7 +76,7 @@ const AddFeedForm = ({ layout, onDataUpdate }: AddFeedFormProps) => {
 
         <FormSection title="Configure Feed" visibility={isFinalStep}>
           <TextField label="feed-name" title="Feed Name" ref={feedNameRef} value={feedTitle} />
-          <TextField label="feed-tag" title="Feed Tag" ref={feedTagRef} />
+          <Autocomplete label="feed-tag" title="Feed Tag" ref={feedTagRef} initialData={Object.keys(tagFeeds)} />
         </FormSection>
       </FormFields>
 
@@ -83,7 +85,7 @@ const AddFeedForm = ({ layout, onDataUpdate }: AddFeedFormProps) => {
         <Button
           color="bg-accent"
           text={isFinalStep ? 'Add' : 'Download'}
-          onClick={() => isFinalStep ? addFeed(feedNameRef.current.value) : downloadFeed(feedUrlRef.current.value)} />
+          onClick={() => isFinalStep ? addFeed(feedNameRef.current.value, feedTagRef.current.value) : downloadFeed(feedUrlRef.current.value)} />
       </FormButtons>
     </Form>
   )
