@@ -7,7 +7,7 @@ interface StyledButtonProps {
   onClick?: () => void
 }
 
-const StyledButton = ({ text, color, className, onClick }: StyledButtonProps) => {
+const Button = ({ text, color, className, onClick }: StyledButtonProps) => {
   const classes = [
     className,
     color,
@@ -24,4 +24,4 @@ const StyledButton = ({ text, color, className, onClick }: StyledButtonProps) =>
   )
 }
 
-export default StyledButton
+export default Button

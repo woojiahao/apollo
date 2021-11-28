@@ -7,7 +7,7 @@ interface StyledTextFieldProps {
   value?: string
 }
 
-const StyledTextField = React.forwardRef<HTMLInputElement, StyledTextFieldProps>(({ title, label, disabled, value }, ref) => {
+const TextField = React.forwardRef<HTMLInputElement, StyledTextFieldProps>(({ title, label, disabled, value }, ref) => {
   // TODO: Fix disabled styling
   return (
     <div className="flex flex-col">
@@ -24,4 +24,4 @@ const StyledTextField = React.forwardRef<HTMLInputElement, StyledTextFieldProps>
   )
 })
 
-export default StyledTextField
+export default TextField
