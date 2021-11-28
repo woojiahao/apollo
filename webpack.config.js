@@ -30,9 +30,14 @@ module.exports = [{
       }),
       new CopyPlugin({
         patterns: [{
-          from: 'public/icons',
-          to: '.'
-        }]
+            from: 'public/icons',
+            to: '.'
+          },
+          {
+            from: 'public/svg-loaders',
+            to: '.'
+          }
+        ]
       })
     ]
   },
@@ -57,6 +62,11 @@ module.exports = [{
           "style-loader",
           "css-loader",
           "postcss-loader"
+        ]
+      }, {
+        test: /\.svg$/,
+        use: [
+          '@svgr/webpack'
         ]
       }],
     },
