@@ -7,6 +7,7 @@ import ArticleList from "./ArticleList/ArticleList";
 import ArticleViewer from "./ArticleViewer";
 import Home from "./Home";
 import NavigationBar from "./NavigationBar";
+import Today from "./Today";
 
 const App = () => {
   const [tagFeeds, setTagFeeds] = React.useState<TagFeeds>(undefined);
@@ -27,6 +28,7 @@ const App = () => {
       {/* TODO: Add scroll history */}
       <Routes>
         <Route path="/" element={<Home layout="col-span-4" />} />
+        <Route path="/today" element={<Today layout="col-span-3" />} />
         <Route path="/add" element={<AddFeedForm layout="col-span-4" onDataUpdate={onDataUpdate.bind(this)} tagFeeds={tagFeeds} />} />
         <Route path="/feed/:id" element={<ArticleList layout="col-span-3" />} />
         <Route path="/article/:id" element={<ArticleViewer layout="col-span-3" />} />

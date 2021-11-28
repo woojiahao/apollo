@@ -23,7 +23,7 @@ const NavigationBar = ({ tagFeeds }: NavigationBarProps) => {
   return (
     <div className={classes}>
       <div className="space-y-4 mb-4">
-        <WrapIcon icon={<MdToday />} content="Today" />
+        <WrapIcon icon={<MdToday />} content="Today" onClick={() => navigate('/today')} />
         <WrapIcon icon={<MdBookmarks />} content="Bookmarks" />
       </div>
 
