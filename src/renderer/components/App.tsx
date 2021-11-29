@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
 import { TagFeeds } from "../../main/database/mappers/FeedMapper";
-import { getTagFeeds } from "../ipcInvoker";
+import { getTagFeeds, refreshFeeds } from "../ipcInvoker";
 import AddFeedForm from "./AddFeedForm";
 import ArticleList from "./ArticleList/ArticleList";
 import ArticleViewer from "./ArticleViewer";
@@ -17,7 +17,12 @@ const App = () => {
     setTagFeeds(tf)
   }
 
+  async function refresh() {
+    await refreshFeeds()
+  }
+
   useEffect(() => {
+    refresh()
     onDataUpdate()
   }, [])
 
@@ -29,7 +34,7 @@ const App = () => {
       <div className="col-span-4 h-screen">
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/today" element={<Today layout="col-span-3" />} />
+          <Route path="/today" element={<Today />} />
           <Route path="/add" element={<AddFeedForm layout="col-span-4" onDataUpdate={onDataUpdate.bind(this)} tagFeeds={tagFeeds} />} />
           <Route path="/feed/:id" element={<ArticleList />} />
           <Route path="/article/:id" element={<ArticleViewer />} />

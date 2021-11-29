@@ -59,8 +59,9 @@ function updateArticles(original: Feed, latest: Feed) {
 function generateArticleIdentifier(article: Article): string {
   const title = article.articleTitle ? article.articleTitle : ''
   const description = article.articleDescription ? article.articleDescription : ''
+  const key = `${title}+${description}`
 
-  return btoa(`${title}+${description}`)
+  return btoa(unescape(encodeURIComponent(key)))
 }
 
 export function groupBy<T>(data: T[], key: string): { [k: string]: T[] } {
