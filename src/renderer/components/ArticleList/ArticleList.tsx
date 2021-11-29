@@ -40,9 +40,7 @@ const ArticleList = () => {
       }
 
       {feed &&
-        <div className="h-full hidden-scroll">
-          <ArticleListSidebar articles={Object.values(feed.articles).reduce((prev, cur) => prev.concat(cur), [])} />
-        </div>
+        <ArticleListSidebar articles={Object.values(feed.articles).reduce((prev, cur) => prev.concat(cur), [])} />
       }
     </div>
 
