@@ -12,23 +12,14 @@ interface NavigationBarProps {
 const NavigationBar = ({ tagFeeds }: NavigationBarProps) => {
   const navigate = useNavigate()
 
-  const classes = [
-    'container',
-    'bg-background',
-    'h-screen',
-    'border-box',
-    'py-6',
-    'hidden-scroll'
-  ].join(' ')
-
   return (
-    <div className={classes}>
-      <div className="space-y-4 mb-4">
+    <div className="flex flex-col gap-4 container bg-background h-screen border-box py-6 hidden-scroll">
+      <div>
         <WrapIcon icon={<MdToday />} content="Today" onClick={() => navigate('/today')} />
         <WrapIcon icon={<MdBookmarks />} content="Bookmarks" />
       </div>
 
-      <div className="flex justify-between items-center mb-2">
+      <div className="flex justify-between items-center">
         <span className="font-bold text-subtitle">Feeds</span>
         <div className="flex space-x-6">
           <MdRefresh />
