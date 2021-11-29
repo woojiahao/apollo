@@ -45,11 +45,11 @@ export default class ArticleRepository extends Repository<Article> {
     }
   }
 
-  async bookmarkArticle(articleId: number) {
+  async bookmarkArticle(articleId: number, isBookmark: boolean) {
     const article = await this.getArticle(articleId)
     if (article !== null) {
-      article.isBookmark = true
-      this.save(article)
+      article.isBookmark = isBookmark
+      return this.save(article)
     }
   }
 }

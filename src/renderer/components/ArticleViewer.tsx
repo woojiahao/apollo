@@ -4,7 +4,7 @@ import { useLocation, useNavigate, useParams } from "react-router";
 import '../../../public/prism.css';
 import { RSS } from "../../main/rss/data";
 import { formatDate } from "../../main/utility";
-import { getArticle } from "../ipcInvoker";
+import { getArticle, readArticle } from "../ipcInvoker";
 import WrapIcon from "./WrapIcon";
 
 type ArticleViewerProps = {
@@ -17,7 +17,6 @@ const ArticleViewer = ({ layout }: ArticleViewerProps) => {
   const navigate = useNavigate()
 
   const { id } = useParams()
-
   const articleId = parseInt(id)
 
   const classes = [
@@ -30,11 +29,12 @@ const ArticleViewer = ({ layout }: ArticleViewerProps) => {
   useEffect(() => {
     async function loadArticle() {
       const article = await getArticle(articleId)
+      await readArticle(articleId)
       setArticle(article)
     }
 
     loadArticle()
-  }, [])
+  }, [articleId])
 
   function back() {
     navigate(-1)

@@ -1,14 +1,22 @@
-import React from "react";
-import { MdCheck, MdOutlineBookmark } from "react-icons/md";
-import { useNavigate } from "react-router";
+import React, { useEffect, useState } from "react";
+import { MdBookmarkBorder, MdCheck, MdOutlineBookmark } from "react-icons/md";
+import { useNavigate, useParams } from "react-router";
 import { SimpleArticle } from "../../../main/database/mappers/ArticleMapper";
+import { bookmarkArticle } from "../../ipcInvoker";
 
 interface ArticleCardProps {
   article: SimpleArticle
 }
 
 const ArticleCard = ({ article }: ArticleCardProps) => {
+  const [isBookmark, setIsBookmark] = useState(false)
+
   const navigate = useNavigate()
+  const { id } = useParams()
+
+  useEffect(() => {
+    setIsBookmark(article.isBookmark)
+  }, [id])
 
   function summarizeDescription(description: string) {
     const words = description.split(' ')
@@ -17,18 +25,30 @@ const ArticleCard = ({ article }: ArticleCardProps) => {
     return updated.join(' ')
   }
 
+  async function bookmark() {
+    setIsBookmark(!isBookmark)
+    await bookmarkArticle(article.id, isBookmark)
+  }
+
+  function toArticle() {
+    navigate(`/article/${article.id}`)
+  }
+
   return (
-    <div className="mb-4 cursor-pointer" onClick={() => navigate(`/article/${article.id}`)}>
-      <div className="flex items-center justify-between">
-        <h2 className={article.isRead ? 'text-subtitle' : 'text-primary'}>{article.title}</h2>
-        <div className="flex">
-          <MdOutlineBookmark className="mx-4 hover:fill-current hover:text-subtitle" />
+    <div className="mb-4 cursor-pointer">
+      <div className="flex items-center justify-between gap-4">
+        <h2 onClick={toArticle} className={article.isRead ? 'text-subtitle' : 'text-primary'}>{article.title}</h2>
+        <div className="flex gap-4">
+          {isBookmark ?
+            <MdOutlineBookmark onClick={bookmark} className="hover:fill-current hover:text-subtitle" /> :
+            <MdBookmarkBorder onClick={bookmark} className="hover:fill-current hover:text-subtitle" />
+          }
           <MdCheck className="hover:fill-current hover:text-subtitle" />
         </div>
       </div>
 
       {article.description &&
-        <p className={article.isRead ? 'text-faint' : 'text-subtitle'}>{summarizeDescription(article.description)}</p>}
+        <p onClick={toArticle} className={article.isRead ? 'text-faint' : 'text-subtitle'}>{summarizeDescription(article.description)}</p>}
     </div>
   )
 }

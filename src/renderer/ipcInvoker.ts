@@ -22,9 +22,8 @@ export function getArticlesInFeed(feedId: number) {
   return invoke<SimpleFeed>('get-articles-in-feed', feedId)
 }
 
-export async function bookmarkArticle(articleId: number): Promise<TagFeeds> {
-  const tagFeeds: TagFeeds = await invoke('bookmark-article', articleId)
-  return tagFeeds
+export async function bookmarkArticle(articleId: number, isBookmark: boolean): Promise<SimpleArticle> {
+  return invoke('bookmark-article', articleId, isBookmark)
 }
 
 export async function getArticle(articleId: number): Promise<RSS.Item> {

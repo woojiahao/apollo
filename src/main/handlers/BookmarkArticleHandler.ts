@@ -1,16 +1,12 @@
-import { getCustomRepository, getManager } from "typeorm";
-import FeedMapper, { TagFeeds } from "../database/mappers/FeedMapper";
+import { getCustomRepository } from "typeorm";
+import ArticleMapper, { SimpleArticle } from "../database/mappers/ArticleMapper";
 import ArticleRepository from "../database/repositories/ArticleRepository";
-import FeedRepository from "../database/repositories/FeedRepository";
 import Handler from "./Handler";
 
-export default class BookmarkArticleHandler implements Handler<TagFeeds> {
-  async handle(articleId: number) {
+export default class BookmarkArticleHandler implements Handler<SimpleArticle> {
+  async handle(articleId: number, isBookmark: boolean) {
     const articleRepository = getCustomRepository(ArticleRepository)
-    await articleRepository.bookmarkArticle(articleId)
-
-    const feeds = await getCustomRepository(FeedRepository).getAvailable()
-    const tagFeeds = FeedMapper.toTagFeeds(feeds)
-    return tagFeeds
+    const article = await articleRepository.bookmarkArticle(articleId, isBookmark)
+    return ArticleMapper.toSimple(article)
   }
 }
