@@ -10,12 +10,12 @@ interface TodayProps {
 const Today = ({ layout }: TodayProps) => {
   const [today, setToday] = useState<{ [feedTitle: string]: SimpleArticle[] }>()
 
-  useEffect(() => {
-    async function loadData() {
-      const today = await getToday()
-      setToday(today)
-    }
+  async function loadData() {
+    const today = await getToday()
+    setToday(today)
+  }
 
+  useEffect(() => {
     loadData()
   }, [])
 
@@ -28,7 +28,7 @@ const Today = ({ layout }: TodayProps) => {
         return (
           <div className="mb-6">
             <p className="text-subtitle text-tiny">{feedTitle}</p>
-            {articles.map(a => <ArticleCard article={a} />)}
+            {articles.map(a => <ArticleCard onDataChange={loadData} article={a} />)}
           </div>
         )
       })}

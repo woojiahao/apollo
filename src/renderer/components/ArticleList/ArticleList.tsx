@@ -3,37 +3,27 @@ import { useParams } from "react-router";
 import { SimpleFeed } from "../../../main/database/mappers/FeedMapper";
 import { getArticlesInFeed } from "../../ipcInvoker";
 import ArticleCard from "./ArticleCard";
+import ArticleListSidebar from "./ArticleListSidebar";
 
-interface ArticleListProps {
-  layout: string
-}
-
-const ArticleList = ({ layout }: ArticleListProps) => {
+const ArticleList = () => {
   const [feed, setFeed] = useState<SimpleFeed>(undefined)
-
-  const classes = [
-    layout,
-    'container',
-    'hidden-scroll',
-    'py-6'
-  ].join(' ')
 
   const { id } = useParams()
   const feedId = parseInt(id)
 
-  useEffect(() => {
-    async function loadArticles() {
-      const f = await getArticlesInFeed(feedId)
-      setFeed(f)
-    }
+  async function loadArticles() {
+    const f = await getArticlesInFeed(feedId)
+    setFeed(f)
+  }
 
+  useEffect(() => {
     loadArticles()
   }, [feedId])
 
   return (
-    <div className={classes}>
+    <div className="grid grid-cols-4 h-full py-6">
       {feed &&
-        <div>
+        <div className="col-span-3 container h-full hidden-scroll">
           <h1>{feed.title}</h1>
           {feed.description &&
             <p className="text-subtitle mb-6">{feed.description}</p>}
@@ -42,10 +32,16 @@ const ArticleList = ({ layout }: ArticleListProps) => {
             return (
               <div className="mb-6">
                 <p className="text-subtitle text-tiny">{publishedDate}</p>
-                {articles.map(article => <ArticleCard article={article} />)}
+                {articles.map(article => <ArticleCard onDataChange={loadArticles} article={article} />)}
               </div>
             )
           })}
+        </div>
+      }
+
+      {feed &&
+        <div className="h-full hidden-scroll">
+          <ArticleListSidebar articles={Object.values(feed.articles).reduce((prev, cur) => prev.concat(cur), [])} />
         </div>
       }
     </div>

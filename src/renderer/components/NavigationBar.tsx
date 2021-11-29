@@ -17,7 +17,8 @@ const NavigationBar = ({ tagFeeds }: NavigationBarProps) => {
     'bg-background',
     'h-screen',
     'border-box',
-    'py-6'
+    'py-6',
+    'hidden-scroll'
   ].join(' ')
 
   return (

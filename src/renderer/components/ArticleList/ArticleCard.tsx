@@ -6,14 +6,13 @@ import { bookmarkArticle } from "../../ipcInvoker";
 
 interface ArticleCardProps {
   article: SimpleArticle
+  onDataChange: () => void
 }
 
-const ArticleCard = ({ article }: ArticleCardProps) => {
+const ArticleCard = ({ article, onDataChange }: ArticleCardProps) => {
   const [isBookmark, setIsBookmark] = useState(false)
 
   const navigate = useNavigate()
-
-  if (article.isBookmark) console.log(article)
 
   useEffect(() => {
     setIsBookmark(article.isBookmark)
@@ -29,6 +28,7 @@ const ArticleCard = ({ article }: ArticleCardProps) => {
   async function bookmark() {
     await bookmarkArticle(article.id, !isBookmark)
     setIsBookmark(!isBookmark)
+    onDataChange()
   }
 
   function toArticle() {
