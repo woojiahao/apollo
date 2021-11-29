@@ -23,7 +23,7 @@ const ArticleList = () => {
   return (
     <div className="grid grid-cols-4 h-full py-6">
       {feed &&
-        <div className="col-span-3 container h-full hidden-scroll">
+        <div className="col-span-3 h-full container hidden-scroll">
           <h1>{feed.title}</h1>
           {feed.description &&
             <p className="text-subtitle mb-6">{feed.description}</p>}

@@ -24,14 +24,14 @@ const Today = ({ layout }: TodayProps) => {
       <h1>Today</h1>
       <p className="text-subtitle mb-6">Latest updates on your RSS feed today</p>
 
-      {today && Object.entries(today).map(([feedTitle, articles]) => {
+      {today && (Object.entries(today).map(([feedTitle, articles]) => {
         return (
           <div className="mb-6">
             <p className="text-subtitle text-tiny">{feedTitle}</p>
             {articles.map(a => <ArticleCard onDataChange={loadData} article={a} />)}
           </div>
         )
-      })}
+      }))}
     </div>
   )
 }
