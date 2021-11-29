@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { MdBookmarkBorder, MdCheck, MdOutlineBookmark } from "react-icons/md";
-import { useNavigate, useParams } from "react-router";
+import { MdCheck, MdOutlineBookmark, MdOutlineBookmarkBorder } from "react-icons/md";
+import { useNavigate } from "react-router";
 import { SimpleArticle } from "../../../main/database/mappers/ArticleMapper";
 import { bookmarkArticle } from "../../ipcInvoker";
 
@@ -12,11 +12,12 @@ const ArticleCard = ({ article }: ArticleCardProps) => {
   const [isBookmark, setIsBookmark] = useState(false)
 
   const navigate = useNavigate()
-  const { id } = useParams()
+
+  if (article.isBookmark) console.log(article)
 
   useEffect(() => {
     setIsBookmark(article.isBookmark)
-  }, [id])
+  }, [article.id])
 
   function summarizeDescription(description: string) {
     const words = description.split(' ')
@@ -26,8 +27,8 @@ const ArticleCard = ({ article }: ArticleCardProps) => {
   }
 
   async function bookmark() {
+    await bookmarkArticle(article.id, !isBookmark)
     setIsBookmark(!isBookmark)
-    await bookmarkArticle(article.id, isBookmark)
   }
 
   function toArticle() {
@@ -41,7 +42,7 @@ const ArticleCard = ({ article }: ArticleCardProps) => {
         <div className="flex gap-4">
           {isBookmark ?
             <MdOutlineBookmark onClick={bookmark} className="hover:fill-current hover:text-subtitle" /> :
-            <MdBookmarkBorder onClick={bookmark} className="hover:fill-current hover:text-subtitle" />
+            <MdOutlineBookmarkBorder onClick={bookmark} className="hover:fill-current hover:text-subtitle" />
           }
           <MdCheck className="hover:fill-current hover:text-subtitle" />
         </div>
