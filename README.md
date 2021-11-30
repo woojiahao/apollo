@@ -1,10 +1,9 @@
 <div align="center">
-  <h1 align="center">APOLLO</h1>
-  <p>Open-source RSS Aggregator</p>
-  <hr>
+  <h1 align="center" style="border: none">APOLLO</h1>
+  <p>
+   <strong>Open-source RSS Aggregator</strong>
+  </p>
   <em>RSS Made Easy</em>
-
-  <hr>
   <img src="./documentation/res/apollo-preview-feed.png">
   <img src="./documentation/res/apollo-preview-article.png">
 </div>
