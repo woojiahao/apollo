@@ -41,8 +41,26 @@ export default class ArticleRepository extends Repository<Article> {
     if (article !== null) {
       const updatedArticle = Object.assign({}, article)
       updatedArticle.isRead = true
-      this.save(updatedArticle)
+      return this.save(updatedArticle)
     }
+  }
+
+  async readAllInFeed(feedId: number) {
+    const articles = await this.find({
+      where: {
+        feed: {
+          feedId: feedId,
+          deletedOn: IsNull()
+        },
+        deletedOn: IsNull()
+      }
+    })
+
+    for (const a of articles) {
+      a.isRead = true
+    }
+
+    return this.save(articles)
   }
 
   async bookmarkArticle(articleId: number, isBookmark: boolean) {

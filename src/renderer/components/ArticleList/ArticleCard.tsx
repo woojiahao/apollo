@@ -16,7 +16,7 @@ const ArticleCard = ({ article, onDataChange }: ArticleCardProps) => {
 
   useEffect(() => {
     setIsBookmark(article.isBookmark)
-  }, [article.id])
+  }, [article.id, article.isRead])
 
   function summarizeDescription(description: string) {
     const words = description.split(' ')

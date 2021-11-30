@@ -46,13 +46,12 @@ export function addFeed(rawFeed: RSS.Feed, feedUrl: string, tagName: string | nu
   return invoke('add-feed', rawFeed, feedUrl, tagName)
 }
 
-export async function refreshFeeds(): Promise<TagFeeds> {
-  const tagFeeds: TagFeeds = await invoke('refresh-feeds')
-  return tagFeeds
+export function refreshFeeds(): Promise<TagFeeds> {
+  return invoke('refresh-feeds')
 }
 
-export async function refreshFeed(feedId: number) {
-  await invoke<Feed>('refresh-feed', feedId)
+export function refreshFeed(feedId: number) {
+  return invoke<Feed>('refresh-feed', feedId)
 }
 
 export async function getToday() {
@@ -62,4 +61,8 @@ export async function getToday() {
 export async function readArticle(articleId: number) {
   const updatedTagFeeds = await invoke<TagFeeds>('read-article', articleId)
   return updatedTagFeeds
+}
+
+export async function readAllArticlesInFeed(feedId: number) {
+  await invoke('read-all-articles', feedId)
 }

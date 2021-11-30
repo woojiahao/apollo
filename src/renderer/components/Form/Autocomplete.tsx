@@ -44,7 +44,7 @@ const Autocomplete = React.forwardRef<HTMLInputElement, AutocompleteProps>(
             name={label}
             className="flex-1 py-2 px-4 rounded-md rounded-r-none border-2 border-r-0 border-icon focus:outline-none" />
 
-          <div className="flex items-center cursor-pointer h-full rounded-md rounded-l-none border-2 border-l-0 border-icon"
+          <div className="flex items-center cursor-pointer rounded-md rounded-l-none border-2 border-l-0 border-icon"
             onClick={() => setDropdownShown(!dropdownShown)}>
             {dropdownShown ? <MdExpandLess className="w-8 h-8" /> : <MdExpandMore className="w-8 h-8" />}
           </div>

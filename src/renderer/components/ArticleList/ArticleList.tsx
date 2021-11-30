@@ -12,7 +12,9 @@ const ArticleList = () => {
   const feedId = parseInt(id)
 
   async function loadArticles() {
+    console.log('loading new articles')
     const f = await getArticlesInFeed(feedId)
+    console.log(f)
     setFeed(f)
   }
 
@@ -32,7 +34,7 @@ const ArticleList = () => {
             return (
               <div className="mb-6">
                 <p className="text-subtitle text-tiny">{publishedDate}</p>
-                {articles.map(article => <ArticleCard onDataChange={loadArticles} article={article} />)}
+                {articles.map(article => <ArticleCard onDataChange={loadArticles.bind(this)} article={article} />)}
               </div>
             )
           })}
@@ -40,7 +42,10 @@ const ArticleList = () => {
       }
 
       {feed &&
-        <ArticleListSidebar articles={Object.values(feed.articles).reduce((prev, cur) => prev.concat(cur), [])} />
+        <ArticleListSidebar
+          feedId={feedId}
+          articles={Object.values(feed.articles).reduce((prev, cur) => prev.concat(cur), [])}
+          onDataChange={loadArticles.bind(this)} />
       }
     </div>
 

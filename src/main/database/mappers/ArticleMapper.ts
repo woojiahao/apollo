@@ -10,6 +10,7 @@ export interface SimpleArticle {
   isRead: boolean
   isBookmark: boolean
   feedTitle: string
+  feedId: number
 }
 
 export default class ArticleMapper {
@@ -47,7 +48,8 @@ export default class ArticleMapper {
       publishedDate: article.publishedDate ? formatDate(article.publishedDate) : 'No Published Date',
       isRead: article.isRead,
       isBookmark: article.isBookmark,
-      feedTitle: article.feed ? article.feed.feedTitle : ''
+      feedTitle: article.feed ? article.feed.feedTitle : '',
+      feedId: article.feed ? article.feed.feedId : -1
     }
   }
 }

@@ -9,6 +9,7 @@ import GetTagFeedsHandler from "./handlers/GetTagFeedsHandler"
 import GetTagsHandler from "./handlers/GetTagsHandler"
 import GetTodayHandler from "./handlers/GetTodayHandler"
 import Handler from "./handlers/Handler"
+import ReadAllArticlesInFeedHandler from "./handlers/ReadAllArticlesInFeedHandler"
 import ReadArticleHandler from "./handlers/ReadArticleHandler"
 import RefreshFeedHandler from "./handlers/RefreshFeedHandler"
 import RefreshFeedsHandler from "./handlers/RefreshFeedsHandler"
@@ -32,6 +33,7 @@ export default function registerHandlers() {
     'refresh-feeds': new RefreshFeedsHandler(),
     'refresh-feed': new RefreshFeedHandler(),
     'read-article': new ReadArticleHandler(),
+    'read-all-articles': new ReadAllArticlesInFeedHandler(),
     'bookmark-article': new BookmarkArticleHandler()
   }
 
