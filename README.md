@@ -1,15 +1,10 @@
-# Apollo
-
-<div style="display: flex; flex-direction: column; align-items: center;">
-  <h1>APOLLO</h1>
+<div align="center">
+  <h1 align="center">APOLLO</h1>
   <p>Open-source RSS Aggregator</p>
   <hr>
   <em>RSS Made Easy</em>
 
   <hr>
-
-  <h2>Preview</h2>
-  <img src="./documentation/res/apollo-preview-home.png">
   <img src="./documentation/res/apollo-preview-feed.png">
   <img src="./documentation/res/apollo-preview-article.png">
 </div>
