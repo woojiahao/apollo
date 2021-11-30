@@ -11,9 +11,10 @@
 
 ## Installation
 
-Currently, Apollo can be installed locally only:
+Currently, Apollo can be installed locally only. It requires a database `apollo-test` to be created in PostgreSQL.
 
 ```bash
+createdb -U postgres apollo-test
 git clone https://github.com/woojiahao/apollo.git
 cd apollo/
 npm i
