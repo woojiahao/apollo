@@ -16,7 +16,7 @@ const NavigationBar = ({ tagFeeds }: NavigationBarProps) => {
     <div className="flex flex-col gap-4 container bg-background h-screen border-box py-6 hidden-scroll">
       <div>
         <WrapIcon icon={<MdToday />} content="Today" onClick={() => navigate('/today')} />
-        <WrapIcon icon={<MdBookmarks />} content="Bookmarks" />
+        <WrapIcon icon={<MdBookmarks />} content="Bookmarks" onClick={() => navigate('/bookmarks')} />
       </div>
 
       <div className="flex justify-between items-center">

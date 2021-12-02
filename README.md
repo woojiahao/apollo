@@ -67,3 +67,4 @@ To determine if an article is newly added to the feed, we employ the follow algo
 - [ ] Dark theme
 - [ ] Bookmarks feature
 - [ ] Handle the other types of RSS feed formats like [Dublin Core](https://www.rssboard.org/rss-profile#namespace-elements-dublin)
+- [ ] Implement proper ordering for feeds

@@ -70,4 +70,15 @@ export default class ArticleRepository extends Repository<Article> {
       return this.save(article)
     }
   }
+
+  async getBookmarks() {
+    const bookmarks = await this.find({
+      where: {
+        isBookmark: true,
+        deletedOn: IsNull()
+      },
+      relations: ['feed']
+    })
+    return bookmarks
+  }
 }

@@ -22,9 +22,7 @@ const ArticleListSidebar = ({ feedId, articles, onDataChange }: ArticleListSideb
   }
 
   async function refresh() {
-    console.log(`refreshing feed ${feedId}`)
     await refreshFeed(feedId)
-    console.log('updating data')
     onDataChange()
   }
 

@@ -4,6 +4,7 @@ import AddFeedHandler from "./handlers/AddFeedHandler"
 import BookmarkArticleHandler from "./handlers/BookmarkArticleHandler"
 import GetArticleHandler from "./handlers/GetArticleHandler"
 import GetArticlesInFeedHandler from "./handlers/GetArticlesInFeedHandler"
+import { GetBookmarksHandler } from "./handlers/GetBookmarksHandler"
 import GetFeedHandler from "./handlers/GetFeedHandler"
 import GetTagFeedsHandler from "./handlers/GetTagFeedsHandler"
 import GetTagsHandler from "./handlers/GetTagsHandler"
@@ -34,7 +35,8 @@ export default function registerHandlers() {
     'refresh-feed': new RefreshFeedHandler(),
     'read-article': new ReadArticleHandler(),
     'read-all-articles': new ReadAllArticlesInFeedHandler(),
-    'bookmark-article': new BookmarkArticleHandler()
+    'bookmark-article': new BookmarkArticleHandler(),
+    'get-bookmarks': new GetBookmarksHandler()
   }
 
   Object.entries(handlers).forEach(([key, handler]) => {

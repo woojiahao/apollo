@@ -66,3 +66,7 @@ export async function readArticle(articleId: number) {
 export async function readAllArticlesInFeed(feedId: number) {
   await invoke('read-all-articles', feedId)
 }
+
+export async function getBookmarks() {
+  return await invoke<{ [feedTitle: string]: SimpleArticle[] }>('get-bookmarks')
+}

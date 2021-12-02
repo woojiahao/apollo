@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { SimpleFeed } from "../../../main/database/mappers/FeedMapper";
 import { getArticlesInFeed } from "../../ipcInvoker";
-import ArticleCard from "./ArticleCard";
+import Feed from "../Feed/Feed";
+import FeedArticles from "../Feed/FeedArticles";
 import ArticleListSidebar from "./ArticleListSidebar";
 
 const ArticleList = () => {
@@ -12,9 +13,7 @@ const ArticleList = () => {
   const feedId = parseInt(id)
 
   async function loadArticles() {
-    console.log('loading new articles')
     const f = await getArticlesInFeed(feedId)
-    console.log(f)
     setFeed(f)
   }
 
@@ -22,34 +21,24 @@ const ArticleList = () => {
     loadArticles()
   }, [feedId])
 
-  return (
-    <div className="grid grid-cols-4 h-full py-6">
-      {feed &&
-        <div className="col-span-3 h-full container hidden-scroll">
-          <h1>{feed.title}</h1>
-          {feed.description &&
-            <p className="text-subtitle mb-6">{feed.description}</p>}
+  if (feed !== undefined) {
+    return (
+      <Feed data={feed}>
+        <FeedArticles
+          title={feed.title}
+          description={feed.description}
+          articles={feed.articles}
+          onDataChange={loadArticles.bind(this)} />
 
-          {Object.entries(feed.articles).map(([publishedDate, articles]) => {
-            return (
-              <div className="mb-6">
-                <p className="text-subtitle text-tiny">{publishedDate}</p>
-                {articles.map(article => <ArticleCard onDataChange={loadArticles.bind(this)} article={article} />)}
-              </div>
-            )
-          })}
-        </div>
-      }
-
-      {feed &&
         <ArticleListSidebar
           feedId={feedId}
           articles={Object.values(feed.articles).reduce((prev, cur) => prev.concat(cur), [])}
           onDataChange={loadArticles.bind(this)} />
-      }
-    </div>
+      </Feed>
+    )
+  }
 
-  )
+  return <div></div>
 }
 
 export default ArticleList
