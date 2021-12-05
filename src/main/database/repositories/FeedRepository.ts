@@ -17,6 +17,16 @@ export default class FeedRepository extends Repository<Feed> {
   }
 
   getFeed(feedId: number): Promise<Feed> {
+    return this.findOne({
+      where: {
+        feedId: feedId,
+        deletedOn: IsNull()
+      },
+      relations: ['tag']
+    })
+  }
+
+  getFeedWithArticles(feedId: number): Promise<Feed> {
     /// TODO: Handle no feed match
     const feed = this
       .createQueryBuilder('feed')

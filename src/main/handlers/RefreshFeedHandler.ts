@@ -7,7 +7,7 @@ import { refreshFeed } from "../utility";
 export default class RefreshFeedHandler implements Handler<Feed> {
   async handle(feedId: number) {
     const feedRepository = getCustomRepository(FeedRepository)
-    const feed = await feedRepository.getFeed(feedId)
+    const feed = await feedRepository.getFeedWithArticles(feedId)
     const updatedFeed = await refreshFeed(feed)
     const latestFeed = await feedRepository.save(updatedFeed)
     return latestFeed

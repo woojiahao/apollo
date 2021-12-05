@@ -6,6 +6,7 @@ import AddFeedForm from "./AddFeedForm";
 import ArticleList from "./ArticleList/ArticleList";
 import ArticleViewer from "./ArticleViewer";
 import Bookmarks from "./Bookmarks";
+import EditFeedForm from "./EditFeedForm";
 import Home from "./Home";
 import NavigationBar from "./NavigationBar";
 import Today from "./Today";
@@ -37,7 +38,8 @@ const App = () => {
           <Route path="/" element={<Home />} />
           <Route path="/today" element={<Today />} />
           <Route path="/bookmarks" element={<Bookmarks />} />
-          <Route path="/add" element={<AddFeedForm layout="col-span-4" onDataUpdate={onDataUpdate.bind(this)} tagFeeds={tagFeeds} />} />
+          <Route path="/add" element={<AddFeedForm onDataUpdate={onDataUpdate.bind(this)} tagFeeds={tagFeeds} />} />
+          <Route path="/edit/:id" element={<EditFeedForm onDataUpdate={onDataUpdate.bind(this)} tagFeeds={tagFeeds} />} />
           <Route path="/feed/:id" element={<ArticleList />} />
           <Route path="/article/:id" element={<ArticleViewer />} />
         </Routes>

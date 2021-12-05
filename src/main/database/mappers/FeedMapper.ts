@@ -17,6 +17,13 @@ export type SimpleFeed = {
   articles: { [publishedDate: string]: SimpleArticle[] }
 }
 
+export type FeedCore = {
+  id: number
+  title: string
+  description: string | null
+  tag: string | undefined
+}
+
 export default class FeedMapper {
   static fromRSSFeed(rssFeed: RSS.Feed, rssUrl: string): Feed {
     const feed = new Feed()
@@ -57,6 +64,15 @@ export default class FeedMapper {
       title: feed.feedTitle,
       description: feed.feedDescription,
       articles: groupBy(feed.articles.map(ArticleMapper.toSimple), 'publishedDate')
+    }
+  }
+
+  static toCore(feed: Feed): FeedCore {
+    return {
+      id: feed.feedId,
+      title: feed.feedTitle,
+      description: feed.feedDescription,
+      tag: feed.tag ? feed.tag.tagName : undefined
     }
   }
 }

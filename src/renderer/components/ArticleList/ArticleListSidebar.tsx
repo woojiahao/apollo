@@ -1,6 +1,6 @@
 import React from "react";
 import { MdBookmarks, MdCheck, MdEdit, MdGolfCourse, MdRefresh } from "react-icons/md";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { SimpleArticle } from "../../../main/database/mappers/ArticleMapper";
 import { readAllArticlesInFeed, refreshFeed } from "../../ipcInvoker";
 import Sidebar from "../Sidebar/Sidebar";
@@ -16,6 +16,8 @@ interface ArticleListSidebarProps {
 }
 
 const ArticleListSidebar = ({ feedId, articles, onDataChange }: ArticleListSidebarProps) => {
+  const navigate = useNavigate()
+
   async function readAll() {
     await readAllArticlesInFeed(feedId)
     onDataChange()
@@ -31,7 +33,7 @@ const ArticleListSidebar = ({ feedId, articles, onDataChange }: ArticleListSideb
       <SidebarActions>
         <WrapIcon icon={<MdCheck />} content="Mark All As Read" onClick={readAll} />
         <WrapIcon icon={<MdRefresh />} content="Refresh Feed" onClick={refresh} />
-        <WrapIcon icon={<MdEdit />} content="Edit Feed" />
+        <WrapIcon icon={<MdEdit />} content="Edit Feed" onClick={() => navigate(`/edit/${feedId}`)} />
       </SidebarActions>
 
       <SidebarGroups>

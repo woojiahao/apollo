@@ -6,7 +6,7 @@ import Handler from "./Handler";
 export default class GetArticlesInFeedHandler implements Handler<SimpleFeed> {
   async handle(feedId: number) {
     /// TODO: Handle when feed ID is invalid
-    const feed = await getCustomRepository(FeedRepository).getFeed(feedId)
+    const feed = await getCustomRepository(FeedRepository).getFeedWithArticles(feedId)
     return FeedMapper.toSimple(feed)
   }
 }

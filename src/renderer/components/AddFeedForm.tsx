@@ -2,7 +2,7 @@ import React, { createRef, useState } from "react";
 import { useNavigate } from "react-router";
 import { TagFeeds } from "../../main/database/mappers/FeedMapper";
 import { RSS } from "../../main/rss/data";
-import { addFeed as ipcAddFeed, getFeed } from "../ipcInvoker";
+import { addFeed as ipcAddFeed, loadFeed } from "../ipcInvoker";
 import Autocomplete from "./Form/Autocomplete";
 import Button from "./Form/Button";
 import Form from "./Form/Form";
@@ -12,12 +12,11 @@ import FormSection from "./Form/FormSection";
 import TextField from "./Form/TextField";
 
 interface AddFeedFormProps {
-  layout: string
   tagFeeds: TagFeeds
   onDataUpdate: () => void
 }
 
-const AddFeedForm = ({ layout, tagFeeds, onDataUpdate }: AddFeedFormProps) => {
+const AddFeedForm = ({ tagFeeds, onDataUpdate }: AddFeedFormProps) => {
   const [isFinalStep, setIsFinalStep] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [feed, setFeed] = useState<RSS.Feed>(undefined)
@@ -35,7 +34,7 @@ const AddFeedForm = ({ layout, tagFeeds, onDataUpdate }: AddFeedFormProps) => {
   async function downloadFeed(url: string) {
     setIsLoading(true)
     try {
-      const feed = await getFeed(url)
+      const feed = await loadFeed(url)
       setFeed(feed)
       setFeedTitle(feed.title)
       setFeedUrl(url)
@@ -70,7 +69,7 @@ const AddFeedForm = ({ layout, tagFeeds, onDataUpdate }: AddFeedFormProps) => {
   }
 
   return (
-    <Form title="Add Feed" layout={layout} isLoading={isLoading}>
+    <Form title="Add Feed" isLoading={isLoading}>
       <FormFields error={error}>
         <TextField label="feed-url" title="Feed URL" ref={feedUrlRef} disabled={isFinalStep} />
 

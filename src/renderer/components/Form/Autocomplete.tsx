@@ -1,20 +1,26 @@
-import React, { createRef, useState } from "react";
+import React, { createRef, useEffect, useState } from "react";
 import { MdExpandLess, MdExpandMore } from "react-icons/md";
 
 interface AutocompleteProps {
   title: string
   label: string
   initialData: string[]
+  initialSelection?: string
 }
 
 const Autocomplete = React.forwardRef<HTMLInputElement, AutocompleteProps>(
-  ({ title, label, initialData }, ref) => {
+  ({ title, label, initialData, initialSelection }, ref) => {
     const [data, setData] = useState<string[]>(initialData)
     const [selection, setSelection] = useState<string>(undefined)
     const [dropdownShown, setDropdownShown] = useState(false)
 
     const dataRef = createRef<HTMLUListElement>()
 
+    useEffect(() => {
+      setSelection(initialSelection)
+    })
+
+    /// TODO: Add the current user input as an option as well
     function onInput(e: React.FormEvent<HTMLInputElement>) {
       const input = e.currentTarget.value
       const updatedData = initialData.filter(d => d.includes(input))
