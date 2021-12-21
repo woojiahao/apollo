@@ -4,10 +4,10 @@
  * TODO: Parse cloud option
  * TODO: Support Atom
  */
-import parse from 'node-html-parser'
+import { parse } from 'node-html-parser'
 import Parser from "rss-parser"
-import { RSS } from './data'
 import LoadFeedError from '../errors/LoadFeedError'
+import { RSS } from './data'
 
 const rssParser = new Parser({
   customFields: {
