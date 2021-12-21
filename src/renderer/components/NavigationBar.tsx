@@ -23,7 +23,7 @@ const NavigationBar = ({ tagFeeds }: NavigationBarProps) => {
         <span className="font-bold text-subtitle">Feeds</span>
         <div className="flex space-x-6">
           <MdRefresh />
-          <MdOutlineAdd className="hover:fill-current hover:text-subtitle cursor-pointer" onClick={() => navigate('/add')} />
+          <MdOutlineAdd className="hover:fill-subtitle cursor-pointer" onClick={() => navigate('/add')} />
         </div>
       </div>
 

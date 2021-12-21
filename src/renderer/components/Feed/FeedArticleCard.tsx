@@ -41,10 +41,10 @@ const ArticleCard = ({ article, onDataChange }: ArticleCardProps) => {
         <h2 onClick={toArticle} className={article.isRead ? 'text-subtitle' : 'text-primary'}>{article.title}</h2>
         <div className="flex gap-4">
           {isBookmark ?
-            <MdOutlineBookmark onClick={bookmark} className="hover:fill-current hover:text-subtitle" /> :
-            <MdOutlineBookmarkBorder onClick={bookmark} className="hover:fill-current hover:text-subtitle" />
+            <MdOutlineBookmark onClick={bookmark} className="hover:fill-subtitle" /> :
+            <MdOutlineBookmarkBorder onClick={bookmark} className="hover:fill-subtitle" />
           }
-          <MdCheck className="hover:fill-current hover:text-subtitle" />
+          <MdCheck className="hover:fill-subtitle" />
         </div>
       </div>
 

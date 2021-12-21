@@ -1,4 +1,7 @@
 module.exports = {
+  content: [
+    "./src/**/*.{js,jsx,ts,tsx}"
+  ],
   theme: {
     fontFamily: {
       'sans': ['Mukta', 'Roboto', 'Lato', 'Arial', 'sans-serif']
