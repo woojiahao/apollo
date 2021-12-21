@@ -31,7 +31,7 @@
   }
 
   svg {
-    @apply fill-current text-icon;
+    @apply fill-icon;
   }
 }
 

@@ -15,6 +15,7 @@ const App = () => {
   const [tagFeeds, setTagFeeds] = React.useState<TagFeeds>(undefined);
 
   async function onDataUpdate() {
+    console.log('Data updated')
     const tf = await getTagFeeds()
     setTagFeeds(tf)
   }

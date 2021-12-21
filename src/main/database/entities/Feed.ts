@@ -9,20 +9,20 @@ export default class Feed {
   public feedId: number
 
   /// Original RSS link provided by user
-  @Column({ nullable: false, unique: true })
+  @Column('text', { nullable: false, unique: true })
   public rssUrl: string
 
-  @Column({ nullable: false })
+  @Column('text', { nullable: false })
   public feedTitle: string
 
-  @Column({ nullable: false })
+  @Column('text', { nullable: false })
   public feedDescription: string
 
   /// Link provided by the server
-  @Column({ nullable: false })
+  @Column('text', { nullable: false })
   public feedUrl: string
 
-  @Column({ nullable: true })
+  @Column('timestamp', { nullable: true })
   public lastUpdate: Date | null
 
   @CreateDateColumn({ update: false })
@@ -30,7 +30,6 @@ export default class Feed {
 
   @DeleteDateColumn()
   public deletedOn: Date | null
-
 
   @ManyToOne(() => Tag, tag => tag.feeds)
   public tag: Tag
