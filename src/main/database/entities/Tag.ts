@@ -5,10 +5,10 @@ import Feed from "./Feed"
 @Entity()
 export default class Tag {
   @PrimaryGeneratedColumn()
-  public tagId: number
+  public id: number
 
   @Column('text', { nullable: false, unique: true })
-  public tagName: string
+  public name: string
 
   @CreateDateColumn({ update: false })
   public readonly addedOn: Date

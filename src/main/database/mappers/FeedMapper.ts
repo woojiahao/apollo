@@ -28,9 +28,9 @@ export default class FeedMapper {
   static fromRSSFeed(rssFeed: RSS.Feed, rssUrl: string): Feed {
     const feed = new Feed()
     feed.rssUrl = rssUrl
-    feed.feedTitle = rssFeed.title
-    feed.feedDescription = rssFeed.description
-    feed.feedUrl = rssFeed.link
+    feed.title = rssFeed.title
+    feed.description = rssFeed.description
+    feed.url = rssFeed.link
     feed.lastUpdate = rssFeed.lastBuildDate
     feed.articles = rssFeed.items.map(item => ArticleMapper.fromRSSItem(item))
 
@@ -41,12 +41,12 @@ export default class FeedMapper {
     const tagFeeds: TagFeeds = {}
 
     for (const f of feeds) {
-      const tag = !f.tag ? 'Uncategorized' : f.tag.tagName
-      const feedTitle = f.feedTitle
+      const tag = !f.tag ? 'Uncategorized' : f.tag.name
+      const feedTitle = f.title
       if (!(tag in tagFeeds)) tagFeeds[tag] = []
 
       tagFeeds[tag].push({
-        id: f.feedId,
+        id: f.id,
         title: feedTitle
       })
     }
@@ -60,19 +60,19 @@ export default class FeedMapper {
 
   static toSimple(feed: Feed): SimpleFeed {
     return {
-      id: feed.feedId,
-      title: feed.feedTitle,
-      description: feed.feedDescription,
+      id: feed.id,
+      title: feed.title,
+      description: feed.description,
       articles: groupBy(feed.articles.map(ArticleMapper.toSimple), 'publishedDate')
     }
   }
 
   static toCore(feed: Feed): FeedCore {
     return {
-      id: feed.feedId,
-      title: feed.feedTitle,
-      description: feed.feedDescription,
-      tag: feed.tag ? feed.tag.tagName : undefined
+      id: feed.id,
+      title: feed.title,
+      description: feed.description,
+      tag: feed.tag ? feed.tag.name : undefined
     }
   }
 }

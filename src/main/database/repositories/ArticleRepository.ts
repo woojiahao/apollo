@@ -7,7 +7,7 @@ export default class ArticleRepository extends Repository<Article> {
     return this.find({
       where: {
         feed: {
-          feedId: feedId
+          id: feedId
         },
         deletedOn: IsNull()
       }
@@ -18,7 +18,7 @@ export default class ArticleRepository extends Repository<Article> {
     /// TODO: Add error handling if article not found
     return this.findOne({
       where: {
-        articleId: articleId,
+        id: articleId,
         deletedOn: IsNull()
       },
       relations: ['feed']
@@ -49,7 +49,7 @@ export default class ArticleRepository extends Repository<Article> {
     const articles = await this.find({
       where: {
         feed: {
-          feedId: feedId,
+          id: feedId,
           deletedOn: IsNull()
         },
         deletedOn: IsNull()

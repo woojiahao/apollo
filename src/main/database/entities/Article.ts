@@ -4,19 +4,19 @@ import Feed from "./Feed";
 @Entity()
 export default class Article {
   @PrimaryGeneratedColumn()
-  public articleId: number
+  public id: number
 
   @Column('text', { nullable: false })
-  public articleTitle: string
+  public title: string
 
   @Column('text', { nullable: true })
-  public articleDescription: string | null
+  public description: string | null
 
   @Column('text', { nullable: true })
-  public articleContent: string | null
+  public content: string | null
 
   @Column('text', { nullable: true })
-  public articleLink: string | null
+  public link: string | null
 
   @Column('timestamp', { nullable: true })
   public publishedDate: Date | null

@@ -12,12 +12,12 @@ export default class TagRepository extends Repository<Tag> {
   }
 
   async createIfNotExists(tagName: string): Promise<Tag> {
-    let tag = await this.findOne({ where: { tagName: tagName } })
+    let tag = await this.findOne({ where: { name: tagName } })
 
     if (!tag) {
       // Tag does not exist in DB yet
       tag = new Tag()
-      tag.tagName = tagName
+      tag.name = tagName
       tag.feeds = []
       tag = await this.save(tag)
     }

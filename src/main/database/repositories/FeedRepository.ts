@@ -19,7 +19,7 @@ export default class FeedRepository extends Repository<Feed> {
   getFeed(feedId: number): Promise<Feed> {
     return this.findOne({
       where: {
-        feedId: feedId,
+        id: feedId,
         deletedOn: IsNull()
       },
       relations: ['tag']

@@ -11,7 +11,7 @@ export async function refreshFeed(original: Feed) {
     && (latest.lastUpdate.getTime() > original.lastUpdate.getTime())
   if (!hasChange) return original
 
-  console.log(`Updating ${original.feedTitle}`)
+  console.log(`Updating ${original.title}`)
 
   /// Update existing articles
   const updatedArticles = updateArticles(original, latest)
@@ -42,13 +42,13 @@ function updateArticles(original: Feed, latest: Feed) {
 
     const latestArticle = latest.articles[latestIdentifiers.indexOf(articleIdentifier)]
 
-    const hasContentChanged = !((latestArticle.articleContent === originalArticle.articleContent)
-      || (latestArticle.articleLink === originalArticle.articleLink))
+    const hasContentChanged = !((latestArticle.content === originalArticle.content)
+      || (latestArticle.link === originalArticle.link))
     if (!hasContentChanged) return originalArticle
 
     const updatedArticle = Object.assign({}, originalArticle)
-    updatedArticle.articleContent = latestArticle.articleContent
-    updatedArticle.articleLink = latestArticle.articleLink
+    updatedArticle.articleContent = latestArticle.content
+    updatedArticle.articleLink = latestArticle.link
 
     return updatedArticle
   })
@@ -57,8 +57,8 @@ function updateArticles(original: Feed, latest: Feed) {
 }
 
 function generateArticleIdentifier(article: Article): string {
-  const title = article.articleTitle ? article.articleTitle : ''
-  const description = article.articleDescription ? article.articleDescription : ''
+  const title = article.title ? article.title : ''
+  const description = article.description ? article.description : ''
   const key = `${title}+${description}`
 
   return btoa(unescape(encodeURIComponent(key)))

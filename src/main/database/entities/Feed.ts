@@ -6,21 +6,21 @@ import Tag from "./Tag";
 @Entity()
 export default class Feed {
   @PrimaryGeneratedColumn()
-  public feedId: number
+  public id: number
 
   /// Original RSS link provided by user
   @Column('text', { nullable: false, unique: true })
   public rssUrl: string
 
   @Column('text', { nullable: false })
-  public feedTitle: string
+  public title: string
 
   @Column('text', { nullable: false })
-  public feedDescription: string
+  public description: string
 
   /// Link provided by the server
   @Column('text', { nullable: false })
-  public feedUrl: string
+  public url: string
 
   @Column('timestamp', { nullable: true })
   public lastUpdate: Date | null
