@@ -7,11 +7,11 @@ export default class FeedRepository extends Repository<Feed> {
   getAvailable(): Promise<Feed[]> {
     const availableFeeds = this
       .createQueryBuilder('feed')
-      .innerJoinAndSelect('feed.articles', 'article')
-      .innerJoinAndSelect('feed.tag', 'tag')
+      .leftJoinAndSelect('feed.articles', 'article')
+      .leftJoinAndSelect('feed.tag', 'tag')
       .where('feed.deletedOn is null')
       .orderBy('article.isRead')
-      .addOrderBy('article.articleId', 'ASC')
+      .addOrderBy('article.id', 'ASC')
       .getMany()
     return availableFeeds
   }
@@ -30,11 +30,11 @@ export default class FeedRepository extends Repository<Feed> {
     /// TODO: Handle no feed match
     const feed = this
       .createQueryBuilder('feed')
-      .innerJoinAndSelect('feed.articles', 'article')
+      .leftJoinAndSelect('feed.articles', 'article')
       .where('feed.deletedOn is null')
-      .andWhere('feed.feedId = :feedId', { feedId })
+      .andWhere('feed.id = :feedId', { feedId })
       .orderBy('article.publishedDate', 'DESC')
-      .addOrderBy('article.articleId', 'ASC')
+      .addOrderBy('article.id', 'ASC')
       .getOne()
     return feed
   }
