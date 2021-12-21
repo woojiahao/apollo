@@ -55,7 +55,7 @@ function initializeWindow() {
     window.hide()
   })
 
-  window.loadFile(indexPath)
+  window.loadURL('http://localhost:4000')
   window.maximize()
 }
 

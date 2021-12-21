@@ -2,12 +2,12 @@
   "name": "apollo",
   "version": "1.0.0",
   "description": "RSS made easy",
-  "main": "src/main/main.ts",
+  "main": "./dist/main.js",
   "scripts": {
     "test": "env TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\" }' mocha -r ts-node/register 'test/**/*.ts'",
     "dev": "NODE_ENV=development concurrently \"npm run dev:react\" \"npm run dev:electron\"",
-    "dev:react": "webpack-dev-server --config renderer.webpack.config.js --mode development",
-    "dev:electron": "webpack --config main.webpack.config.js --mode development && electron ."
+    "dev:react": "webpack-dev-server --config webpack.renderer.config.js --mode development",
+    "dev:electron": "webpack --config webpack.main.config.js --mode development && electron ."
   },
   "repository": {
     "type": "git",
@@ -37,6 +37,7 @@
     "@types/node": "^14.17.21",
     "@types/react": "^17.0.27",
     "@types/react-dom": "^17.0.9",
+    "autoprefixer": "^10.0.2",
     "babel-loader": "^8.2.3",
     "chai": "^4.3.4",
     "concurrently": "^6.5.1",
@@ -58,7 +59,8 @@
     "ts-node": "^10.2.1",
     "typescript": "^4.4.3",
     "webpack": "^5.58.0",
-    "webpack-cli": "^4.9.0"
+    "webpack-cli": "^4.9.0",
+    "webpack-dev-server": "^4.6.0"
   },
   "dependencies": {
     "@electron/remote": "^2.0.1",
@@ -75,6 +77,7 @@
     "react-router-dom": "^6.0.2",
     "reflect-metadata": "^0.1.13",
     "rss-parser": "^3.12.0",
-    "typeorm": "^0.2.38"
+    "typeorm": "^0.2.38",
+    "react-native-sqlite-storage": "file:./shims/react-native-sqlite-storage"
   }
 }

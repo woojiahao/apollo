@@ -7,7 +7,7 @@ export default class Tag {
   @PrimaryGeneratedColumn()
   public tagId: number
 
-  @Column({ nullable: false, unique: true })
+  @Column('text', { nullable: false, unique: true })
   public tagName: string
 
   @CreateDateColumn({ update: false })

@@ -9,11 +9,13 @@
     "removeComments": false,
     "noImplicitAny": false,
     "suppressImplicitAnyIndexErrors": true,
+    "allowJs": true,
     "jsx": "react",
+    "strict": false,
     "esModuleInterop": true
   },
   "exclude": [
-    ".git/",
+    "./.git/",
     "./node_modules/",
     "./dist/"
   ]
