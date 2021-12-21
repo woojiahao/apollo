@@ -5,8 +5,9 @@
   "main": "src/main/main.ts",
   "scripts": {
     "test": "env TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\" }' mocha -r ts-node/register 'test/**/*.ts'",
-    "start": "npm run build && electron ./dist/main.js",
-    "build": "webpack --config ./webpack.config.js"
+    "dev": "NODE_ENV=development concurrently \"npm run dev:react\" \"npm run dev:electron\"",
+    "dev:react": "webpack-dev-server --config renderer.webpack.config.js --mode development",
+    "dev:electron": "webpack --config main.webpack.config.js --mode development && electron ."
   },
   "repository": {
     "type": "git",
@@ -31,6 +32,7 @@
     "@types/react-dom": "^17.0.9",
     "autoprefixer": "^9.8.8",
     "chai": "^4.3.4",
+    "concurrently": "^6.5.1",
     "copy-webpack-plugin": "^9.1.0",
     "css-loader": "^6.4.0",
     "electron": "^15.1.1",
