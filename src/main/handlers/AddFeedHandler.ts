@@ -5,7 +5,7 @@ import FeedRepository from "../database/repositories/FeedRepository";
 import TagRepository from "../database/repositories/TagRepository";
 import FeedExistsError from "../errors/FeedExistsError";
 import { RSS } from "../rss/data";
-import Handler from "./Handler";
+import Handler from "../Handler";
 
 export default class AddFeedHandler extends Handler<Feed> {
   constructor() {

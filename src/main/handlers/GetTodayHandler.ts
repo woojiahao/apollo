@@ -2,7 +2,7 @@ import { getCustomRepository } from "typeorm";
 import ArticleMapper, { SimpleArticle } from "../database/mappers/ArticleMapper";
 import ArticleRepository from "../database/repositories/ArticleRepository";
 import { groupBy } from "../utility";
-import Handler from "./Handler";
+import Handler from "../Handler";
 
 export default class GetTodayHandler extends Handler<{ [feedTitle: string]: SimpleArticle[] }>  {
   constructor() {

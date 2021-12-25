@@ -1,7 +1,7 @@
 import { getCustomRepository } from "typeorm";
 import FeedMapper, { SimpleFeed } from "../database/mappers/FeedMapper";
 import FeedRepository from "../database/repositories/FeedRepository";
-import Handler from "./Handler";
+import Handler from "../Handler";
 
 export default class GetArticlesInFeedHandler extends Handler<SimpleFeed> {
   constructor() {

@@ -1,7 +1,7 @@
 import { getCustomRepository } from "typeorm";
 import FeedRepository from "../database/repositories/FeedRepository";
 import { refreshFeed } from "../utility";
-import Handler from "./Handler";
+import Handler from "../Handler";
 
 export default class RefreshFeedsHandler extends Handler<void> {
   constructor() {

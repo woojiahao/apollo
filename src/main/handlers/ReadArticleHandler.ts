@@ -1,6 +1,6 @@
 import { getCustomRepository } from "typeorm";
 import ArticleRepository from "../database/repositories/ArticleRepository";
-import Handler from "./Handler";
+import Handler from "../Handler";
 
 export default class ReadArticleHandler extends Handler<void> {
   constructor() {

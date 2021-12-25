@@ -1,6 +1,6 @@
 import { getCustomRepository } from "typeorm";
 import TagRepository from "../database/repositories/TagRepository";
-import Handler from "./Handler";
+import Handler from "../Handler";
 
 export default class GetTagsHandler extends Handler<string[]> {
   constructor() {

@@ -3,7 +3,7 @@ import { getCustomRepository } from "typeorm";
 import FeedMapper from "../database/mappers/FeedMapper";
 import FeedRepository from "../database/repositories/FeedRepository";
 import { TagFeeds } from "../database/mappers/FeedMapper"
-import Handler from "./Handler";
+import Handler from "../Handler";
 
 export default class GetTagFeedsHandler extends Handler<TagFeeds> {
   constructor() {
