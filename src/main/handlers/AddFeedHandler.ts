@@ -7,7 +7,11 @@ import FeedExistsError from "../errors/FeedExistsError";
 import { RSS } from "../rss/data";
 import Handler from "./Handler";
 
-export default class AddFeedHandler implements Handler<Feed> {
+export default class AddFeedHandler extends Handler<Feed> {
+  constructor() {
+    super('add-feed')
+  }
+
   async handle(rawFeed: RSS.Feed, feedUrl: string, tagName: string | null) {
     const feedRepository = getCustomRepository(FeedRepository)
     const hasFeed = await feedRepository.hasFeed(feedUrl)
