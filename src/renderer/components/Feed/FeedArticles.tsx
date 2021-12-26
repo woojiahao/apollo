@@ -1,11 +1,11 @@
 import React from "react"
-import { SimpleArticle } from "../../../main/database/mappers/ArticleMapper"
+import { ArticleInformation } from "../../../main/database/mappers/ArticleMapper"
 import ArticleCard from "./FeedArticleCard"
 
 interface FeedArticlesProps {
   title: string
   description?: string
-  articles: { [group: string]: SimpleArticle[] }
+  articles: { [group: string]: ArticleInformation[] }
   onDataChange: () => void
 }
 

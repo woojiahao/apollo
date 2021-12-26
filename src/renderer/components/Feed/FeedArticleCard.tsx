@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { MdCheck, MdOutlineBookmark, MdOutlineBookmarkBorder } from "react-icons/md";
 import { useNavigate } from "react-router";
-import { SimpleArticle } from "../../../main/database/mappers/ArticleMapper";
+import { ArticleInformation } from "../../../main/database/mappers/ArticleMapper";
 import { bookmarkArticle } from "../../ipcInvoker";
 
 interface ArticleCardProps {
-  article: SimpleArticle
+  article: ArticleInformation
   onDataChange: () => void
 }
 

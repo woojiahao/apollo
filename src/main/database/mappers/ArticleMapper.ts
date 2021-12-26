@@ -13,17 +13,6 @@ export interface ArticleInformation {
   feedId: number
 }
 
-export interface SimpleArticle {
-  id: number
-  title: string
-  description: string | null
-  publishedDate: string
-  isRead: boolean
-  isBookmark: boolean
-  feedTitle: string
-  feedId: number
-}
-
 export default class ArticleMapper {
   static fromRSSItem(item: RSS.Item): Article {
     const article = new Article()
@@ -51,11 +40,11 @@ export default class ArticleMapper {
     }
   }
 
-  static toSimple(article: Article): SimpleArticle {
+  static toSimple(article: Article): ArticleInformation {
     return {
       id: article.id,
       title: article.title,
-      description: article.description,
+      description: article.description ? article.description : undefined,
       publishedDate: article.publishedDate ? formatDate(article.publishedDate) : 'No Published Date',
       isRead: article.isRead,
       isBookmark: article.isBookmark,

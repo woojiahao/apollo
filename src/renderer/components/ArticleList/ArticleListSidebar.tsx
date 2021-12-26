@@ -1,7 +1,7 @@
 import React from "react";
 import { MdBookmarks, MdCheck, MdEdit, MdGolfCourse, MdRefresh } from "react-icons/md";
 import { Link, useNavigate } from "react-router-dom";
-import { SimpleArticle } from "../../../main/database/mappers/ArticleMapper";
+import { ArticleInformation } from "../../../main/database/mappers/ArticleMapper";
 import { readAllArticlesInFeed, refreshFeed } from "../../ipcInvoker";
 import Sidebar from "../Sidebar/Sidebar";
 import SidebarActions from "../Sidebar/SidebarActions";
@@ -11,7 +11,7 @@ import WrapIcon from "../WrapIcon";
 
 interface ArticleListSidebarProps {
   feedId: number
-  articles: SimpleArticle[]
+  articles: ArticleInformation[]
   onDataChange: () => void
 }
 
@@ -41,13 +41,13 @@ const ArticleListSidebar = ({ feedId, articles, onDataChange }: ArticleListSideb
           icon={<MdGolfCourse />}
           title="Unread"
           data={articles.filter(a => !a.isRead)}
-          render={(a: SimpleArticle) => <li className="hover:bg-background p-2"><Link to={`/article/${a.id}`}>{a.title}</Link></li>} />
+          render={(a: ArticleInformation) => <li className="hover:bg-background p-2"><Link to={`/article/${a.id}`}>{a.title}</Link></li>} />
 
         <SidebarGroup
           icon={<MdBookmarks />}
           title="Bookmarks"
           data={articles.filter(a => a.isBookmark)}
-          render={(a: SimpleArticle) => <li className="hover:bg-background p-2"><Link to={`/article/${a.id}`}>{a.title}</Link></li>} />
+          render={(a: ArticleInformation) => <li className="hover:bg-background p-2"><Link to={`/article/${a.id}`}>{a.title}</Link></li>} />
       </SidebarGroups>
     </Sidebar>
   )

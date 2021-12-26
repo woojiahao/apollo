@@ -1,12 +1,12 @@
 
 import React, { useEffect, useState } from "react"
-import { SimpleArticle } from "../../main/database/mappers/ArticleMapper"
+import { ArticleInformation } from "../../main/database/mappers/ArticleMapper"
 import { getBookmarks } from "../ipcInvoker"
 import Feed from "./Feed/Feed"
 import FeedArticles from "./Feed/FeedArticles"
 
 const Bookmarks = () => {
-  const [bookmarks, setBookmarks] = useState<{ [feedTitle: string]: SimpleArticle[] }>()
+  const [bookmarks, setBookmarks] = useState<{ [feedTitle: string]: ArticleInformation[] }>()
 
   async function loadData() {
     const bookmarks = await getBookmarks()

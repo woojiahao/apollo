@@ -1,7 +1,7 @@
 import { RSS } from "../../rss/data";
 import { groupBy } from "../../utility";
 import Feed from "../entities/Feed";
-import ArticleMapper, { ArticleInformation, SimpleArticle } from "./ArticleMapper";
+import ArticleMapper, { ArticleInformation } from "./ArticleMapper";
 
 export type TagFeeds = {
   [tag: string]: FeedInformation[]

@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react"
-import { SimpleArticle } from "../../main/database/mappers/ArticleMapper"
+import { ArticleInformation } from "../../main/database/mappers/ArticleMapper"
 import { getToday } from "../ipcInvoker"
 import Feed from "./Feed/Feed"
 import FeedArticles from "./Feed/FeedArticles"
 
 const Today = () => {
-  const [today, setToday] = useState<{ [feedTitle: string]: SimpleArticle[] }>()
+  const [today, setToday] = useState<{ [feedTitle: string]: ArticleInformation[] }>()
 
   async function loadData() {
     const today = await getToday()
