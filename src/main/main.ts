@@ -2,7 +2,7 @@ import { app, BrowserWindow, Menu, MenuItemConstructorOptions, Tray } from 'elec
 import path from 'path'
 import 'reflect-metadata'
 import { setupDatabase } from './database/database'
-import registerHandlers from './ipcHandler'
+import registerHandlers from './registerHandlers'
 
 require('dotenv').config()
 
