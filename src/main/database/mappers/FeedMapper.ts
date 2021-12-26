@@ -39,7 +39,7 @@ export default class FeedMapper {
       id: feed.id,
       title: feed.title,
       description: feed.description ? feed.description : undefined,
-      articles: groupBy(feed.articles.map(ArticleMapper.toSimple), 'publishedDate'),
+      articles: groupBy(feed.articles.map(ArticleMapper.information), 'publishedDate'),
       tag: feed.tag ? feed.tag.name : 'Uncategorized'
     }
   }

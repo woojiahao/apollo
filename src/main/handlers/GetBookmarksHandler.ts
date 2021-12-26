@@ -11,7 +11,7 @@ export default class GetBookmarksHandler extends Handler<{ [feedTitle: string]: 
 
   async handle() {
     const bookmarks = await getCustomRepository(ArticleRepository).getBookmarks()
-    const simpleArticles = bookmarks.map(ArticleMapper.toSimple)
+    const simpleArticles = bookmarks.map(ArticleMapper.information)
     const grouped = groupBy(simpleArticles, 'feedTitle')
     return grouped
   }

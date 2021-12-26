@@ -40,7 +40,7 @@ export default class ArticleMapper {
     }
   }
 
-  static toSimple(article: Article): ArticleInformation {
+  static information(article: Article): ArticleInformation {
     return {
       id: article.id,
       title: article.title,

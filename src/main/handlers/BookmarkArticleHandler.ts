@@ -11,6 +11,6 @@ export default class BookmarkArticleHandler extends Handler<ArticleInformation> 
   async handle(articleId: number, isBookmark: boolean) {
     const articleRepository = getCustomRepository(ArticleRepository)
     const article = await articleRepository.bookmarkArticle(articleId, isBookmark)
-    return ArticleMapper.toSimple(article)
+    return ArticleMapper.information(article)
   }
 }

@@ -12,7 +12,7 @@ export default class GetTodayHandler extends Handler<{ [feedTitle: string]: Arti
   async handle() {
     const articleRepository = getCustomRepository(ArticleRepository)
     const today = await articleRepository.getToday()
-    const simpleArticles = today.map(ArticleMapper.toSimple)
+    const simpleArticles = today.map(ArticleMapper.information)
     const grouped = groupBy(simpleArticles, 'feedTitle')
     return grouped
   }
