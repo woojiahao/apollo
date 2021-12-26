@@ -14,67 +14,21 @@ async function invoke<T>(action: string, ...args: any[]): Promise<T> {
   return result as T
 }
 
-export function loadFeed(feedUrl: string): Promise<RSS.Feed> {
-  return invoke('load-feed', feedUrl)
-}
-
-export function getArticlesInFeed(feedId: number) {
-  return invoke<FeedInformation>('get-articles-in-feed', feedId)
-}
-
-export async function bookmarkArticle(articleId: number, isBookmark: boolean): Promise<ArticleInformation> {
-  return invoke('bookmark-article', articleId, isBookmark)
-}
-
-export async function getArticle(articleId: number): Promise<RSS.Item> {
-  const article: RSS.Item = await invoke('get-article', articleId)
-  return article
-}
-
-export async function getTags(): Promise<string[]> {
-  const results: string[] = await invoke('get-tags')
-  return results
-}
-
-export async function getTagFeeds(): Promise<TagFeeds> {
-  const tagFeeds: TagFeeds = await invoke('get-tag-feeds')
-  return tagFeeds
-}
-
-export function addFeed(rawFeed: RSS.Feed, feedUrl: string, tagName: string | null): Promise<Feed> {
-  // TODO: Experiment if two separate ipc calls create lag?
-  return invoke('add-feed', rawFeed, feedUrl, tagName)
-}
-
-export function refreshFeeds(): Promise<TagFeeds> {
-  return invoke('refresh-feeds')
-}
-
-export function refreshFeed(feedId: number) {
-  return invoke<Feed>('refresh-feed', feedId)
-}
-
-export async function getToday() {
-  return invoke<{ [feedTitle: string]: ArticleInformation[] }>('get-today')
-}
-
-export async function readArticle(articleId: number) {
-  const updatedTagFeeds = await invoke<TagFeeds>('read-article', articleId)
-  return updatedTagFeeds
-}
-
-export async function readAllArticlesInFeed(feedId: number) {
-  await invoke('read-all-articles', feedId)
-}
-
-export async function getBookmarks() {
-  return await invoke<{ [feedTitle: string]: ArticleInformation[] }>('get-bookmarks')
-}
-
-export function getFeed(feedId: number) {
-  return invoke<FeedInformation>('get-feed', feedId)
-}
-
-export function editFeed(id: number, title: string, description: string, tag: string | undefined) {
-  return invoke<FeedInformation>('edit-feed', id, title, description, tag)
+module.exports = {
+  loadFeed: (feedUrl: string) => invoke<RSS.Feed>('load-feed', feedUrl),
+  getArticlesInFeed: (feedId: number) => invoke<FeedInformation>('get-articles-in-feed', feedId),
+  bookmarkArticle: (articleId: number, isBookmark: boolean) => invoke<ArticleInformation>('bookmark-article', articleId, isBookmark),
+  getArticle: (articleId: number) => invoke<RSS.Item>('get-article', articleId),
+  getTags: () => invoke<string[]>('get-tags'),
+  getTagFeeds: () => invoke<TagFeeds>('get-tag-feeds'),
+  // TODO: Experiment if two separate ipc calls create lag?,
+  addFeed: (rawFeed: RSS.Feed, feedUrl: string, tagName: string | null) => invoke<FeedInformation>('add-feed', rawFeed, feedUrl, tagName),
+  refreshFeeds: () => invoke<TagFeeds>('refresh-feeds'),
+  refreshFeed: (feedId: number) => invoke<Feed>('refresh-feed', feedId),
+  getToday: () => invoke<{ [feedTitle: string]: ArticleInformation[] }>('get-today'),
+  readArticle: (articleId: number) => invoke<TagFeeds>('read-article', articleId),
+  readAllArticlesInFeed: (feedId: number) => invoke<ArticleInformation[]>('read-all-articles', feedId),
+  getBookmarks: () => invoke<{ [feedTitle: string]: ArticleInformation[] }>('get-bookmarks'),
+  getFeed: (feedId: number) => invoke<FeedInformation>('get-feed', feedId),
+  editFeed: (id: number, title: string, description: string, tag: string | undefined) => invoke<FeedInformation>('edit-feed', id, title, description, tag),
 }

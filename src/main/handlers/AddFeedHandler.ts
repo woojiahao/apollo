@@ -1,13 +1,12 @@
 import { getCustomRepository } from "typeorm";
-import Feed from "../database/entities/Feed";
-import FeedMapper from "../database/mappers/FeedMapper";
+import FeedMapper, { FeedInformation } from "../database/mappers/FeedMapper";
 import FeedRepository from "../database/repositories/FeedRepository";
 import TagRepository from "../database/repositories/TagRepository";
 import FeedExistsError from "../errors/FeedExistsError";
-import { RSS } from "../rss/data";
 import Handler from "../Handler";
+import { RSS } from "../rss/data";
 
-export default class AddFeedHandler extends Handler<Feed> {
+export default class AddFeedHandler extends Handler<FeedInformation> {
   constructor() {
     super('add-feed')
   }
@@ -27,6 +26,6 @@ export default class AddFeedHandler extends Handler<Feed> {
 
     const newFeed = await getCustomRepository(FeedRepository).save(feed)
 
-    return newFeed
+    return FeedMapper.information(newFeed)
   }
 }
