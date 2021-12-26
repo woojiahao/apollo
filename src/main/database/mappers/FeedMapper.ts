@@ -10,6 +10,14 @@ export type TagFeeds = {
   }[]
 }
 
+export interface FeedInformation {
+  id: number
+  title: string
+  description: string | undefined
+  tag: string | undefined
+  articles: {[publishedDate: string]: ArticleInformation[]}
+}
+
 export type SimpleFeed = {
   id: number
   title: string

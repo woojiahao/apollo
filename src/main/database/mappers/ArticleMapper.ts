@@ -2,6 +2,17 @@ import { RSS } from "../../rss/data";
 import { formatDate } from "../../utility";
 import Article from "../entities/Article";
 
+export interface ArticleInformation {
+  id: number
+  title: string
+  description: string | undefined
+  publishedDate: string
+  isRead: boolean
+  isBookmark: boolean
+  feedTitle: string
+  feedId: number
+}
+
 export interface SimpleArticle {
   id: number
   title: string
