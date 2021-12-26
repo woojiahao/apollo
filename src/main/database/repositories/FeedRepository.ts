@@ -1,4 +1,4 @@
-import { EntityRepository, IsNull, Repository } from "typeorm";
+import { EntityRepository, getCustomRepository, IsNull, Repository } from "typeorm";
 import Feed from "../entities/Feed";
 
 @EntityRepository(Feed)

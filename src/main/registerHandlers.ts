@@ -15,6 +15,7 @@ import ReadAllArticlesInFeedHandler from "./handlers/ReadAllArticlesInFeedHandle
 import ReadArticleHandler from "./handlers/ReadArticleHandler"
 import RefreshFeedHandler from "./handlers/RefreshFeedHandler"
 import RefreshFeedsHandler from "./handlers/RefreshFeedsHandler"
+import EditFeedHandler from "./handlers/EditFeedHandler"
 
 /**
  * The handler behaves as the data communication layer. It should not be communicating with the database directly, not
@@ -39,7 +40,8 @@ export default function registerHandlers() {
     ReadAllArticlesInFeedHandler,
     BookmarkArticleHandler,
     GetBookmarksHandler,
-    GetFeedHandler
+    GetFeedHandler,
+    EditFeedHandler
   ]
     .map(handler => new handler())
     .forEach((handler: Handler<any>) => {

@@ -40,7 +40,7 @@ export function setupDatabase() {
           Article,
         ],
         synchronize: true,
-        logging: ['error', 'query']
+        logging: ['error']
       })
       console.log('Database connection created')
     } catch (e) {

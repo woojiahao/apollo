@@ -74,3 +74,7 @@ export async function getBookmarks() {
 export function getFeed(feedId: number) {
   return invoke<FeedCore>('get-feed', feedId)
 }
+
+export function editFeed(id: number, title: string, description: string, tag: string | undefined) {
+  return invoke<SimpleFeed>('edit-feed', id, title, description, tag)
+}
