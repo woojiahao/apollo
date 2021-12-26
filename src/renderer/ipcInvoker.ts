@@ -22,7 +22,7 @@ module.exports = {
   getTags: () => invoke<string[]>('get-tags'),
   getTagFeeds: () => invoke<TagFeeds>('get-tag-feeds'),
   // TODO: Experiment if two separate ipc calls create lag?,
-  addFeed: (rawFeed: RSS.Feed, feedUrl: string, tagName: string | null) => invoke<FeedInformation>('add-feed', rawFeed, feedUrl, tagName),
+  addFeed: (rawFeed: RSS.Feed, feedUrl: string, tag: string | null) => invoke<FeedInformation>('add-feed', rawFeed, feedUrl, tag),
   refreshFeeds: () => invoke<TagFeeds>('refresh-feeds'),
   refreshFeed: (feedId: number) => invoke<Feed>('refresh-feed', feedId),
   getToday: () => invoke<{ [feedTitle: string]: ArticleInformation[] }>('get-today'),
