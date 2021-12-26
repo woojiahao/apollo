@@ -30,7 +30,7 @@ const readArticle = (articleId: number) => invoke<TagFeeds>('read-article', arti
 const readAllArticlesInFeed = (feedId: number) => invoke<ArticleInformation[]>('read-all-articles', feedId)
 const getBookmarks = () => invoke<{ [feedTitle: string]: ArticleInformation[] }>('get-bookmarks')
 const getFeed = (feedId: number) => invoke<FeedInformation>('get-feed', feedId)
-const editFeed = (id: number, title: string, description: string, tag: string | undefined) => invoke<FeedInformation>('edit-feed', id, title, description, tag)
+const editFeed = (id: number, title: string, description: string, tag: string | undefined) => invoke<void>('edit-feed', id, title, description, tag)
 
 export {
   loadFeed,

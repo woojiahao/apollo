@@ -4,7 +4,7 @@ import FeedRepository from "../database/repositories/FeedRepository";
 import TagRepository from "../database/repositories/TagRepository";
 import Handler from "../Handler";
 
-export default class EditFeedHandler extends Handler<FeedInformation> {
+export default class EditFeedHandler extends Handler<void> {
   constructor() {
     super('edit-feed')
   }
@@ -20,7 +20,6 @@ export default class EditFeedHandler extends Handler<FeedInformation> {
       feed.tag = t
     }
 
-    const updatedFeed = await feedRepository.save(feed)
-    return FeedMapper.information(updatedFeed)
+    await feedRepository.save(feed)
   }
 }
