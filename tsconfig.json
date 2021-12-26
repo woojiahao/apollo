@@ -12,7 +12,8 @@
     "allowJs": true,
     "jsx": "react",
     "strict": false,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "outDir": "./dist/"
   },
   "exclude": [
     "./.git/",
