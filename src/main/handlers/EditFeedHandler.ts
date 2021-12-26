@@ -1,11 +1,10 @@
 import { getCustomRepository } from "typeorm";
-import Feed from "../database/entities/Feed";
-import FeedMapper, { SimpleFeed } from "../database/mappers/FeedMapper";
+import FeedMapper, { FeedInformation } from "../database/mappers/FeedMapper";
 import FeedRepository from "../database/repositories/FeedRepository";
 import TagRepository from "../database/repositories/TagRepository";
 import Handler from "../Handler";
 
-export default class EditFeedHandler extends Handler<SimpleFeed> {
+export default class EditFeedHandler extends Handler<FeedInformation> {
   constructor() {
     super('edit-feed')
   }
@@ -22,6 +21,6 @@ export default class EditFeedHandler extends Handler<SimpleFeed> {
     }
 
     const updatedFeed = await feedRepository.save(feed)
-    return FeedMapper.toSimple(updatedFeed)
+    return FeedMapper.information(updatedFeed)
   }
 }

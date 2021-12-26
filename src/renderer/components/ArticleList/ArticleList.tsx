@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
-import { SimpleFeed } from "../../../main/database/mappers/FeedMapper";
+import { FeedInformation } from "../../../main/database/mappers/FeedMapper";
 import { getArticlesInFeed } from "../../ipcInvoker";
 import Feed from "../Feed/Feed";
 import FeedArticles from "../Feed/FeedArticles";
 import ArticleListSidebar from "./ArticleListSidebar";
 
 const ArticleList = () => {
-  const [feed, setFeed] = useState<SimpleFeed>(undefined)
+  const [feed, setFeed] = useState<FeedInformation>(undefined)
 
   const { id } = useParams()
   const feedId = parseInt(id)

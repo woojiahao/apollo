@@ -1,6 +1,6 @@
 import React, { createRef, useEffect, useState } from "react";
 import { useParams } from "react-router";
-import { FeedCore, TagFeeds } from "../../main/database/mappers/FeedMapper";
+import { FeedInformation, TagFeeds } from "../../main/database/mappers/FeedMapper";
 import { getFeed } from "../ipcInvoker";
 import Autocomplete from "./Form/Autocomplete";
 import Button from "./Form/Button";
@@ -15,7 +15,7 @@ interface EditFeedFormProps {
 }
 
 const EditFeedForm = ({ tagFeeds, onDataUpdate }: EditFeedFormProps) => {
-  const [feed, setFeed] = useState<FeedCore>(undefined)
+  const [feed, setFeed] = useState<FeedInformation>(undefined)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string>(undefined)
 
